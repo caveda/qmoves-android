@@ -1,19 +1,19 @@
 package com.quoders.apps.qmoves.data
 
-/*
+/**
   Entity representing a stop of a Line
  */
 data class Stop (
-    var id: String,
-    var name: String,
-    var schedule: Schedule,
-    var location: Location
+    val id: String,
+    val name: String,
+    val schedule: Schedule,
+    val location: Location
 )
 
 data class Schedule (
-    var workingDays: String,
-    var monday2Tuesday: String,
-    var friday: String,
-    var saturday: String,
-    var sunday: String
+    val workingDays: String,
+    val monday2Tuesday: String,
+    val friday: String,
+    val saturday: String,
+    val sunday: String
 )
