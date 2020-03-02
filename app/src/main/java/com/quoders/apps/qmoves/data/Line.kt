@@ -1,22 +1,22 @@
 package com.quoders.apps.qmoves.data
 
-/*
+/**
  Data class representing a line of a transit
  */
 data class Line (
-    var id : String,
     var agencyId: String,
-    var number: Long,
     var name: String,
     var direction: Direction,
     var type: LineType,
-    var stops: List<Stop>,
-    var route: List<Location>
+    var stops: List<Stop>? = null,
+    var route: List<Location>? = null
 ){
+    val uniqueId : String
+        get() = agencyId + direction.code
 
-    enum class Direction (val direction: String){
-        FORWARD("FORWARD"),
-        BACKWARD("BACKWARD")
+    enum class Direction (val direction: String, val code: String){
+        FORWARD("FORWARD", "F"),
+        BACKWARD("BACKWARD", "B")
     }
 
     enum class LineType {

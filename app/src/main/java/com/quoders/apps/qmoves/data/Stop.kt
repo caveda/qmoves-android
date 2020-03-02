@@ -1,6 +1,6 @@
 package com.quoders.apps.qmoves.data
 
-/*
+/**
   Entity representing a stop of a Line
  */
 data class Stop (
