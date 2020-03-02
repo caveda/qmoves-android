@@ -11,3 +11,14 @@ jobs:
       - checkout
       - run:
           command: ./gradlew build
+      - run:
+          name: Run Unit Tests
+          command: ./gradlew testDebug
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/junit/
+            find . -type f -regex "./.*/build/test-results/.*xml" -exec cp {} ~/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/junit
