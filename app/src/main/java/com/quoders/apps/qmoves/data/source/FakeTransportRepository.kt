@@ -8,7 +8,7 @@ import com.quoders.apps.qmoves.data.Result
  */
 class FakeTransportRepository : TransportRepository{
 
-    override suspend fun getLines(): Result<List<Line>> {
+    override suspend fun getLines(): Result<List<Line>>{
         val lines = mutableListOf<Line>()
         (1..30)
             .map { it.toString().padStart(1, '0') }

@@ -4,12 +4,12 @@ package com.quoders.apps.qmoves.data
  Data class representing a line of a transit
  */
 data class Line (
-    var agencyId: String,
-    var name: String,
-    var direction: Direction,
-    var type: LineType,
-    var stops: List<Stop>? = null,
-    var route: List<Location>? = null
+    val agencyId: String,
+    val name: String,
+    val direction: Direction,
+    val type: LineType,
+    val stops: MutableList<Stop> = mutableListOf<Stop>(),
+    val route: MutableList<Location> = mutableListOf<Location>()
 ){
     val uniqueId : String
         get() = agencyId + direction.code
