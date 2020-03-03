@@ -1,10 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion "29.0.2"
+    dataBinding {
+        enabled = true
+    }
 
     defaultConfig {
         applicationId "com.quoders.apps.qmoves"
@@ -29,10 +35,14 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$androidXAppCompatVersion"
     implementation "androidx.core:core-ktx:$androidXCoreVersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidXConstraintLayoutVersion"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$androidXNavigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$androidXNavigationVersion"
 
     // Testing
     testImplementation "junit:junit:$junitVersion"
