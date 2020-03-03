@@ -8,6 +8,10 @@
         <variable
             name = "homeViewModel"
             type = "com.quoders.apps.qmoves.home.HomeViewModel"/>
+
+        <variable
+            name = "transport"
+            type = "com.quoders.apps.qmoves.data.Transport"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +27,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="340dp"
             android:text="Transport"
-            android:onClick="@{() -> homeViewModel.navigateToLines()}"
+            android:onClick="@{() -> homeViewModel.navigateToLines(transport)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"

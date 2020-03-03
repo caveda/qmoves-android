@@ -34,6 +34,6 @@ class LinesFragment : Fragment(){
         binding.linesViewModel = viewModel
         binding.lifecycleOwner = this
 
-        return binding?.root
+        return binding.root
     }
 }

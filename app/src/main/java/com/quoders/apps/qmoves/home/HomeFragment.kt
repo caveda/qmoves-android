@@ -33,6 +33,7 @@ class HomeFragment : Fragment(){
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         binding.homeViewModel = viewModel
+        binding.transport = Transport("Bus")
         binding.lifecycleOwner = this
 
         setupNavigation()

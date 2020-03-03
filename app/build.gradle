@@ -59,9 +59,23 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidXTestJunitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$androidXTestEspressoVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation "pl.pragmatists:JUnitParams:$jUnitParamsVersion"
+    testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+    testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+    testImplementation "androidx.test:rules:$androidXTestRulesVersion"
+    implementation "androidx.fragment:fragment-testing:$fragmentVersion"
+    implementation "androidx.test:core:$androidXTestCoreVersion"
+    implementation "androidx.fragment:fragment:$fragmentVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+
+    // Instrumented
+    androidTestImplementation "androidx.test.ext:junit:$androidXTestJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidXTestEspressoVersion"
+    androidTestImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+    androidTestImplementation "androidx.test:rules:$androidXTestRulesVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+
 }

@@ -15,7 +15,7 @@ class HomeViewModel: ViewModel() {
     private val _eventNavigateLines = MutableLiveData<Event<Transport>>()
     val eventNavigateLines : LiveData<Event<Transport>> = _eventNavigateLines
 
-    fun navigateToLines () {
-        _eventNavigateLines.value = Event(Transport("Bus"))
+    fun navigateToLines (transport: Transport) {
+        _eventNavigateLines.value = Event(transport)
     }
 }

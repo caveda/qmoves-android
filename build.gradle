@@ -47,6 +47,11 @@ ext {
     lifecycleVersion = '2.2.0'
 
     // Testing
+    fragmentVersion = '1.2.0'
+    androidXTestCoreVersion = '1.2.0'
+    androidXTestExtKotlinRunnerVersion = '1.1.1'
+    androidXTestRulesVersion = '1.2.0'
+    archTestingVersion = '2.1.0'
     junitVersion = '4.12'
     androidXTestJunitVersion = '1.1.1'
     androidXTestEspressoVersion = '3.2.0'
