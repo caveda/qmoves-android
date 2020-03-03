@@ -29,6 +29,9 @@ android {
         }
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -43,6 +46,14 @@ dependencies {
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$androidXNavigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$androidXNavigationVersion"
+
+    // LifeCycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+
+    // Tracing
+    implementation "com.jakewharton.timber:timber:$timberVersion"
 
     // Testing
     testImplementation "junit:junit:$junitVersion"

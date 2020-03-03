@@ -10,11 +10,19 @@
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_homeFragment_to_lineListFragment"
-            app:destination="@id/lineListFragment" />
+            android:id="@+id/action_homeFragment_to_linesFragment"
+            app:destination="@id/linesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
-        android:id="@+id/lineListFragment"
-        android:name="com.quoders.apps.qmoves.linelist.LineListFragment"
-        android:label="LineListFragment" />
+        android:id="@+id/linesFragment"
+        android:name="com.quoders.apps.qmoves.lines.LinesFragment"
+        android:label="LinesFragment" >
+        <argument
+            android:name="transport"
+            app:argType="com.quoders.apps.qmoves.data.Transport" />
+    </fragment>
 </navigation>

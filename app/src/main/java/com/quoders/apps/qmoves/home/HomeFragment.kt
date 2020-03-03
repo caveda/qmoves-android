@@ -6,12 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
+import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.databinding.FragmentHomeBinding
 
+/**
+ * Limes
+ */
 class HomeFragment : Fragment(){
 
-    private var binding: FragmentHomeBinding? = null
+    private lateinit var binding: FragmentHomeBinding
+    private lateinit var viewModel: HomeViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,6 +31,23 @@ class HomeFragment : Fragment(){
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_home,container, false)
 
-        return binding?.root
+        viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        binding.homeViewModel = viewModel
+        binding.lifecycleOwner = this
+
+        setupNavigation()
+
+        return binding.root
+    }
+
+    private fun setupNavigation() {
+        viewModel.eventNavigateLines.observe(this, EventObserver {
+            navigateToLines(it)
+        })
+    }
+
+    private fun navigateToLines(transport: Transport) {
+        val action = HomeFragmentDirections.actionHomeFragmentToLinesFragment(transport)
+        findNavController().navigate(action)
     }
 }
