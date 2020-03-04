@@ -1,10 +1,16 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion "29.0.2"
+    dataBinding {
+        enabled = true
+    }
 
     defaultConfig {
         applicationId "com.quoders.apps.qmoves"
@@ -23,24 +29,53 @@ android {
         }
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$androidXAppCompatVersion"
     implementation "androidx.core:core-ktx:$androidXCoreVersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidXConstraintLayoutVersion"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$androidXNavigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$androidXNavigationVersion"
+
+    // LifeCycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
+
+    // Tracing
+    implementation "com.jakewharton.timber:timber:$timberVersion"
 
     // Testing
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "com.google.truth:truth:$truthVersion"
-    androidTestImplementation "androidx.test.ext:junit:$androidXTestJunitVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$androidXTestEspressoVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
     testImplementation "pl.pragmatists:JUnitParams:$jUnitParamsVersion"
+    testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+    testImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+    testImplementation "androidx.test:rules:$androidXTestRulesVersion"
+    implementation "androidx.fragment:fragment-testing:$fragmentVersion"
+    implementation "androidx.test:core:$androidXTestCoreVersion"
+    implementation "androidx.fragment:fragment:$fragmentVersion"
+    testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+
+    // Instrumented
+    androidTestImplementation "androidx.test.ext:junit:$androidXTestJunitVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$androidXTestEspressoVersion"
+    androidTestImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$androidXTestExtKotlinRunnerVersion"
+    androidTestImplementation "androidx.test:rules:$androidXTestRulesVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+
 }
