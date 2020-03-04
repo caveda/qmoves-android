@@ -32,7 +32,7 @@ class LinesFragment : Fragment(){
 
         viewModel = ViewModelProvider(this, LinesViewModelFactory(args.transport)).get(LinesViewModel::class.java)
         binding.linesViewModel = viewModel
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         return binding.root
     }

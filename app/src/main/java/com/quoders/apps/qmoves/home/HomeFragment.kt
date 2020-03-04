@@ -34,7 +34,7 @@ class HomeFragment : Fragment(){
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         binding.homeViewModel = viewModel
         binding.transport = Transport("Bus")
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
 
         setupNavigation()
 
@@ -42,7 +42,7 @@ class HomeFragment : Fragment(){
     }
 
     private fun setupNavigation() {
-        viewModel.eventNavigateLines.observe(this, EventObserver {
+        viewModel.eventNavigateLines.observe(viewLifecycleOwner, EventObserver {
             navigateToLines(it)
         })
     }
