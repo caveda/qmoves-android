@@ -18,7 +18,7 @@ package com.quoders.apps.qmoves.data
 
 
 /**
- * A generic class that holds a value with its loading status.
+ * A generic class that holds a value with its animation_loading status.
  * @param <T>
  */
 sealed class Result<out R> {
