@@ -11,7 +11,7 @@ class FakeTransportRepository : TransportRepository{
     override suspend fun getLines(): Result<List<Line>>{
         val lines = mutableListOf<Line>()
         (1..30)
-            .map { it.toString().padStart(1, '0') }
+            .map { it.toString().padStart(2, '0') }
             .forEach{
                 lines.add (createLine(it, Line.Direction.FORWARD))
                 lines.add (createLine(it, Line.Direction.BACKWARD))}

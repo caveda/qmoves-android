@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
@@ -54,10 +55,13 @@ class LinesFragment : Fragment(){
     }
 
     private fun setupSnackbar() {
-        view?.setupSnackbar(this, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
+        view?.setupSnackbar(viewLifecycleOwner, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 
     private fun setupLineList() {
         binding.linesListView.adapter = LinesAdapter(viewModel)
+
+        binding.linesListView.addItemDecoration(DividerItemDecoration(binding.linesListView.context,
+            DividerItemDecoration.VERTICAL))
     }
 }

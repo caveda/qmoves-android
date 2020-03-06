@@ -24,7 +24,9 @@ class LinesViewModel (val transport: Transport) : ViewModel() {
 
     // Line items to be listed in the page
     private val _lines = MutableLiveData<List<Line>>()
-    val lines : LiveData<List<Line>> = _lines
+    val lines : LiveData<List<Line>> = Transformations.map(_lines) { lines ->
+        lines.filter{ line -> line.direction==Line.Direction.FORWARD}
+    }
 
     // Autocalculated property that flags when the empty list placeholder need to be visible.
     val empty: LiveData<Boolean> = Transformations.map(_lines) {
