@@ -57,7 +57,7 @@ class LinesFragment : Fragment(){
 
     private fun setupLineList() {
         // Navigate on click
-        binding.linesList.adapter = LinesAdapter(LinesAdapter.OnClickListener { line ->
+        binding.linesListView.adapter = LinesAdapter(LinesAdapter.OnClickListener { line ->
                 viewModel.onNavigateToStops(line)
         })
     }
