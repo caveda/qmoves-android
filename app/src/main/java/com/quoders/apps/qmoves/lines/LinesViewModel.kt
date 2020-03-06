@@ -69,7 +69,7 @@ class LinesViewModel (val transport: Transport) : ViewModel() {
         _snackbarText.value = Event(message)
     }
 
-    fun onNavigateToStops(line: Line) {
+    fun navigateToStops(line: Line) {
         _eventNavigateStops.value = Event(line)
     }
 }

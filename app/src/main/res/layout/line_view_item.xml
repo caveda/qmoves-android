@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/list_row_vertical_padding"
         android:layout_marginBottom="@dimen/list_row_vertical_padding"
-        android:onClick="@{() -> viewModel.onNavigateToStops(line)}">
+        android:onClick="@{() -> viewModel.navigateToStops(line)}">
 
         <TextView
             android:id="@+id/line_id_text"
