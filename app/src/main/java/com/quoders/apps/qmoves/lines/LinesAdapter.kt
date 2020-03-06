@@ -12,7 +12,7 @@ import com.quoders.apps.qmoves.databinding.LineViewItemBinding
  * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [List]
  * data, including computing diffs between list elements.
  */
-class LinesAdapter (val onClickListener: OnClickListener): ListAdapter<Line, LinesAdapter.LineViewHolder>(DiffCallback) {
+class LinesAdapter (private val viewModel: LinesViewModel): ListAdapter<Line, LinesAdapter.LineViewHolder>(DiffCallback) {
 
     /**
      * The LineViewHolder constructor takes the binding variable from the associated
@@ -20,8 +20,9 @@ class LinesAdapter (val onClickListener: OnClickListener): ListAdapter<Line, Lin
      */
     class LineViewHolder(private var binding: LineViewItemBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(line: Line) {
+        fun bind(line: Line, viewModel: LinesViewModel) {
             binding.line = line
+            binding.viewModel = viewModel
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
@@ -55,16 +56,6 @@ class LinesAdapter (val onClickListener: OnClickListener): ListAdapter<Line, Lin
      */
     override fun onBindViewHolder(holder: LineViewHolder, position: Int) {
         val line = getItem(position)
-        holder.itemView.setOnClickListener {
-            onClickListener.onClick(line)
-        }
-        holder.bind(line)
-    }
-
-    /**
-     * Type of listener to be notified when user taps on any item on the list.
-     */
-    class OnClickListener(val clickListener: (line: Line) -> Unit) {
-        fun onClick(line:Line) = clickListener(line)
+        holder.bind(line, viewModel)
     }
 }

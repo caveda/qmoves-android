@@ -21,7 +21,8 @@ class FakeTransportRepository : TransportRepository{
     private fun createLine(id: String, direction: Line.Direction): Line {
         return Line (
             agencyId = id,
-            name = if (direction== Line.Direction.FORWARD) "Origin - Destination" else "Destination-Origin",
+            name = if (direction== Line.Direction.FORWARD) "Origin $id - Destination $id"
+                    else "Destination $id -Origin $id",
             direction = direction,
             type = Line.LineType.REGULAR)
     }

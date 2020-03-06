@@ -15,6 +15,7 @@ import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.databinding.FragmentLinesBinding
 import com.quoders.apps.qmoves.home.HomeViewModel
 import com.quoders.apps.qmoves.tools.setupSnackbar
+import com.quoders.apps.qmoves.tools.showSnackbar
 
 /**
  *  List of lines page
@@ -47,7 +48,8 @@ class LinesFragment : Fragment(){
 
     private fun setupNavigation() {
         viewModel.eventNavigateStops.observe(viewLifecycleOwner, EventObserver {
-            TODO("Navigate to stops page")
+            // TODO Implement real navigation
+            view?.showSnackbar("Navigating to stops of ${it.name}",Snackbar.LENGTH_SHORT)
         })
     }
 
@@ -56,9 +58,6 @@ class LinesFragment : Fragment(){
     }
 
     private fun setupLineList() {
-        // Navigate on click
-        binding.linesListView.adapter = LinesAdapter(LinesAdapter.OnClickListener { line ->
-                viewModel.onNavigateToStops(line)
-        })
+        binding.linesListView.adapter = LinesAdapter(viewModel)
     }
 }

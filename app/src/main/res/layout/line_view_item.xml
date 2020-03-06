@@ -5,13 +5,18 @@
 
     <data>
         <variable
+            name="viewModel"
+            type="com.quoders.apps.qmoves.lines.LinesViewModel" />
+
+        <variable
             name="line"
             type="com.quoders.apps.qmoves.data.Line" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:onClick="@{() -> viewModel.onNavigateToStops(line)}">
 
         <TextView
             android:id="@+id/line_id_text"
