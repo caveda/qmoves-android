@@ -12,7 +12,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Transport (val name: String): Parcelable {
 
-    // TODO Replace this by DI injection
+    // TODO Replace this var by a proper DI injection
     @IgnoredOnParcel
-    val repository: TransportRepository = FakeTransportRepository()
+    var repository: TransportRepository = FakeTransportRepository()
 }

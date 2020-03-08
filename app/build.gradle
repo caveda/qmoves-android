@@ -55,6 +55,8 @@ dependencies {
     // Tracing
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+
     // Testing
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
@@ -70,6 +72,7 @@ dependencies {
     implementation "androidx.test:core:$androidXTestCoreVersion"
     implementation "androidx.fragment:fragment:$fragmentVersion"
     testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
 
     // Instrumented
     androidTestImplementation "androidx.test.ext:junit:$androidXTestJunitVersion"

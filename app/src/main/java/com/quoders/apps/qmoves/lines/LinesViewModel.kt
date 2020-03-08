@@ -50,7 +50,7 @@ class LinesViewModel (val transport: Transport) : ViewModel() {
         loadLines()
     }
 
-    private fun loadLines() {
+    fun loadLines() {
         _dataLoading.value = DataLoadingStatus.LOADING
         viewModelScope.launch {
             val result = transportRepository.getLines()
