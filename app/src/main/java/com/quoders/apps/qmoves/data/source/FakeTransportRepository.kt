@@ -11,7 +11,7 @@ class FakeTransportRepository : TransportRepository{
     override suspend fun getLines(): Result<List<Line>>{
         val lines = mutableListOf<Line>()
         (1..30)
-            .map { it.toString().padStart(1, '0') }
+            .map { it.toString().padStart(2, '0') }
             .forEach{
                 lines.add (createLine(it, Line.Direction.FORWARD))
                 lines.add (createLine(it, Line.Direction.BACKWARD))}
@@ -21,7 +21,8 @@ class FakeTransportRepository : TransportRepository{
     private fun createLine(id: String, direction: Line.Direction): Line {
         return Line (
             agencyId = id,
-            name = if (direction== Line.Direction.FORWARD) "Origin - Destination" else "Destination-Origin",
+            name = if (direction== Line.Direction.FORWARD) "Origin $id - Destination $id"
+                    else "Destination $id -Origin $id",
             direction = direction,
             type = Line.LineType.REGULAR)
     }

@@ -59,4 +59,5 @@ ext {
     truthVersion = '1.0'
     coroutinesVersion = '1.2.1'
     jUnitParamsVersion = '1.1.1'
+    mockkVersion='1.8.13.kotlin13'
 }

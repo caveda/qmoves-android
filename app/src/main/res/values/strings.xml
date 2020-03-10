@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">QMoves</string>
+    <string name="error_loading_lines">Error loading the lines of transport.</string>
 </resources>

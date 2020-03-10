@@ -3,6 +3,7 @@ package com.quoders.apps.qmoves.lines
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.source.TransportRepository
 
 /**
  *  Factory for creating parametrized LinesViewModel instances
