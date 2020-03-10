@@ -28,4 +28,15 @@ class FakeTransportRepositoryTest {
         assertThat((resultLines as Success).data).isNotEmpty()
     }
 
+    @Test
+    fun getLines_linesAvailable_allLinesHasStops() = runBlockingTest {
+
+        // When
+        val resultLines = sut.getLines()
+
+        // Then
+        (resultLines as Success).data.forEach {
+            assertThat(it.stops).isNotEmpty()
+        }
+    }
 }

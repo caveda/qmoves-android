@@ -30,7 +30,7 @@ class LinesAdapter (private val viewModel: LinesViewModel): ListAdapter<Line, Li
     }
 
     /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of [MarsProperty]
+     * Allows the RecyclerView to determine which items have changed when the [List] of [Line]
      * has been updated.
      */
     companion object DiffCallback : DiffUtil.ItemCallback<Line>() {

@@ -1,7 +1,9 @@
 package com.quoders.apps.qmoves.data.source
 
-import com.quoders.apps.qmoves.data.Line
-import com.quoders.apps.qmoves.data.Result
+import com.quoders.apps.qmoves.data.*
+import kotlin.random.Random
+import kotlin.random.nextInt
+import kotlin.random.nextUInt
 
 /**
  * Fake implementation of a transport repository
@@ -19,11 +21,43 @@ class FakeTransportRepository : TransportRepository{
     }
 
     private fun createLine(id: String, direction: Line.Direction): Line {
-        return Line (
+        val line =  Line (
             agencyId = id,
             name = if (direction== Line.Direction.FORWARD) "Origin $id - Destination $id"
                     else "Destination $id -Origin $id",
             direction = direction,
             type = Line.LineType.REGULAR)
+        line.stops.addAll(createStops(line))
+        return line
+    }
+
+    private fun createStops (line: Line) : List<Stop> {
+        val stops = mutableListOf<Stop>()
+        (1..Random.nextInt(10..20))
+            .forEach{
+                val stop = Stop(
+                    Random.nextInt(1000..9999).toString(),
+                    "Stop $it of ${line.uniqueId}",
+                    generateSchedule(),
+                    generateLocation()
+                )
+                stops.add(stop)
+            }
+        return stops
+    }
+
+    private fun generateSchedule (): Schedule {
+        return Schedule("7:10,7:30..22:20",
+            "",
+            "7:40..22:00",
+            "9:10..23:00",
+            "10:00..21:15")
+    }
+
+    private fun generateLocation (): Location {
+        return Location(
+            "40.4378698",
+            "-3.8196207"
+        )
     }
 }

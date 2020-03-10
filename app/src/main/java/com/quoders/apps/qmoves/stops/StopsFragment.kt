@@ -1,4 +1,4 @@
-package com.quoders.apps.qmoves.lines
+package com.quoders.apps.qmoves.stops
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,26 +7,24 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
-import com.quoders.apps.qmoves.databinding.FragmentLinesBinding
-import com.quoders.apps.qmoves.home.HomeFragmentDirections
-import com.quoders.apps.qmoves.home.HomeViewModel
+import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
+import com.quoders.apps.qmoves.lines.LinesFragmentArgs
 import com.quoders.apps.qmoves.tools.setupSnackbar
 import com.quoders.apps.qmoves.tools.showSnackbar
 
 /**
- *  List of lines page
+ *  Page that shows the list of stops of a line.
  */
-class LinesFragment : Fragment(){
+class StopsFragment : Fragment(){
 
-    private lateinit var binding: FragmentLinesBinding
-    private lateinit var viewModel: LinesViewModel
-    private val args: LinesFragmentArgs by navArgs()
+    private lateinit var binding: FragmentStopsBinding
+    private lateinit var viewModel: StopsViewModel
+    private val args: StopsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,23 +33,24 @@ class LinesFragment : Fragment(){
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_lines,container, false)
+            R.layout.fragment_stops,container, false)
 
 
-        viewModel = ViewModelProvider(this, LinesViewModelFactory(args.transport)).get(LinesViewModel::class.java)
+        viewModel = ViewModelProvider(this, StopsViewModelFactory(args.transport, args.line)).get(
+            StopsViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         setupNavigation()
-        setupLineList()
+        setupStopList()
         setupSnackbar()
         return binding.root
     }
 
     private fun setupNavigation() {
-        viewModel.eventNavigateStops.observe(viewLifecycleOwner, EventObserver {
-            val action = LinesFragmentDirections.actionLinesFragmentToStopsFragment(args.transport, it)
-            findNavController().navigate(action)
+        viewModel.eventNavigateToStopDetail.observe(viewLifecycleOwner, EventObserver {
+            // TODO Implement real navigation
+            view?.showSnackbar("Navigating to stop detail of ${it.name}",Snackbar.LENGTH_SHORT)
         })
     }
 
@@ -59,10 +58,10 @@ class LinesFragment : Fragment(){
         view?.setupSnackbar(viewLifecycleOwner, viewModel.snackbarText, Snackbar.LENGTH_SHORT)
     }
 
-    private fun setupLineList() {
-        binding.linesListView.adapter = LinesAdapter(viewModel)
+    private fun setupStopList() {
+        binding.stopsListView.adapter = StopsAdapter(viewModel)
 
-        binding.linesListView.addItemDecoration(DividerItemDecoration(binding.linesListView.context,
+        binding.stopsListView.addItemDecoration(DividerItemDecoration(binding.stopsListView.context,
             DividerItemDecoration.VERTICAL))
     }
 }
