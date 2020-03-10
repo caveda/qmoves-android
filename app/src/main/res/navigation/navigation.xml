@@ -24,5 +24,20 @@
         <argument
             android:name="transport"
             app:argType="com.quoders.apps.qmoves.data.Transport" />
+        <action
+            android:id="@+id/action_linesFragment_to_stopsFragment"
+            app:destination="@id/stopsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/stopsFragment"
+        android:name="com.quoders.apps.qmoves.stops.StopsFragment"
+        android:label="fragment_stops"
+        tools:layout="@layout/fragment_stops" >
+        <argument
+            android:name="transport"
+            app:argType="com.quoders.apps.qmoves.data.Transport" />
+        <argument
+            android:name="line"
+            app:argType="com.quoders.apps.qmoves.data.Line" />
     </fragment>
 </navigation>
