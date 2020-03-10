@@ -46,6 +46,7 @@ class LinesViewModel (val transport: Transport) : ViewModel() {
     val eventNavigateStops : LiveData<Event<Line>> = _eventNavigateStops
 
     init {
+        _lines.value = listOf()
         _transportName.value = transport.name
         loadLines()
     }
