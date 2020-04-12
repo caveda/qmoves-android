@@ -50,7 +50,7 @@ class LinesFragment : Fragment(){
 
     private fun setupNavigation() {
         viewModel.eventNavigateStops.observe(viewLifecycleOwner, EventObserver {
-            val action = LinesFragmentDirections.actionLinesFragmentToStopsFragment(args.transport, it)
+            val action = LinesFragmentDirections.actionLinesFragmentToStopsHostFragment(it,args.transport)
             findNavController().navigate(action)
         })
     }

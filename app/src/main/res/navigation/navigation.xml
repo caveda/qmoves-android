@@ -31,6 +31,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_linesFragment_to_stopsHostFragment"
+            app:destination="@id/stopsHostFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/stopsFragment"
@@ -43,5 +50,16 @@
         <argument
             android:name="line"
             app:argType="com.quoders.apps.qmoves.data.Line" />
+    </fragment>
+    <fragment
+        android:id="@+id/stopsHostFragment"
+        android:name="com.quoders.apps.qmoves.stops.StopsHostFragment"
+        android:label="StopsHostFragment" >
+        <argument
+            android:name="line"
+            app:argType="com.quoders.apps.qmoves.data.Line" />
+        <argument
+            android:name="transport"
+            app:argType="com.quoders.apps.qmoves.data.Transport" />
     </fragment>
 </navigation>

@@ -30,7 +30,6 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
     private lateinit var viewModel: RouteViewModel
-    //private val args: RouteFragmentArgs by navArgs()
 
 /*
     override fun onCreateView(
