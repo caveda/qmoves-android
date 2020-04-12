@@ -45,6 +45,7 @@ ext {
     // Features
     timberVersion = '4.7.1'
     lifecycleVersion = '2.2.0'
+    playMapsVersion = '17.0.0'
 
     // Testing
     fragmentVersion = '1.2.0'

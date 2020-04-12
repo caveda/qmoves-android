@@ -7,4 +7,4 @@ import kotlinx.android.parcel.Parcelize
  A GPS location expressed in terms of latitude and longitude
  */
 @Parcelize
-data class Location (val lat: String, val long: String): Parcelable
+data class Location (val lat: Double, val long: Double): Parcelable

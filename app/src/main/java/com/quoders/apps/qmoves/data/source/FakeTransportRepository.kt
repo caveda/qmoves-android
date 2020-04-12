@@ -39,7 +39,7 @@ class FakeTransportRepository : TransportRepository{
                     Random.nextInt(1000..9999).toString(),
                     "Stop $it of ${line.uniqueId}",
                     generateSchedule(),
-                    generateLocation()
+                    generateLocation(it)
                 )
                 stops.add(stop)
             }
@@ -54,10 +54,10 @@ class FakeTransportRepository : TransportRepository{
             "10:00..21:15")
     }
 
-    private fun generateLocation (): Location {
+    private fun generateLocation (i: Int): Location {
         return Location(
-            "40.4378698",
-            "-3.8196207"
+            40.4378698 + (.001 * i),
+            -3.8196207 +  (.001 * i)
         )
     }
 }
