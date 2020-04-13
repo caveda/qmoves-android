@@ -13,6 +13,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.route.RouteFragment
 
 class StopsHostFragment : Fragment() {
     private lateinit var stopsHostAdapter: StopsHostAdapter
@@ -44,7 +45,19 @@ class StopsHostAdapter(fragment: Fragment, val line : Line, val transport: Trans
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
-        // Return a NEW fragment instance in createFragment(int)
+        return if (position == 0) createStopListFragment() else createMapFragment()
+    }
+
+    private fun createMapFragment(): Fragment {
+        val fragment = RouteFragment()
+        fragment.arguments = Bundle().apply {
+            putParcelableArray("route", line.stops.map { s -> s.location}.toTypedArray())
+            putParcelable("transport", transport)
+        }
+        return fragment
+    }
+
+    private fun createStopListFragment(): Fragment {
         val fragment = StopsFragment()
         fragment.arguments = Bundle().apply {
             putParcelable("line", line)
