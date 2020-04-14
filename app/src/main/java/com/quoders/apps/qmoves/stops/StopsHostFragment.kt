@@ -6,19 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.quoders.apps.qmoves.R
-import com.quoders.apps.qmoves.data.Line
-import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.route.RouteFragment
+import kotlinx.android.synthetic.main.fragment_stops_host.*
 
+/**
+ *  Fragment that hosts the stops pages: list, map.
+ */
 class StopsHostFragment : Fragment() {
-    private lateinit var stopsHostAdapter: StopsHostAdapter
-    private lateinit var viewPager: ViewPager2
     private val args: StopsHostFragmentArgs by navArgs()
+    private var mapFragment : Fragment? = null
+    private var stopListFragment: Fragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,40 +28,54 @@ class StopsHostFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        stopsHostAdapter = StopsHostAdapter(this, args.line, args.transport)
-        viewPager = view.findViewById(R.id.stops_viewPager)
-        viewPager.adapter = stopsHostAdapter
-
-        val tabLayout = view.findViewById<TabLayout>(R.id.stops_tabLayout)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = "Stops ${(position + 1)}"
-        }.attach()
+        setupBottomNavigationBar(view)
+        openFragment(createStopListFragment())
     }
-}
 
-class StopsHostAdapter(fragment: Fragment, val line : Line, val transport: Transport) : FragmentStateAdapter(fragment) {
+    fun setupBottomNavigationBar(view: View) {
+        (stops_bottom_view as BottomNavigationView).setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_stop_list -> {
+                    val fragment = createStopListFragment()
+                    openFragment(fragment)
+                    true
+                }
+                R.id.menu_stop_map -> {
+                    val fragment = createMapFragment()
+                    openFragment(fragment)
+                    true
+                }
+                else -> false
+            }
+        }
+    }
 
-    override fun getItemCount(): Int = 2
-
-    override fun createFragment(position: Int): Fragment {
-        return if (position == 0) createStopListFragment() else createMapFragment()
+    private fun openFragment(fragment: Fragment) {
+        val transaction = childFragmentManager.beginTransaction()
+        transaction.replace(R.id.main_container, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     private fun createMapFragment(): Fragment {
-        val fragment = RouteFragment()
-        fragment.arguments = Bundle().apply {
-            putParcelableArray("route", line.stops.map { s -> s.location}.toTypedArray())
-            putParcelable("transport", transport)
+        if (mapFragment == null) {
+            mapFragment = RouteFragment()
+            mapFragment?.arguments = Bundle().apply {
+                putParcelableArray("route", args.line.stops.map { s -> s.location }.toTypedArray())
+                putParcelable("transport", args.transport)
+            }
         }
-        return fragment
+        return mapFragment as Fragment
     }
 
     private fun createStopListFragment(): Fragment {
-        val fragment = StopsFragment()
-        fragment.arguments = Bundle().apply {
-            putParcelable("line", line)
-            putParcelable("transport", transport)
+        if (stopListFragment == null) {
+            stopListFragment = StopsFragment()
+            stopListFragment?.arguments = Bundle().apply {
+                putParcelable("line", args.line)
+                putParcelable("transport", args.transport)
+            }
         }
-        return fragment
+        return stopListFragment as Fragment
     }
 }
