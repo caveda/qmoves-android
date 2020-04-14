@@ -12,6 +12,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Location
+import com.quoders.apps.qmoves.data.Stop
 import java.util.*
 
 /**
@@ -53,68 +54,32 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
 
-        if (args.route.isNotEmpty())
-            renderRouteInMap(map, args.route.asList())
-    }
+        if (args.stops.isNotEmpty()) {
+            val center = args.stops[args.stops.size/2]
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(center.location.toLatLng(), DefaultZoom))
+            addMarkers(map, args.stops.asList())
+        }
 
-    private fun renderRouteInMap(map: GoogleMap, route: List<Location>) {
-        val center = route[route.size/2]
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(center.toLatLng(), DefaultZoom))
-        setMapLongClick(map)
-        setPoiClick(map)
-        addMarkers(map, route)
-        drawRouteOverlay (map, route)
-    }
-
-    private fun addMarkers(map: GoogleMap, route: List<Location>) {
-        for (point in route) {
-            val title = String.format(
-                Locale.getDefault(),
-                "Lat: %1$.5f, Long: %2$.5f",
-                point.lat,
-                point.long
-            )
-            map.addMarker(MarkerOptions().position(point.toLatLng()).title(title))
+        if (args.route.isNotEmpty()) {
+            drawRouteOverlay (map, args.route.asList())
         }
     }
 
-    private fun drawRouteOverlay(map: GoogleMap, points: List<Location>) {
-        val mapPoints = points.map{l -> l.toLatLng()}
+    private fun addMarkers(map: GoogleMap, stops: List<Stop>) {
+        for (s in stops) {
+            map.addMarker(MarkerOptions().
+                position(s.location.toLatLng()).
+                title(s.name))
+        }
+    }
+
+    private fun drawRouteOverlay(map: GoogleMap, route: List<Location>) {
+        val mapPoints = route.map{l -> l.toLatLng()}
         map.addPolyline(
             PolylineOptions()
                 .addAll(mapPoints)
                 .width(5f)
                 .color(Color.RED)
         )
-    }
-
-    private fun setMapLongClick(map: GoogleMap) {
-        map.setOnMapLongClickListener { latLng ->
-            // A Snippet is Additional text that's displayed below the title.
-            val snippet = String.format(
-                Locale.getDefault(),
-                "Lat: %1$.5f, Long: %2$.5f",
-                latLng.latitude,
-                latLng.longitude
-            )
-            map.addMarker(
-                MarkerOptions()
-                    .position(latLng)
-                    .title("Stop name") // TODO: REFACTOR THIS TO SHOW THE ACTUAL STOP NAME
-                    .snippet(snippet)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW))
-            )
-        }
-    }
-
-    private fun setPoiClick(map: GoogleMap) {
-        map.setOnPoiClickListener { poi ->
-            val poiMarker = map.addMarker(
-                MarkerOptions()
-                    .position(poi.latLng)
-                    .title(poi.name)
-            )
-            poiMarker.showInfoWindow()
-        }
     }
 }

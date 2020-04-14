@@ -61,6 +61,7 @@ class StopsHostFragment : Fragment() {
         if (mapFragment == null) {
             mapFragment = RouteFragment()
             mapFragment?.arguments = Bundle().apply {
+                putParcelableArray("stops", args.line.stops.toTypedArray())
                 putParcelableArray("route", args.line.stops.map { s -> s.location }.toTypedArray())
                 putParcelable("transport", args.transport)
             }

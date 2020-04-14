@@ -67,6 +67,9 @@
         android:name="com.quoders.apps.qmoves.route.RouteFragment"
         android:label="RouteFragment" >
         <argument
+            android:name="stops"
+            app:argType="com.quoders.apps.qmoves.data.Stop[]" />
+        <argument
             android:name="route"
             app:argType="com.quoders.apps.qmoves.data.Location[]" />
         <argument
