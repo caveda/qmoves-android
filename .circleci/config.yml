@@ -10,7 +10,11 @@ jobs:
     steps:
       - checkout
       - run:
-          command: echo ${MAPS_KEY_FILE}>/home/circleci/project/app/src/debug/res/values/google_maps_api.xml
+        command: echo ${HOME}
+      - run:
+        command: ls -la ${HOME}
+      - run:
+          command: echo ${MAPS_KEY_FILE}>${HOME}/src/main/res/values/google_maps_api.xml
       - run:
           command: ./gradlew build
       - run:
