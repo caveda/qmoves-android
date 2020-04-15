@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -59,7 +60,9 @@ dependencies {
     implementation "com.google.android.gms:play-services-maps:$playMapsVersion"
     implementation "androidx.viewpager2:viewpager2:$androidXViewPager2Version"
     implementation "com.google.android.material:material:$androidMaterialVersion"
-
+    implementation "com.google.firebase:firebase-auth:$firebaseVersion"
+    implementation "com.google.firebase:firebase-functions:$firebaseVersion"
+    implementation "com.google.firebase:firebase-storage:$firebaseVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
     // Testing
