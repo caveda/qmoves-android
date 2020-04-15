@@ -55,6 +55,11 @@ dependencies {
     // Tracing
     implementation "com.jakewharton.timber:timber:$timberVersion"
 
+    // Features
+    implementation "com.google.android.gms:play-services-maps:$playMapsVersion"
+    implementation "androidx.viewpager2:viewpager2:$androidXViewPager2Version"
+    implementation "com.google.android.material:material:$androidMaterialVersion"
+
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
     // Testing

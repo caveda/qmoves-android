@@ -2,4 +2,8 @@
     <string name="app_name">QMoves</string>
     <string name="error_loading_lines">Error loading the lines of transport.</string>
     <string name="error_loading_stops">Line has no stops!</string>
+    <string name="stops_list">List</string>
+    <string name="stops_map">Route</string>
+    <string name="cd_stops_list">List of stops</string>
+    <string name="cd_stops_map">Line route</string>
 </resources>
