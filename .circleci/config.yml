@@ -10,6 +10,8 @@ jobs:
     steps:
       - checkout
       - run:
+          command: echo ${MAPS_KEY_FILE}>/home/circleci/project/app/src/debug/res/values/google_maps_api.xml
+      - run:
           command: ./gradlew build
       - run:
           name: Run Unit Tests
