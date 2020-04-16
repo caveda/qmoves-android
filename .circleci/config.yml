@@ -14,7 +14,7 @@ jobs:
           command: echo ${MAPS_KEY_FILE}>${HOME}/project/app/src/main/res/values/google_maps_api.xml
       - run:
           name: Create google services
-          command: echo ${GOOGLE_SERVICES}>${HOME}/project/app/google_services.json
+          command: echo ${GOOGLE_SERVICES}>${HOME}/project/app/google-services.json
       - run:
           name: Build
           command: ./gradlew build
