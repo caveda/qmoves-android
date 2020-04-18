@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.source.remote.FirebaseClientConfig
 import com.quoders.apps.qmoves.databinding.FragmentHomeBinding
 
 /**
@@ -37,9 +38,18 @@ class HomeFragment : Fragment(){
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         setupNavigation()
+        viewModel.updateTransitData(buildFirebaseConfig())
 
         return binding.root
     }
+
+    private fun buildFirebaseConfig() =
+        FirebaseClientConfig(
+            funcUrl = getString(R.string.firebase_func_url),
+            funcHeader = getString(R.string.firebase_func_header),
+            funcHeaderValue = getString(R.string.firebase_func_header_value)
+        )
+
 
     private fun setupNavigation() {
         viewModel.eventNavigateLines.observe(viewLifecycleOwner, EventObserver {
