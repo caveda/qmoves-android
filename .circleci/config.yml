@@ -16,6 +16,9 @@ jobs:
           name: Create google services
           command: echo ${GOOGLE_SERVICES}>${HOME}/project/app/google-services.json
       - run:
+          name: Create firebase file
+          command: echo ${FIREBASE_API_DATA}>${HOME}/project/app/src/main/res/values/firebase_api_data.xml
+      - run:
           name: Build
           command: ./gradlew build
       - run:
