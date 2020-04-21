@@ -3,7 +3,6 @@ package com.quoders.apps.qmoves.data.source
 import com.quoders.apps.qmoves.data.*
 import kotlin.random.Random
 import kotlin.random.nextInt
-import kotlin.random.nextUInt
 
 /**
  * Fake implementation of a transport repository
@@ -22,11 +21,13 @@ class FakeTransportRepository : TransportRepository{
 
     private fun createLine(id: String, direction: Line.Direction): Line {
         val line =  Line (
+            id = id,
             agencyId = id,
             name = if (direction== Line.Direction.FORWARD) "Origin $id - Destination $id"
                     else "Destination $id -Origin $id",
             direction = direction,
-            type = Line.LineType.REGULAR)
+            isNightLine = false
+            )
         line.stops.addAll(createStops(line))
         return line
     }
@@ -39,7 +40,8 @@ class FakeTransportRepository : TransportRepository{
                     Random.nextInt(1000..9999).toString(),
                     "Stop $it of ${line.uniqueId}",
                     generateSchedule(),
-                    generateLocation(it)
+                    generateLocation(it),
+                    null
                 )
                 stops.add(stop)
             }

@@ -3,8 +3,12 @@ package com.quoders.apps.qmoves.data.source.remote
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.quoders.apps.qmoves.data.Line
+import com.quoders.apps.qmoves.data.Result
 import kotlinx.coroutines.Deferred
 import timber.log.Timber
+import java.io.File
 
 /**
  * Firebase client class that interacts with Firebase to authenticate and
@@ -22,6 +26,7 @@ class FirebaseClient(val config: FirebaseClientConfig) {
      */
     suspend fun update() {
         initializeFirebase()
+        lateinit var data: Result<List<Line>>
         val authToken = getAuthToken().await()
         authenticateWithFirebase(authToken.token)
     }
@@ -34,26 +39,43 @@ class FirebaseClient(val config: FirebaseClientConfig) {
                         // Sign in success, update UI with the signed-in user's information
                         Timber.d("signInWithCustomToken: success")
                         user = auth.currentUser!!
-                        fetchDataFromFirebase()
+                        fetchTransitData()
                     } else {
                         // If sign in fails, display a message to the user.
                         Timber.w("signInWithCustomToken: failure ${task.exception?.message}")
+                        Result.Error(Exception(task.exception?.message))
                     }
                 }
         }
     }
 
-    private fun fetchDataFromFirebase () {
+    private fun fetchTransitData () {
+
         val storageRef = storage.reference
-
         var metadataRef = storageRef.child(config.storageMetadataPath)
-
         val bufferSize: Long = 32 * 1024
         metadataRef.getBytes(bufferSize).addOnSuccessListener {content ->
             val metadata = content!!.toString(Charsets.UTF_8)
             Timber.w("fetchDataFromFirebase: metadata ${metadata}")
+            downloadTransitData(storageRef)
         }.addOnFailureListener { exception ->
             Timber.w("fetchDataFromFirebase: failure ${exception.message}")
+            Result.Error(exception)
+        }
+    }
+
+    private fun downloadTransitData(storageRef: StorageReference){
+
+        val storageRef = storage.reference
+        var metadataRef = storageRef.child(config.storageDataPath)
+        val localTempFile = File.createTempFile("alldata", "zip")
+        metadataRef.getFile(localTempFile).addOnSuccessListener {
+            Timber.w("downloadTransitData: file ${config.storageDataPath} fetched successfully")
+            val data = TransitFileLoader.loadContentFile(localTempFile.absolutePath)
+            val l = data
+        }.addOnFailureListener { exception ->
+            Timber.w("downloadTransitData: failure ${exception.message}")
+            Result.Error(exception)
         }
     }
 
