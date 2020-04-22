@@ -43,8 +43,12 @@ class StopsFragment : Fragment(){
 
         setupNavigation()
         setupStopList()
-        setupSnackbar()
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setupSnackbar()
     }
 
     private fun setupNavigation() {
