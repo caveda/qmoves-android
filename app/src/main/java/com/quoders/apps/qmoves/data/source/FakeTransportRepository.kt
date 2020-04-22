@@ -9,14 +9,28 @@ import kotlin.random.nextInt
  */
 class FakeTransportRepository : TransportRepository{
 
+    private var data : List<Line> = listOf()
+
     override suspend fun getLines(): Result<List<Line>>{
+        if (data.isNotEmpty())
+            return Result.Success(data)
+        data=generateFakeLines()
+        return Result.Success(data)
+    }
+
+    private fun generateFakeLines(): List<Line> {
         val lines = mutableListOf<Line>()
         (1..30)
             .map { it.toString().padStart(2, '0') }
-            .forEach{
-                lines.add (createLine(it, Line.Direction.FORWARD))
-                lines.add (createLine(it, Line.Direction.BACKWARD))}
-        return Result.Success(lines)
+            .forEach {
+                lines.add(createLine(it, Line.Direction.FORWARD))
+                lines.add(createLine(it, Line.Direction.BACKWARD))
+            }
+        return lines
+    }
+
+    fun setLines (lines: List<Line>) {
+        data = lines
     }
 
     private fun createLine(id: String, direction: Line.Direction): Line {

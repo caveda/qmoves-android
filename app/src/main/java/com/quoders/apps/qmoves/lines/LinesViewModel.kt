@@ -3,14 +3,13 @@ package com.quoders.apps.qmoves.lines
 import androidx.lifecycle.*
 import com.quoders.apps.qmoves.Event
 import com.quoders.apps.qmoves.R
+import com.quoders.apps.qmoves.data.DataLoadingStatus
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.TransportRepository
-import com.quoders.apps.qmoves.data.succeeded
 import kotlinx.coroutines.launch
 
-enum class DataLoadingStatus {DONE, LOADING, ERROR}
 
 /**
  *  ViewModel of Lines page
