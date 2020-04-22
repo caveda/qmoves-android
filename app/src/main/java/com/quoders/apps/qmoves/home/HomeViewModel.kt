@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 /**
  * Viewmodel of the Home page
  */
-class HomeViewModel: ViewModel() {
+class HomeViewModel(private val config: FirebaseClientConfig): ViewModel() {
 
     // Events
     private val _eventNavigateLines = MutableLiveData<Event<Transport>>()
@@ -38,13 +38,14 @@ class HomeViewModel: ViewModel() {
 
     init {
         _transport.value = Transport("Bus")
+        updateTransitData()
     }
 
     fun navigateToLines (transport: Transport) {
         _eventNavigateLines.value = Event(transport)
     }
 
-    fun updateTransitData(config: FirebaseClientConfig) {
+    private fun updateTransitData() {
         viewModelScope.launch {
             try {
                 _dataLoading.value = DataLoadingStatus.LOADING
