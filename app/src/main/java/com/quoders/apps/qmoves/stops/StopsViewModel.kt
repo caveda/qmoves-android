@@ -1,12 +1,16 @@
 package com.quoders.apps.qmoves.stops
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import androidx.lifecycle.ViewModel
 import com.quoders.apps.qmoves.Event
 import com.quoders.apps.qmoves.R
-import com.quoders.apps.qmoves.data.*
-import kotlinx.coroutines.launch
+import com.quoders.apps.qmoves.data.DataLoadingStatus
+import com.quoders.apps.qmoves.data.Line
+import com.quoders.apps.qmoves.data.Stop
+import com.quoders.apps.qmoves.data.Transport
 
-enum class DataLoadingStatus {DONE, LOADING, ERROR}
 
 /**
  *  ViewModel of Stops page

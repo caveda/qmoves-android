@@ -3,30 +3,45 @@ package com.quoders.apps.qmoves.data.source
 import com.quoders.apps.qmoves.data.*
 import kotlin.random.Random
 import kotlin.random.nextInt
-import kotlin.random.nextUInt
 
 /**
  * Fake implementation of a transport repository
  */
 class FakeTransportRepository : TransportRepository{
 
+    private var data : List<Line> = listOf()
+
     override suspend fun getLines(): Result<List<Line>>{
+        if (data.isNotEmpty())
+            return Result.Success(data)
+        data=generateFakeLines()
+        return Result.Success(data)
+    }
+
+    private fun generateFakeLines(): List<Line> {
         val lines = mutableListOf<Line>()
         (1..30)
             .map { it.toString().padStart(2, '0') }
-            .forEach{
-                lines.add (createLine(it, Line.Direction.FORWARD))
-                lines.add (createLine(it, Line.Direction.BACKWARD))}
-        return Result.Success(lines)
+            .forEach {
+                lines.add(createLine(it, Line.Direction.FORWARD))
+                lines.add(createLine(it, Line.Direction.BACKWARD))
+            }
+        return lines
+    }
+
+    fun setLines (lines: List<Line>) {
+        data = lines
     }
 
     private fun createLine(id: String, direction: Line.Direction): Line {
         val line =  Line (
+            id = id,
             agencyId = id,
             name = if (direction== Line.Direction.FORWARD) "Origin $id - Destination $id"
                     else "Destination $id -Origin $id",
             direction = direction,
-            type = Line.LineType.REGULAR)
+            isNightLine = false
+            )
         line.stops.addAll(createStops(line))
         return line
     }
@@ -39,7 +54,8 @@ class FakeTransportRepository : TransportRepository{
                     Random.nextInt(1000..9999).toString(),
                     "Stop $it of ${line.uniqueId}",
                     generateSchedule(),
-                    generateLocation(it)
+                    generateLocation(it),
+                    null
                 )
                 stops.add(stop)
             }

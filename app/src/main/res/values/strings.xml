@@ -6,4 +6,6 @@
     <string name="stops_map">Route</string>
     <string name="cd_stops_list">List of stops</string>
     <string name="cd_stops_map">Line route</string>
+    <string name="error_update_remote">Error updating transit information</string>
+    <string name="update_successful">Transit info updated successfully</string>
 </resources>

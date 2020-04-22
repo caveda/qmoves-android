@@ -44,8 +44,12 @@ class LinesFragment : Fragment(){
 
         setupNavigation()
         setupLineList()
-        setupSnackbar()
         return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        setupSnackbar()
     }
 
     private fun setupNavigation() {

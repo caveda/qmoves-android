@@ -10,8 +10,14 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Create key files
+          name: Create map key files
           command: echo ${MAPS_KEY_FILE}>${HOME}/project/app/src/main/res/values/google_maps_api.xml
+      - run:
+          name: Create google services
+          command: echo ${GOOGLE_SERVICES}>${HOME}/project/app/google-services.json
+      - run:
+          name: Create firebase file
+          command: echo ${FIREBASE_API_DATA}>${HOME}/project/app/src/main/res/values/firebase_api_data.xml
       - run:
           name: Build
           command: ./gradlew build

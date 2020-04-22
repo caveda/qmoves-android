@@ -1,12 +1,13 @@
 package com.quoders.apps.qmoves.home
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.source.remote.FirebaseClientConfig
 import com.quoders.apps.qmoves.getOrAwaitValue
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 
 
 class HomeViewModelTest {
@@ -17,9 +18,15 @@ class HomeViewModelTest {
 
     private lateinit var sut: HomeViewModel
 
+    private val sutConfig = FirebaseClientConfig(
+                funcUrl = "fakeUrl",
+                funcHeaderValue = "fakeHeader",
+                storageMetadataPath = "fakeMetadataPath",
+                storageDataPath = "fakeDataPath")
+
     @Before
     fun setUp() {
-        sut = HomeViewModel()
+        sut = HomeViewModel(sutConfig)
     }
 
     @Test

@@ -51,7 +51,7 @@
                 android:layout_height="@dimen/empty_placeholder_image_size"
                 android:tint="#555555"
                 tools:src ="@drawable/ic_data_fetching_error"
-                app:stopsLoadingStatus="@{viewModel.dataLoading}"/>
+                app:loadingStatus="@{viewModel.dataLoading}"/>
         </LinearLayout>
     </LinearLayout>
 </layout>
