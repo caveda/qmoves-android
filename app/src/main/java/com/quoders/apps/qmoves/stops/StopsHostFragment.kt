@@ -53,7 +53,6 @@ class StopsHostFragment : Fragment() {
     private fun openFragment(fragment: Fragment) {
         val transaction = childFragmentManager.beginTransaction()
         transaction.replace(R.id.main_container, fragment)
-        transaction.addToBackStack(null)
         transaction.commit()
     }
 
