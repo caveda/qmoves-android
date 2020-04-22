@@ -9,12 +9,12 @@ class MoqLinesData {
 
     companion object {
         val validLineList = listOf(
-            Line("1", "orig1-dest1", Line.Direction.FORWARD, Line.LineType.REGULAR),
-            Line("1", "dest1-orig1", Line.Direction.BACKWARD, Line.LineType.REGULAR),
-            Line("2", "orig2-dest2", Line.Direction.FORWARD, Line.LineType.REGULAR),
-            Line("2", "orig2-dest2", Line.Direction.BACKWARD, Line.LineType.REGULAR),
-            Line("3", "orig3-dest3", Line.Direction.FORWARD, Line.LineType.NIGHT),
-            Line("3", "orig3-dest3", Line.Direction.BACKWARD, Line.LineType.NIGHT)
+            Line("I1", "01", "orig1-dest1", Line.Direction.FORWARD, false),
+            Line("V1", "01", "dest1-orig1", Line.Direction.BACKWARD, false),
+            Line("I2", "02", "orig2-dest2", Line.Direction.FORWARD, false),
+            Line("V2", "02", "orig2-dest2", Line.Direction.BACKWARD, false),
+            Line("I3", "03", "orig3-dest3", Line.Direction.FORWARD, true),
+            Line("V3", "03", "orig3-dest3", Line.Direction.BACKWARD, true)
         )
     }
 }

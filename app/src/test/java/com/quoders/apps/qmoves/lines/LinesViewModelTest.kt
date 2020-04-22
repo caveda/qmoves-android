@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.quoders.apps.qmoves.CoroutineTestRule
 import com.quoders.apps.qmoves.R
+import com.quoders.apps.qmoves.data.DataLoadingStatus
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.data.Transport
@@ -53,7 +54,7 @@ class LinesViewModelTest {
     fun navigateToStops_invoked_navigateEventSet() = runBlockingTest {
         // Given
         sut = LinesViewModel(mockTransport)
-        val line = Line("1", "orig-dest", Line.Direction.FORWARD, Line.LineType.REGULAR)
+        val line = Line("I1", "01", "orig-dest", Line.Direction.FORWARD, false)
 
         // When
         sut.navigateToStops(line)
