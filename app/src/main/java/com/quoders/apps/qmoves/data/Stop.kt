@@ -1,6 +1,9 @@
 package com.quoders.apps.qmoves.data
 
 import android.os.Parcelable
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
 import kotlinx.android.parcel.Parcelize
 
@@ -8,12 +11,15 @@ import kotlinx.android.parcel.Parcelize
   Entity representing a stop of a Line
  */
 @Parcelize
-//@JsonClass(generateAdapter = true)
+@Entity(tableName = "line_stop")
 data class Stop (
-    @Json(name = "Id") val id: String,
+    @PrimaryKey(autoGenerate = true)
+    @Transient var stopId: Long = 0L,
+
+    @Json(name = "Id") val code: String,
     @Json(name = "Na") val name: String,
-    @Json(name = "Sc") val schedule: Schedule,
-    @Json(name = "Lc") val location: Location,
+    @Embedded @Json(name = "Sc") val schedule: Schedule,
+    @Embedded @Json(name = "Lc") val location: Location,
     @Json(name = "Co") val connections: String?
 ): Parcelable
 
