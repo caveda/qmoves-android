@@ -14,7 +14,7 @@ class LineTest {
     @Parameters(value = [ "FORWARD", "BACKWARD"])
     fun getUniqueId_directionSupplied_uniqueIdEndWithDirectionCode(direction: Direction) {
         // Given
-        val line = Line("I10", "10", "any-other", direction, false)
+        val line = Line(0, 0, "I10", "10", "any-other", direction, false)
 
         // Then
         assertThat(line.uniqueId).isEqualTo("10${direction.code}")

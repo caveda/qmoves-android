@@ -32,7 +32,7 @@ class HomeViewModelTest {
     @Test
     fun navigateToLines_invoked_navigateEventSet() {
         // Given
-        val transport = Transport("SubwayXYZ")
+        val transport = Transport(name = "SubwayXYZ")
 
         // When
         sut.navigateToLines(transport)
