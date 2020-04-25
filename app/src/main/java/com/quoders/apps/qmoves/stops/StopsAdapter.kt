@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.databinding.StopViewItemBinding
-import com.quoders.apps.qmoves.stops.StopsViewModel
 
 /**
  * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [Stop]
@@ -36,7 +35,7 @@ class StopsAdapter (private val viewModel: StopsViewModel): ListAdapter<Stop, St
      */
     companion object DiffCallback : DiffUtil.ItemCallback<Stop>() {
         override fun areItemsTheSame(oldItem: Stop, newItem: Stop): Boolean {
-            return oldItem.id === newItem.id
+            return oldItem.code === newItem.code
         }
 
         override fun areContentsTheSame(oldItem: Stop, newItem: Stop): Boolean {

@@ -35,7 +35,7 @@ class FakeTransportRepository : TransportRepository{
 
     private fun createLine(id: String, direction: Line.Direction): Line {
         val line =  Line (
-            id = id,
+            code = id,
             agencyId = id,
             name = if (direction== Line.Direction.FORWARD) "Origin $id - Destination $id"
                     else "Destination $id -Origin $id",
@@ -51,12 +51,10 @@ class FakeTransportRepository : TransportRepository{
         (1..Random.nextInt(10..20))
             .forEach{
                 val stop = Stop(
-                    Random.nextInt(1000..9999).toString(),
-                    "Stop $it of ${line.uniqueId}",
-                    generateSchedule(),
-                    generateLocation(it),
-                    null
-                )
+                    code = Random.nextInt(1000..9999).toString(),
+                    name = "Stop $it of ${line.uniqueId}",
+                    schedule = generateSchedule(),
+                    location = generateLocation(it))
                 stops.add(stop)
             }
         return stops
@@ -72,8 +70,8 @@ class FakeTransportRepository : TransportRepository{
 
     private fun generateLocation (i: Int): Location {
         return Location(
-            40.4378698 + (.001 * i),
-            -3.8196207 +  (.001 * i)
+            lat = 40.4378698 + (.001 * i),
+            long = -3.8196207 +  (.001 * i)
         )
     }
 }

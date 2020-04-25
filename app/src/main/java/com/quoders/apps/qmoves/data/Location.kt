@@ -14,10 +14,12 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Location (
     @PrimaryKey(autoGenerate = true)
-    @Transient var locationId: Long = 0L,
+    var locationId: Long = 0L,
+    @Json(name = "La") var lat: Double,
+    @Json(name = "Lo") var long: Double)
+    : Parcelable {
 
-    @Json(name = "La") val lat: Double,
-    @Json(name = "Lo") val long: Double): Parcelable {
+    constructor() : this(0,.0,.0)
 
     fun toLatLng():LatLng = LatLng(this.lat, this.long)
 }

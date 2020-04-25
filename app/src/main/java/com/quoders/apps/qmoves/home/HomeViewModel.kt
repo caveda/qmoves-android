@@ -37,7 +37,7 @@ class HomeViewModel(private val config: FirebaseClientConfig): ViewModel() {
     val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     init {
-        _transport.value = Transport("Bus")
+        _transport.value = Transport(name = "Bus")
         updateTransitData()
     }
 

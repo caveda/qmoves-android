@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -14,26 +15,28 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Line (
     @PrimaryKey(autoGenerate = true)
-    @Transient var lineId: Long = 0L,
-    @Transient val transportOfLineId: Long,
-
-    @Json(name = "Id") val code: String,
-    @Json(name = "AgencyId") val agencyId: String,
-    @Json(name = "Name") val name: String,
-    @Json(name = "Dir") val direction: Direction,
-    @Json(name = "Night") val isNightLine: Boolean,
+    var lineId: Long = 0L,
+    var transportOfLineId: Long = 0L,
+    @Json(name = "Id") var code: String,
+    @Json(name = "AgencyId") var agencyId: String,
+    @Json(name = "Name") var name: String,
+    @Json(name = "Dir") var direction: Direction = Direction.FORWARD,
+    @Json(name = "Night") var isNightLine: Boolean,
+    @Ignore // Ignored by database
+    @Json(name = "Stops") var stops: MutableList<Stop> = mutableListOf<Stop>(),
 
     @Ignore // Ignored by database
-    @Json(name = "Stops") val stops: MutableList<Stop> = mutableListOf<Stop>(),
-
-    @Ignore // Ignored by database
-    @Json(name = "Map") val route: MutableList<Location> = mutableListOf<Location>())
+    @Json(name = "Map") var route: MutableList<Location> = mutableListOf<Location>())
     : Parcelable {
 
+    constructor() : this(0,0,"","","",Direction.BACKWARD,false)
+
     @Ignore
+    @IgnoredOnParcel
     val uniqueId : String = agencyId + direction.code
 
     @Ignore
+    @IgnoredOnParcel
     val type : LineType = if (isNightLine) LineType.NIGHT else LineType.REGULAR
 
     enum class Direction (val direction: String, val code: String){
