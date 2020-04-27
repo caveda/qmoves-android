@@ -2,10 +2,9 @@ package com.quoders.apps.qmoves.data.source.local
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.quoders.apps.qmoves.data.Transport
 
 data class TransportLines(
-    @Embedded val transport: Transport,
+    @Embedded val transport: DBTransport,
     @Relation(
         parentColumn = "transportId",
         entityColumn = "transportOfLineId"

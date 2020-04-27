@@ -5,11 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.quoders.apps.qmoves.data.Location
-import com.quoders.apps.qmoves.data.Stop
-import com.quoders.apps.qmoves.data.Transport
 
-@Database(entities = [Transport::class, DBLine::class, Stop::class, Location::class,
+@Database(entities = [DBTransport::class, DBLine::class, DBStop::class, DBLocation::class,
     LineStopsRef::class], version = 1,  exportSchema = false)
 @TypeConverters(DataConverters::class)
 abstract class TransportDatabase : RoomDatabase() {
