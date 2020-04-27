@@ -2,7 +2,6 @@ package com.quoders.apps.qmoves.data.source.local
 
 import androidx.room.Embedded
 import androidx.room.Relation
-import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Transport
 
 data class TransportLines(
@@ -11,5 +10,5 @@ data class TransportLines(
         parentColumn = "transportId",
         entityColumn = "transportOfLineId"
     )
-    val lines: List<Line>
+    val lines: List<DBLine>
 )

@@ -1,17 +1,15 @@
 package com.quoders.apps.qmoves.data.source.local
 
 import android.content.Context
-import androidx.databinding.adapters.Converters
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Location
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.Transport
 
-@Database(entities = [Transport::class, Line::class, Stop::class, Location::class,
+@Database(entities = [Transport::class, DBLine::class, Stop::class, Location::class,
     LineStopsRef::class], version = 1,  exportSchema = false)
 @TypeConverters(DataConverters::class)
 abstract class TransportDatabase : RoomDatabase() {

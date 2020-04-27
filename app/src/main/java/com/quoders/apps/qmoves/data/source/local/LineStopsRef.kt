@@ -1,7 +1,6 @@
 package com.quoders.apps.qmoves.data.source.local
 
 import androidx.room.*
-import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
 
 @Entity(primaryKeys = ["lineId", "stopId"],
@@ -14,7 +13,7 @@ data class LineStopsRef(
 
 
 data class LineStops(
-    @Embedded val line: Line,
+    @Embedded val line: DBLine,
     @Relation(
         parentColumn = "lineId",
         entityColumn = "stopId",
