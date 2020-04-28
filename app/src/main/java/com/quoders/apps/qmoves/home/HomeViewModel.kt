@@ -13,6 +13,7 @@ import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.FakeTransportRepository
 import com.quoders.apps.qmoves.data.source.remote.FirebaseClient
 import com.quoders.apps.qmoves.data.source.remote.FirebaseClientConfig
+import com.quoders.apps.qmoves.data.source.remote.RemoteLine
 import kotlinx.coroutines.launch
 
 /**
@@ -50,8 +51,8 @@ class HomeViewModel(private val config: FirebaseClientConfig): ViewModel() {
             try {
                 _dataLoading.value = DataLoadingStatus.LOADING
                 val client = FirebaseClient(config)
-                val onCompleted : (Result<List<Line>>) -> Any = { r ->
-                    handleUpdateResult(r)
+                val onCompleted : (Result<List<RemoteLine>>) -> Any = { r ->
+                    //handleUpdateResult(r)
                 }
                 client.update(onCompleted)
             } catch (e: Exception) {

@@ -24,14 +24,14 @@ class FirebaseClient(val config: FirebaseClientConfig) {
      * Checks if remote data has changed and updates the local
      * repository if so.
      */
-    suspend fun update(onCompleted: (Result<List<Line>>) -> Any) {
+    suspend fun update(onCompleted: (Result<List<RemoteLine>>) -> Any) {
         initializeFirebase()
         lateinit var data: Result<List<Line>>
         val authToken = getAuthToken().await()
         authenticateWithFirebase(authToken.token, onCompleted)
     }
 
-    private fun authenticateWithFirebase(customToken: String, onCompleted: (Result<List<Line>>) -> Any) {
+    private fun authenticateWithFirebase(customToken: String, onCompleted: (Result<List<RemoteLine>>) -> Any) {
         customToken?.let {
             auth.signInWithCustomToken(it)
                 .addOnCompleteListener { task ->
@@ -49,7 +49,7 @@ class FirebaseClient(val config: FirebaseClientConfig) {
         }
     }
 
-    private fun fetchTransitData (onCompleted: (Result<List<Line>>) -> Any) {
+    private fun fetchTransitData (onCompleted: (Result<List<RemoteLine>>) -> Any) {
         val storageRef = storage.reference
         var metadataRef = storageRef.child(config.storageMetadataPath)
         val bufferSize: Long = 32 * 1024
@@ -63,7 +63,7 @@ class FirebaseClient(val config: FirebaseClientConfig) {
         }
     }
 
-    private fun downloadTransitData(storageRef: StorageReference, onCompleted: (Result<List<Line>>)-> Any){
+    private fun downloadTransitData(storageRef: StorageReference, onCompleted: (Result<List<RemoteLine>>)-> Any){
 
         val storageRef = storage.reference
         var metadataRef = storageRef.child(config.storageDataPath)

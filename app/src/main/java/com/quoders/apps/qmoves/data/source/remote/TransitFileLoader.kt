@@ -1,6 +1,5 @@
 package com.quoders.apps.qmoves.data.source.remote
 
-import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.tools.ZipHelper
 import com.squareup.moshi.JsonAdapter
@@ -16,16 +15,16 @@ import java.lang.reflect.Type
  */
 object TransitFileLoader {
 
-    fun loadContentFile (filePath: String): Result<List<Line>> {
+    fun loadContentFile (filePath: String): Result<List<RemoteLine>> {
         val content = ZipHelper.extractFileContentInMemory(filePath)
             ?: return Result.Error(Exception("Unable to read ${filePath}"))
 
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val listMyData: Type = Types.newParameterizedType(
             MutableList::class.java,
-            Line::class.java
+            RemoteLine::class.java
         )
-        val adapter: JsonAdapter<List<Line>> = moshi.adapter(listMyData)
+        val adapter: JsonAdapter<List<RemoteLine>> = moshi.adapter(listMyData)
         try {
             val lines = adapter.fromJson(content)
             return Result.Success(lines!!)

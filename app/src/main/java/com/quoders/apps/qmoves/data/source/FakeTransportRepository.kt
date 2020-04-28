@@ -40,19 +40,18 @@ class FakeTransportRepository : TransportRepository{
             name = if (direction== Line.Direction.FORWARD) "Origin $id - Destination $id"
                     else "Destination $id -Origin $id",
             direction = direction,
-            isNightLine = false
-            )
-        line.stops.addAll(createStops(line))
+            isNightLine = false)
+        line.stops = createStops(line.uniqueId)
         return line
     }
 
-    private fun createStops (line: Line) : List<Stop> {
+    private fun createStops (lineId: String) : List<Stop> {
         val stops = mutableListOf<Stop>()
         (1..Random.nextInt(10..20))
             .forEach{
                 val stop = Stop(
                     code = Random.nextInt(1000..9999).toString(),
-                    name = "Stop $it of ${line.uniqueId}",
+                    name = "Stop $it of ${lineId}",
                     schedule = generateSchedule(),
                     location = generateLocation(it))
                 stops.add(stop)
