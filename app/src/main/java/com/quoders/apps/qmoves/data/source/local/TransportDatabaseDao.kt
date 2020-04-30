@@ -3,17 +3,26 @@ package com.quoders.apps.qmoves.data.source.local
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Transaction
+import com.quoders.apps.qmoves.data.TransportAgency
 
 @Dao
 interface TransportDatabaseDao {
 
     @Transaction
-    @Query("SELECT * FROM transport_agency WHERE transportId=:transportId")
-    fun getTransportLines(transportId : Long): List<TransportLines>
+    @Query("SELECT * FROM transport_agency")
+    suspend fun getAgencyId(name: String): Long
+
+    @Transaction
+    @Query("SELECT * FROM transport_agency")
+    suspend fun getAgencies(): List<TransportAgency>
+
+    @Transaction
+    @Query("SELECT * FROM transport_line WHERE transportName=:agency")
+    suspend fun getLines(agency : String): List<DBLine>
 
     @Transaction
     @Query("SELECT * FROM transport_line WHERE lineId=:lineId")
-    fun getLineWithStops(lineId: Long): List<LineStops>
+    suspend fun getLineWithStops(lineId: Long): List<LineStops>
 
 /*
     @Insert

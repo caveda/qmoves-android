@@ -1,7 +1,7 @@
 package com.quoders.apps.qmoves.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.TransportAgency
 import com.quoders.apps.qmoves.data.source.remote.FirebaseClientConfig
 import com.quoders.apps.qmoves.getOrAwaitValue
 import org.junit.Assert.assertEquals
@@ -32,7 +32,7 @@ class HomeViewModelTest {
     @Test
     fun navigateToLines_invoked_navigateEventSet() {
         // Given
-        val transport = Transport(name = "SubwayXYZ")
+        val transport = TransportAgency(name = "SubwayXYZ")
 
         // When
         sut.navigateToLines(transport)

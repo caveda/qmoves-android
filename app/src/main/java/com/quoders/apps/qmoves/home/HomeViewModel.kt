@@ -9,7 +9,7 @@ import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.DataLoadingStatus
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Result
-import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.TransportAgency
 import com.quoders.apps.qmoves.data.source.FakeTransportRepository
 import com.quoders.apps.qmoves.data.source.remote.FirebaseClient
 import com.quoders.apps.qmoves.data.source.remote.FirebaseClientConfig
@@ -22,27 +22,27 @@ import kotlinx.coroutines.launch
 class HomeViewModel(private val config: FirebaseClientConfig): ViewModel() {
 
     // Events
-    private val _eventNavigateLines = MutableLiveData<Event<Transport>>()
-    val eventNavigateLines : LiveData<Event<Transport>> = _eventNavigateLines
+    private val _eventNavigateLines = MutableLiveData<Event<TransportAgency>>()
+    val eventNavigateLines : LiveData<Event<TransportAgency>> = _eventNavigateLines
 
     // State of the loading operation
     private val _dataLoading = MutableLiveData<DataLoadingStatus>()
     val dataLoading: LiveData<DataLoadingStatus> = _dataLoading
 
     // Transport data
-    private val _transport = MutableLiveData<Transport>()
-    val transport: LiveData<Transport> = _transport
+    private val _transport = MutableLiveData<TransportAgency>()
+    val transport: LiveData<TransportAgency> = _transport
 
     // Message to display to user
     private val _snackbarText = MutableLiveData<Event<Int>>()
     val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     init {
-        _transport.value = Transport(name = "Bus")
+        _transport.value = TransportAgency(name = "Bus")
         updateTransitData()
     }
 
-    fun navigateToLines (transport: Transport) {
+    fun navigateToLines (transport: TransportAgency) {
         _eventNavigateLines.value = Event(transport)
     }
 
@@ -66,8 +66,8 @@ class HomeViewModel(private val config: FirebaseClientConfig): ViewModel() {
     private fun showSnackbarMessage(message: Int) {
         _snackbarText.value = Event(message)
     }
-
-    private fun handleUpdateResult(r: Result<List<Line>>) {
+/*
+    private fun handleUpdateResult(r: Result<List<RemoteLine>>) {
         if (r is Result.Success) {
             val newRepo = FakeTransportRepository()
             newRepo.setLines(r.data)
@@ -78,5 +78,5 @@ class HomeViewModel(private val config: FirebaseClientConfig): ViewModel() {
             _dataLoading.value = DataLoadingStatus.ERROR
             showSnackbarMessage(R.string.error_update_remote)
         }
-    }
+    }*/
 }

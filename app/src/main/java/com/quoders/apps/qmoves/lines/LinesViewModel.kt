@@ -6,7 +6,7 @@ import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.DataLoadingStatus
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Result
-import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.TransportAgency
 import com.quoders.apps.qmoves.data.source.TransportRepository
 import kotlinx.coroutines.launch
 
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 /**
  *  ViewModel of Lines page
  */
-class LinesViewModel (val transport: Transport) : ViewModel() {
+class LinesViewModel (val transport: TransportAgency) : ViewModel() {
 
     private val transportRepository: TransportRepository = transport.repository
 

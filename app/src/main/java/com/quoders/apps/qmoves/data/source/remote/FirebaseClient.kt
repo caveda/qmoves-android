@@ -14,7 +14,7 @@ import java.io.File
  * Firebase client class that interacts with Firebase to authenticate and
  * download data.
  */
-class FirebaseClient(val config: FirebaseClientConfig) {
+class FirebaseClient(val config: FirebaseClientConfig){
 
     private lateinit var auth: FirebaseAuth
     private lateinit var user: FirebaseUser
@@ -87,4 +87,5 @@ class FirebaseClient(val config: FirebaseClientConfig) {
         val client = AuthTokenApiClient(config)
         return client.retrofitService.getToken(config.funcHeaderValue)
     }
+
 }

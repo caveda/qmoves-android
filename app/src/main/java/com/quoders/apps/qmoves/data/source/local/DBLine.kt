@@ -11,7 +11,7 @@ Database DTO representing a Line entity
 data class DBLine (
     @PrimaryKey(autoGenerate = true)
     var lineId: Long = 0L,
-    var transportOfLineId: Long = 0L,
+    var transportName: String,
     var code: String,
     var agencyId: String,
     var name: String,

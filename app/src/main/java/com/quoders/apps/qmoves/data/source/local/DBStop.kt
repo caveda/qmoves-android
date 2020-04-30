@@ -3,7 +3,6 @@ package com.quoders.apps.qmoves.data.source.local
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.quoders.apps.qmoves.data.Location
 
 /**
  * DTO object representing a Stop
@@ -15,7 +14,7 @@ data class DBStop (
     var code: String,
     var name: String,
     @Embedded var schedule: DBSchedule,
-    @Embedded var location: Location,
+    @Embedded var location: DBLocation,
     var connections: String? = null)
 
 data class DBSchedule (
