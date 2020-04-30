@@ -10,7 +10,7 @@ import kotlinx.android.parcel.Parcelize
  *  Entity that represents a transport agency,e.g: bus, subway, tram, etc.
  */
 @Parcelize
-data class TransportAgency (
+data class Transport (
     val name: String
 ): Parcelable {
 

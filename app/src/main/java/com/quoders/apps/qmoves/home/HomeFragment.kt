@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
-import com.quoders.apps.qmoves.data.TransportAgency
+import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.remote.FirebaseClientConfig
 import com.quoders.apps.qmoves.databinding.FragmentHomeBinding
 import com.quoders.apps.qmoves.tools.setupSnackbar
@@ -68,7 +68,7 @@ class HomeFragment : Fragment(){
         })
     }
 
-    private fun navigateToLines(transport: TransportAgency) {
+    private fun navigateToLines(transport: Transport) {
         val action = HomeFragmentDirections.actionHomeFragmentToLinesFragment(transport)
         findNavController().navigate(action)
     }

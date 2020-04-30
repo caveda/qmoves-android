@@ -7,7 +7,7 @@ import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.DataLoadingStatus
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Result
-import com.quoders.apps.qmoves.data.TransportAgency
+import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.getOrAwaitValue
 import io.mockk.coEvery
@@ -35,7 +35,7 @@ class LinesViewModelTest {
 
     private val transportName = "TransportXYZ"
     private lateinit var mockRepository: TransportRepository
-    private lateinit var mockTransport: TransportAgency
+    private lateinit var mockTransport: Transport
     private lateinit var sut: LinesViewModel
 
     @Before

@@ -11,7 +11,7 @@ class FakeTransportRepository : TransportRepository{
 
     private var data : List<Line> = listOf()
 
-    override suspend fun getLines(): Result<List<Line>>{
+    override suspend fun getLines(agency: Transport): Result<List<Line>>{
         if (data.isNotEmpty())
             return Result.Success(data)
         data=generateFakeLines()
