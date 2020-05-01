@@ -5,6 +5,7 @@ import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.mapper.DBLineMapper
 import com.quoders.apps.qmoves.data.mapper.ListMapperImpl
+import com.quoders.apps.qmoves.data.source.local.TransportDatabase
 import com.quoders.apps.qmoves.data.source.local.TransportDatabaseDao
 import com.quoders.apps.qmoves.data.source.remote.RemoteTransportService
 

@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.data.source.remote.FirebaseClientConfig
 import com.quoders.apps.qmoves.databinding.FragmentHomeBinding
 import com.quoders.apps.qmoves.tools.setupSnackbar
@@ -33,7 +34,9 @@ class HomeFragment : Fragment(){
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_home,container, false)
 
-        viewModel = ViewModelProvider(this, HomeViewModelFactory(buildFirebaseConfig())).
+        val application = requireNotNull(this.activity).application
+        val repository = TransportRepositoryFactory.getInstance(application)
+        viewModel = ViewModelProvider(this, HomeViewModelFactory(repository)).
             get(HomeViewModel::class.java)
         binding.homeViewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
@@ -48,15 +51,6 @@ class HomeFragment : Fragment(){
         // Initializations that requires a created view.
         setupSnackbar()
     }
-
-
-    private fun buildFirebaseConfig() =
-        FirebaseClientConfig(
-            funcUrl = getString(R.string.firebase_func_url),
-            funcHeaderValue = getString(R.string.firebase_func_header_value),
-            storageMetadataPath = getString(R.string.firebase_storage_metadata),
-            storageDataPath = getString(R.string.firebase_storage_data)
-        )
 
     private fun setupSnackbar() {
         view?.setupSnackbar(viewLifecycleOwner, viewModel.snackbarText, Snackbar.LENGTH_SHORT)

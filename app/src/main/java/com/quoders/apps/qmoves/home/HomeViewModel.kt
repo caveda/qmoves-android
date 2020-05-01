@@ -7,17 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.quoders.apps.qmoves.Event
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.DataLoadingStatus
-import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.data.Transport
-import com.quoders.apps.qmoves.data.source.remote.FirebaseClient
-import com.quoders.apps.qmoves.data.source.remote.FirebaseClientConfig
-import com.quoders.apps.qmoves.data.source.remote.RemoteLine
+import com.quoders.apps.qmoves.data.source.TransportRepository
 import kotlinx.coroutines.launch
 
 /**
  * Viewmodel of the Home page
  */
-class HomeViewModel(private val config: FirebaseClientConfig): ViewModel() {
+class HomeViewModel(private val transportRepository: TransportRepository): ViewModel() {
 
     // Events
     private val _eventNavigateLines = MutableLiveData<Event<Transport>>()
@@ -48,11 +45,7 @@ class HomeViewModel(private val config: FirebaseClientConfig): ViewModel() {
         viewModelScope.launch {
             try {
                 _dataLoading.value = DataLoadingStatus.LOADING
-                val client = FirebaseClient(config)
-                val onCompleted : (Result<List<RemoteLine>>) -> Any = { r ->
-                    //handleUpdateResult(r)
-                }
-                client.update(onCompleted)
+                transportRepository.getLines(Transport("bus"))
             } catch (e: Exception) {
                 val error = e.message
                 _dataLoading.value = DataLoadingStatus.ERROR
