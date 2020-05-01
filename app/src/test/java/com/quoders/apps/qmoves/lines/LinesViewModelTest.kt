@@ -47,7 +47,7 @@ class LinesViewModelTest {
         // Basic training
         every { mockTransport.name} returns transportName
         every { mockTransport.repository } returns mockRepository
-        coEvery { mockRepository.getLines()} returns Result.Success(listOf())
+        coEvery { mockRepository.getLines(mockTransport)} returns Result.Success(listOf())
     }
 
     @Test
@@ -77,7 +77,7 @@ class LinesViewModelTest {
     @Test
     fun getLines_validLineListInRepository_OnlyForwardLinesReturned() = runBlockingTest {
         // Given
-        coEvery { mockRepository.getLines() } returns Result.Success(MoqLinesData.validLineList)
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Success(MoqLinesData.validLineList)
 
         // When
         sut = LinesViewModel(mockTransport)
@@ -93,7 +93,7 @@ class LinesViewModelTest {
     @Test
     fun getLines_errorLoadingLines_emptyLinesList() = runBlockingTest {
         // Given
-        coEvery { mockRepository.getLines() } returns Result.Error(Exception("loading error"))
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Error(Exception("loading error"))
 
         // When
         sut = LinesViewModel(mockTransport)
@@ -125,7 +125,7 @@ class LinesViewModelTest {
     @Test
     fun getSnackbarText_errorLoadingLines_snackBarTextSetWithError() = runBlockingTest {
         // Given
-        coEvery { mockRepository.getLines() } returns Result.Error(Exception("loading error"))
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Error(Exception("loading error"))
 
         // When
         sut =LinesViewModel(mockTransport)
@@ -138,7 +138,7 @@ class LinesViewModelTest {
     @Test
     fun getDataLoading_errorLoadingLines_dataLoadingIsError() {
         // Given
-        coEvery { mockRepository.getLines() } returns Result.Error(Exception("loading error"))
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Error(Exception("loading error"))
 
         // When
         sut =LinesViewModel(mockTransport)
@@ -151,7 +151,7 @@ class LinesViewModelTest {
     @Test
     fun getDataLoading_linesLoaded_dataLoadingIsDone() {
         // Given
-        coEvery { mockRepository.getLines() } returns Result.Success(MoqLinesData.validLineList)
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Success(MoqLinesData.validLineList)
 
         // When
         sut =LinesViewModel(mockTransport)
