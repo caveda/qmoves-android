@@ -16,8 +16,12 @@ class RemoteTransportServiceImpl(context: Context): RemoteTransportService {
         firebaseClient = FirebaseClient(readFirebaseConfig(context))
     }
 
+    override suspend fun isNewDataAvailable (transport: Transport): Result<Boolean> {
+        return firebaseClient!!.isNewDataAvailable(transport)
+    }
+
     override suspend fun fetchLines(transport: Transport): Result<List<RemoteLine>> {
-        TODO("Implementation pending")
+        return firebaseClient!!.fetchLines(transport)
     }
 
     private fun readFirebaseConfig(context: Context): FirebaseClientConfig {

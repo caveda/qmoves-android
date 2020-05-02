@@ -13,4 +13,5 @@ interface TransportRepository {
      * Returns the complete list of lines including all associated data: stops, routes, etc.
      */
     suspend fun getLines(agency: Transport): Result<List<Line>>
+
 }

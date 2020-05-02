@@ -9,6 +9,11 @@ import com.quoders.apps.qmoves.data.Transport
 interface RemoteTransportService {
 
     /***
+     * Checks whether there is new data available for the given transport.
+     */
+    suspend fun isNewDataAvailable (transport: Transport): Result<Boolean>
+
+    /***
      * Fetch all lines of the given transport.
      */
     suspend fun fetchLines(transport: Transport): Result<List<RemoteLine>>

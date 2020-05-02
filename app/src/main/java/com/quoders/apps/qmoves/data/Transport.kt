@@ -17,4 +17,8 @@ data class Transport (
     // TODO Replace this var by a proper DI injection
     @IgnoredOnParcel
     var repository: TransportRepository = FakeTransportRepository()
+
+    override fun toString(): String {
+        return name
+    }
 }
