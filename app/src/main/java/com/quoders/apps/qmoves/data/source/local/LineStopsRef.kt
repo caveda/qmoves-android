@@ -10,7 +10,7 @@ data class LineStopsRef(
     val stopId: Long
 )
 
-data class LineStops(
+data class LinesWithStops(
     @Embedded val line: DBLine,
     @Relation(
         parentColumn = "lineId",

@@ -5,5 +5,5 @@ package com.quoders.apps.qmoves.data.source.remote
  */
 data class RemoteMetadata (
     val hash: String,
-    val timestamp: String
+    val time: String
 )
