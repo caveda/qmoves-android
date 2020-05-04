@@ -11,17 +11,16 @@ import androidx.room.Relation
 @Entity(tableName = "line_route")
 data class DBRouteLocation (
     @PrimaryKey(autoGenerate = true)
-    var locationId: Long = 0L,
-    var routeLineId: Long,
-    var lat: Double = .0,
-    var lon: Double = .0)
+    val locationId: Long = 0L,
+    val routeLineId: Long,
+    @Embedded val location: DBLocation)
 
 
 data class LineWithRoute (
-    @Embedded var line: DBLine,
+    @Embedded val line: DBLine,
     @Relation(
         parentColumn = "lineId",
         entity = DBRouteLocation::class,
         entityColumn = "routeLineId")
-    var route: List<DBRouteLocation>
+    val route: List<DBRouteLocation>
     )

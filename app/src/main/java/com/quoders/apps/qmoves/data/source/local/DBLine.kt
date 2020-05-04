@@ -10,10 +10,10 @@ Database DTO representing a Line entity
 @Entity(tableName = "transport_line")
 data class DBLine (
     @PrimaryKey(autoGenerate = true)
-    var lineId: Long = 0L,
-    var transportName: String,
-    var code: String,
-    var agencyId: String,
-    var name: String,
-    var direction: Line.Direction,
-    var isNightLine: Boolean)
+    val lineId: Long = 0L,
+    val transportName: String,
+    val code: String,
+    val agencyId: String,
+    val name: String,
+    val direction: Line.Direction,
+    val isNightLine: Boolean)

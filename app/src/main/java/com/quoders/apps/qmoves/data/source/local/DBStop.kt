@@ -10,19 +10,19 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "line_stop")
 data class DBStop (
     @PrimaryKey(autoGenerate = true)
-    var stopId: Long = 0L,
-    var code: String,
-    var name: String,
-    @Embedded var schedule: DBSchedule,
-    @Embedded var location: DBLocation,
-    var connections: String? = null)
+    val stopId: Long = 0L,
+    val code: String,
+    val name: String,
+    @Embedded val schedule: DBSchedule,
+    @Embedded val location: DBLocation,
+    val connections: String? = null)
 
 data class DBSchedule (
-    var workingDays: String?,
-    var monday2Tuesday: String?,
-    var friday: String?,
-    var saturday: String?,
-    var sunday: String?)
+    val workingDays: String?,
+    val monday2Tuesday: String?,
+    val friday: String?,
+    val saturday: String?,
+    val sunday: String?)
 
 /**
  * Database DTO representing a Location
