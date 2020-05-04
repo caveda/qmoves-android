@@ -21,5 +21,9 @@ interface TransportDatabaseDao {
 
     @Transaction
     @Query("SELECT * FROM transport_line WHERE lineId=:lineId")
-    suspend fun getLineWithStops(lineId: Long): List<LinesWithStops>
+    suspend fun getLineWithStops(lineId: Long): List<LineWithStops>
+
+    @Transaction
+    @Query("SELECT * FROM transport_line WHERE lineId=:lineId")
+    suspend fun getLineWithRoute(lineId: Long): List<LineWithRoute>
 }

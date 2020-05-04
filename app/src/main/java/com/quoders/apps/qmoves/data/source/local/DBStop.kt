@@ -23,3 +23,10 @@ data class DBSchedule (
     var friday: String?,
     var saturday: String?,
     var sunday: String?)
+
+/**
+ * Database DTO representing a Location
+ */
+data class DBLocation (
+    var lat: Double = .0,
+    var long: Double = .0)

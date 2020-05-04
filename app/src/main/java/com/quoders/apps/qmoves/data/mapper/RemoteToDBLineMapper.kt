@@ -17,7 +17,7 @@ class RemoteToDBLineMapper: Mapper<RemoteLine, DBLine>{
         return DBLine(
             code = input.code,
             agencyId = input.agencyId,
-            transportName = input.agencyId,
+            transportName = "fix me",
             name = input.name,
             direction = input.direction,
             isNightLine = input.isNightLine)
@@ -28,16 +28,16 @@ class RemoteToDBLineMapper: Mapper<RemoteLine, DBLine>{
  *  Mapper class that transforms RemoteStop instance into DBStop
  */
 class RemoteToDBStopMapper: Mapper<RemoteStop, DBStop> {
-    private val locationMapper = RemoteToDBLocationMapper()
     private val scheduleMapper = RemoteToDBScheduleMapper()
+    private val locationMapper = RemoteToDBLocationMapper()
 
     override fun map(input: RemoteStop): DBStop {
         return  DBStop(
             code = input.code,
             name = input.name,
             connections = input.connections,
-            schedule = scheduleMapper.map(input.schedule),
-            location = locationMapper.map(input.location)
+            location = locationMapper.map(input.location),
+            schedule = scheduleMapper.map(input.schedule)
         )
     }
 }
@@ -53,6 +53,7 @@ class RemoteToDBLocationMapper: Mapper<RemoteLocation, DBLocation> {
         )
     }
 }
+
 
 /***
  *  Mapper class that transforms RemoteSchedule instance into DBSchedule
