@@ -10,12 +10,15 @@ import com.quoders.apps.qmoves.data.DataLoadingStatus
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.source.TransportRepository
 
 
 /**
  *  ViewModel of Stops page
  */
-class StopsViewModel (val transport: Transport, val line: Line) : ViewModel() {
+class StopsViewModel (private val transport: Transport, private val line: Line,
+                      private val repository: TransportRepository
+) : ViewModel() {
 
     // Stop items to be listed in the page
     private val _stops = MutableLiveData<List<Stop>>()

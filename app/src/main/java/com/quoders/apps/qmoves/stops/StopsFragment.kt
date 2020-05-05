@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
+import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
-import com.quoders.apps.qmoves.lines.LinesFragmentArgs
 import com.quoders.apps.qmoves.tools.setupSnackbar
 import com.quoders.apps.qmoves.tools.showSnackbar
 
@@ -35,8 +35,11 @@ class StopsFragment : Fragment(){
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_stops,container, false)
 
+        val application = requireNotNull(this.activity).application
+        val viewModelFactory = StopsViewModelFactory(args.transport, args.line,
+            TransportRepositoryFactory.getInstance(application))
 
-        viewModel = ViewModelProvider(this, StopsViewModelFactory(args.transport, args.line)).get(
+        viewModel = ViewModelProvider(this, viewModelFactory).get(
             StopsViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner

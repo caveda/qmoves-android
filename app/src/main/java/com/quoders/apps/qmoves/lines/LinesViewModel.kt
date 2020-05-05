@@ -14,9 +14,7 @@ import kotlinx.coroutines.launch
 /**
  *  ViewModel of Lines page
  */
-class LinesViewModel (val transport: Transport) : ViewModel() {
-
-    private val transportRepository: TransportRepository = transport.repository
+class LinesViewModel (private val transport: Transport, private val repository: TransportRepository) : ViewModel() {
 
     private val _transportName = MutableLiveData<String>()
     val transportName : LiveData<String> = _transportName
@@ -53,7 +51,7 @@ class LinesViewModel (val transport: Transport) : ViewModel() {
     private fun loadLines() {
         _dataLoading.value = DataLoadingStatus.LOADING
         viewModelScope.launch {
-            val result = transportRepository.getLines(transport)
+            val result = repository.getLines(transport)
             if (result is Result.Success) {
                 _lines.value = result.data
                 _dataLoading.value = DataLoadingStatus.DONE

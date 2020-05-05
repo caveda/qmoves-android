@@ -46,7 +46,7 @@ class HomeViewModel(private val transportRepository: TransportRepository): ViewM
         viewModelScope.launch {
             try {
                 _dataLoading.value = DataLoadingStatus.LOADING
-                transportRepository.getLines(Transport("bus"))
+                transportRepository.getLines(_transport.value!!)
                 _dataLoading.value = DataLoadingStatus.DONE
                 showSnackbarMessage(R.string.update_successful)
             } catch (e: Exception) {

@@ -12,8 +12,9 @@ import com.quoders.apps.qmoves.data.source.remote.RemoteLine
 import com.quoders.apps.qmoves.data.source.remote.RemoteTransportService
 import timber.log.Timber
 
-class TransportRepositoryImpl (val dbSource: TransportDatabaseDao,
-                               val remoteSource: RemoteTransportService): TransportRepository {
+class TransportRepositoryImpl (
+    private val dbSource: TransportDatabaseDao,
+    private val remoteSource: RemoteTransportService): TransportRepository {
 
     var checkRemoteUpdatesDone: Boolean = false
 
