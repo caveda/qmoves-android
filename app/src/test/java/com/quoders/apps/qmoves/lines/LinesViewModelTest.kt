@@ -46,14 +46,13 @@ class LinesViewModelTest {
 
         // Basic training
         every { mockTransport.name} returns transportName
-        every { mockTransport.repository } returns mockRepository
         coEvery { mockRepository.getLines(mockTransport)} returns Result.Success(listOf())
     }
 
     @Test
     fun navigateToStops_invoked_navigateEventSet() = runBlockingTest {
         // Given
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
         val line = Line("I1", "01", "orig-dest", Line.Direction.FORWARD, false)
 
         // When
@@ -67,7 +66,7 @@ class LinesViewModelTest {
     @Test
     fun getLines_noLinesInRepository_linesIsEmpty() = runBlockingTest {
         // When
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.lines.getOrAwaitValue()
@@ -80,7 +79,7 @@ class LinesViewModelTest {
         coEvery { mockRepository.getLines(mockTransport) } returns Result.Success(MoqLinesData.validLineList)
 
         // When
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val expectedLines =
@@ -96,7 +95,7 @@ class LinesViewModelTest {
         coEvery { mockRepository.getLines(mockTransport) } returns Result.Error(Exception("loading error"))
 
         // When
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.lines.getOrAwaitValue()
@@ -106,7 +105,7 @@ class LinesViewModelTest {
     @Test
     fun getTransportName_validTransport_transportObjectNameReturned() = runBlockingTest {
         // Given
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         assertThat(sut.transportName.getOrAwaitValue()).isEqualTo(transportName)
@@ -115,7 +114,7 @@ class LinesViewModelTest {
     @Test
     fun getEmpty_noLinesInRepository_emptyIsTrue() = runBlockingTest {
         // When
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.empty.getOrAwaitValue()
@@ -128,7 +127,7 @@ class LinesViewModelTest {
         coEvery { mockRepository.getLines(mockTransport) } returns Result.Error(Exception("loading error"))
 
         // When
-        sut =LinesViewModel(mockTransport)
+        sut =LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.snackbarText.getOrAwaitValue()
@@ -141,7 +140,7 @@ class LinesViewModelTest {
         coEvery { mockRepository.getLines(mockTransport) } returns Result.Error(Exception("loading error"))
 
         // When
-        sut =LinesViewModel(mockTransport)
+        sut =LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.dataLoading.getOrAwaitValue()
@@ -154,7 +153,7 @@ class LinesViewModelTest {
         coEvery { mockRepository.getLines(mockTransport) } returns Result.Success(MoqLinesData.validLineList)
 
         // When
-        sut =LinesViewModel(mockTransport)
+        sut =LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.dataLoading.getOrAwaitValue()
