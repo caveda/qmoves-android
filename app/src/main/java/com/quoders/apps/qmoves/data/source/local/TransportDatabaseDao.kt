@@ -8,11 +8,6 @@ import androidx.room.Transaction
 @Dao
 interface TransportDatabaseDao {
 
-    @Transaction
-    suspend fun populateAgencyLines (agency: String, line : List<DBLine>) {
-
-    }
-
     @Insert
     suspend fun insertAll(line : List<DBLine>)
 

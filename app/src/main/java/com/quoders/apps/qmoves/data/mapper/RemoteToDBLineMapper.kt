@@ -1,4 +1,5 @@
 package com.quoders.apps.qmoves.data.mapper
+import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.local.DBLine
 import com.quoders.apps.qmoves.data.source.local.DBLocation
 import com.quoders.apps.qmoves.data.source.local.DBSchedule
@@ -11,13 +12,13 @@ import com.quoders.apps.qmoves.data.source.remote.RemoteStop
 /***
  *  Mapper class that transforms RemoteLine instance into a DBLine instance
  */
-class RemoteToDBLineMapper: Mapper<RemoteLine, DBLine>{
+class RemoteToDBLineMapper (val transport: Transport): Mapper<RemoteLine, DBLine>{
 
     override fun map(input: RemoteLine): DBLine {
         return DBLine(
             code = input.code,
             agencyId = input.agencyId,
-            transportName = "fix me",
+            transportName = transport.name,
             name = input.name,
             direction = input.direction,
             isNightLine = input.isNightLine)

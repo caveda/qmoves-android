@@ -33,7 +33,6 @@ class FirebaseClient(private val config: FirebaseClientConfig){
             Timber.w("fetchLines: Firebase could not be initialized.")
             return Result.Error(Exception("Error initializing Firebase"))
         }
-
         return downloadTransportData(transport)
     }
 
@@ -51,13 +50,26 @@ class FirebaseClient(private val config: FirebaseClientConfig){
     }
 
     private suspend fun initializeFirebase(): Boolean {
-        auth = FirebaseAuth.getInstance()
-        storage = FirebaseStorage.getInstance()
-        var authenticated = false
+        if (!this::auth.isInitialized) {
+            auth = FirebaseAuth.getInstance()
+            auth.addAuthStateListener {
+                if (it.currentUser!=null)
+                    user = it.currentUser!!
+                Timber.i("initializeFirebase: User is anonymous: ${it.currentUser?.isAnonymous}")
+            }
+        }
+        if (!this::storage.isInitialized)
+            storage = FirebaseStorage.getInstance()
 
-        if (auth.currentUser!=null)
-            authenticated = authenticateUser(auth) !=null
-
+        var authenticated: Boolean
+        if (!this::user.isInitialized || user.isAnonymous) {
+            Timber.i("initializeFirebase: User not authenticated.")
+            authenticated = authenticateUser(auth) != null
+        }
+        else {
+            Timber.i("initializeFirebase: User is already authenticated: ${user.displayName}")
+            authenticated = true
+        }
         return authenticated
     }
 
@@ -68,19 +80,21 @@ class FirebaseClient(private val config: FirebaseClientConfig){
             metadataRef.getFile(localTempFile).await()
             TransitFileLoader.loadContentFile(localTempFile.absolutePath)
         }catch (e : Exception){
-            Timber.w("downloadTransportData: failure ${e.message}")
+            Timber.e("downloadTransportData: failure ${e.message}")
             Result.Error(e)
         }
     }
 
     private suspend fun authenticateUser(auth: FirebaseAuth): AuthResult? {
         return try{
+            Timber.i("authenticateUser: Authenticating...")
             val authToken = getAuthToken().await()
             val data = auth
                 .signInWithCustomToken(authToken.token)
                 .await()
             data
         }catch (e : Exception){
+            Timber.e("authenticateUser: exception catched ${e.message}")
             null
         }
     }
@@ -100,7 +114,7 @@ class FirebaseClient(private val config: FirebaseClientConfig){
             Timber.w("isNewDataAvailable: ${newDataAvailable}")
             Result.Success(newDataAvailable)
         }catch (e : Exception){
-            Timber.w("isNewDataAvailable: failure ${e.message}")
+            Timber.e("isNewDataAvailable: failure ${e.message}")
             Result.Error(e)
         }
     }

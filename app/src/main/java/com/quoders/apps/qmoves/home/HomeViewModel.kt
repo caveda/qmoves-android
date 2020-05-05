@@ -10,6 +10,7 @@ import com.quoders.apps.qmoves.data.DataLoadingStatus
 import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.TransportRepository
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * Viewmodel of the Home page
@@ -47,8 +48,9 @@ class HomeViewModel(private val transportRepository: TransportRepository): ViewM
                 _dataLoading.value = DataLoadingStatus.LOADING
                 transportRepository.getLines(Transport("bus"))
                 _dataLoading.value = DataLoadingStatus.DONE
+                showSnackbarMessage(R.string.update_successful)
             } catch (e: Exception) {
-                val error = e.message
+                Timber.e("updateTransitData: Exception catched: ${e.message}")
                 _dataLoading.value = DataLoadingStatus.ERROR
                 showSnackbarMessage(R.string.error_update_remote)
             }
@@ -58,17 +60,4 @@ class HomeViewModel(private val transportRepository: TransportRepository): ViewM
     private fun showSnackbarMessage(message: Int) {
         _snackbarText.value = Event(message)
     }
-/*
-    private fun handleUpdateResult(r: Result<List<RemoteLine>>) {
-        if (r is Result.Success) {
-            val newRepo = FakeTransportRepository()
-            newRepo.setLines(r.data)
-            _transport.value!!.repository = newRepo
-            _dataLoading.value = DataLoadingStatus.DONE
-            showSnackbarMessage(R.string.update_successful)
-        } else {
-            _dataLoading.value = DataLoadingStatus.ERROR
-            showSnackbarMessage(R.string.error_update_remote)
-        }
-    }*/
 }
