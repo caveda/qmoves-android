@@ -53,7 +53,7 @@ class LinesViewModelTest {
     fun navigateToStops_invoked_navigateEventSet() = runBlockingTest {
         // Given
         sut = LinesViewModel(mockTransport, mockRepository)
-        val line = Line("I1", "01", "orig-dest", Line.Direction.FORWARD, false)
+        val line = Line(0,"I1", "01", "orig-dest", Line.Direction.FORWARD, false)
 
         // When
         sut.navigateToStops(line)
