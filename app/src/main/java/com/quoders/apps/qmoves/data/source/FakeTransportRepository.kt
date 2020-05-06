@@ -18,6 +18,10 @@ class FakeTransportRepository : TransportRepository{
         return Result.Success(data)
     }
 
+    override suspend fun getLineStops(line: Line): Result<List<Stop>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private fun generateFakeLines(): List<Line> {
         val lines = mutableListOf<Line>()
         (1..30)

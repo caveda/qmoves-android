@@ -18,6 +18,7 @@ class DBLineMapper: Mapper<DBLine,Line>{
 
     override fun map(input: DBLine): Line {
         return  Line(
+            uuid = input.lineId,
             code = input.code,
             agencyId = input.agencyId,
             name = input.name,

@@ -9,12 +9,14 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class Line (
+    val uuid: Long = 0L,
     val code: String,
     val agencyId: String,
     val name: String,
     val direction: Direction = Direction.FORWARD,
     val isNightLine: Boolean)
     : Parcelable {
+
 
     var stops: List<Stop> = listOf()
 

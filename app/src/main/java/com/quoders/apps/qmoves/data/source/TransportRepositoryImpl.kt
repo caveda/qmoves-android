@@ -3,8 +3,10 @@ package com.quoders.apps.qmoves.data.source
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.data.Result.Success
+import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.mapper.DBLineMapper
+import com.quoders.apps.qmoves.data.mapper.DBStopMapper
 import com.quoders.apps.qmoves.data.mapper.ListMapperImpl
 import com.quoders.apps.qmoves.data.mapper.RemoteToDBLineMapper
 import com.quoders.apps.qmoves.data.source.local.TransportDatabaseDao
@@ -24,6 +26,12 @@ class TransportRepositoryImpl (
         val result = dbSource.getLines(transport.name)
         val mapper = ListMapperImpl(DBLineMapper())
         return Result.Success(mapper.map(result))
+    }
+
+    override suspend fun getLineStops(line: Line): Result<List<Stop>> {
+        val queryResult = dbSource.getLineWithStops(line.uuid)
+        val mapper = ListMapperImpl(DBStopMapper())
+        return Result.Success(mapper.map(queryResult.stops))
     }
 
 
@@ -59,6 +67,6 @@ class TransportRepositoryImpl (
     private suspend fun updateDbWithRemoteData(transport: Transport, lines: List<RemoteLine>) {
         val mapper = ListMapperImpl(RemoteToDBLineMapper(transport))
         val dbLines = mapper.map(lines)
-        dbSource.insertAll(dbLines)
+        dbSource.insertUpdateTransportData(transport.name, dbLines)
     }
 }

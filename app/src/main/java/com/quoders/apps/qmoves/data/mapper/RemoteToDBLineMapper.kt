@@ -1,9 +1,6 @@
 package com.quoders.apps.qmoves.data.mapper
 import com.quoders.apps.qmoves.data.Transport
-import com.quoders.apps.qmoves.data.source.local.DBLine
-import com.quoders.apps.qmoves.data.source.local.DBLocation
-import com.quoders.apps.qmoves.data.source.local.DBSchedule
-import com.quoders.apps.qmoves.data.source.local.DBStop
+import com.quoders.apps.qmoves.data.source.local.*
 import com.quoders.apps.qmoves.data.source.remote.RemoteLine
 import com.quoders.apps.qmoves.data.source.remote.RemoteLocation
 import com.quoders.apps.qmoves.data.source.remote.RemoteSchedule
@@ -12,16 +9,21 @@ import com.quoders.apps.qmoves.data.source.remote.RemoteStop
 /***
  *  Mapper class that transforms RemoteLine instance into a DBLine instance
  */
-class RemoteToDBLineMapper (val transport: Transport): Mapper<RemoteLine, DBLine>{
+class RemoteToDBLineMapper (val transport: Transport): Mapper<RemoteLine, DBFullLine>{
+    private val stopsMapper = ListMapperImpl(RemoteToDBStopMapper())
+    private val routeMapper = ListMapperImpl(RemoteToDBRouteMapper())
 
-    override fun map(input: RemoteLine): DBLine {
-        return DBLine(
-            code = input.code,
-            agencyId = input.agencyId,
-            transportName = transport.name,
-            name = input.name,
-            direction = input.direction,
-            isNightLine = input.isNightLine)
+    override fun map(input: RemoteLine): DBFullLine {
+        return DBFullLine(
+            DBLine(code = input.code,
+                    agencyId = input.agencyId,
+                    transportName = transport.name,
+                    name = input.name,
+                    direction = input.direction,
+                    isNightLine = input.isNightLine),
+            stopsMapper.map(input.stops),
+            routeMapper.map(input.route)
+        )
     }
 }
 
@@ -67,5 +69,16 @@ class RemoteToDBScheduleMapper: Mapper<RemoteSchedule, DBSchedule> {
             saturday = input.saturday,
             friday = null,
             monday2Tuesday = null)
+    }
+}
+
+/***
+ *  Mapper class that transforms RemoteLocation objects into DBLocation
+ */
+class RemoteToDBRouteMapper: Mapper<RemoteLocation, DBRouteLocation> {
+    override fun map(input: RemoteLocation): DBRouteLocation {
+        return  DBRouteLocation(
+            location = DBLocation(input.lat, input.long)
+        )
     }
 }
