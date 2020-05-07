@@ -46,7 +46,7 @@ class DBLocationMapper: Mapper<DBLocation, Location> {
     override fun map(input: DBLocation): Location {
         return  Location(
             lat = input.lat,
-            long = input.long
+            long = input.lng
         )
     }
 }
@@ -72,7 +72,7 @@ class DBRouteLocationMapper: Mapper<DBRouteLocation, Location> {
     override fun map(input: DBRouteLocation): Location {
         return  Location(
             lat = input.location.lat,
-            long = input.location.long
+            long = input.location.lng
         )
     }
 }

@@ -45,4 +45,4 @@ data class DBSchedule (
  */
 data class DBLocation (
     var lat: Double = .0,
-    var long: Double = .0)
+    var lng: Double = .0)

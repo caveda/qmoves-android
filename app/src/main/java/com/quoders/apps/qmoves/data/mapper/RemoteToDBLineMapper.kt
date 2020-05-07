@@ -52,7 +52,7 @@ class RemoteToDBLocationMapper: Mapper<RemoteLocation, DBLocation> {
     override fun map(input: RemoteLocation): DBLocation {
         return  DBLocation(
             lat = input.lat,
-            long = input.long
+            lng = input.long
         )
     }
 }
