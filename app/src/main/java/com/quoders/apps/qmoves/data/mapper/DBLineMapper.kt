@@ -3,18 +3,12 @@ import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Location
 import com.quoders.apps.qmoves.data.Schedule
 import com.quoders.apps.qmoves.data.Stop
-import com.quoders.apps.qmoves.data.source.local.DBLine
-import com.quoders.apps.qmoves.data.source.local.DBLocation
-import com.quoders.apps.qmoves.data.source.local.DBSchedule
-import com.quoders.apps.qmoves.data.source.local.DBStop
+import com.quoders.apps.qmoves.data.source.local.*
 
 /***
  *  Mapper class that transforms DBLine objects in domain entity Line
  */
 class DBLineMapper: Mapper<DBLine,Line>{
-
-    private val stopListMapper = ListMapperImpl(DBStopMapper())
-    private val locationListMapper = ListMapperImpl(DBLocationMapper())
 
     override fun map(input: DBLine): Line {
         return  Line(
@@ -68,5 +62,17 @@ class DBScheduleMapper: Mapper<DBSchedule, Schedule> {
             saturday = input.saturday,
             friday = null,
             monday2Tuesday = null)
+    }
+}
+
+/***
+ *  Mapper class that transforms DBRouteLocation objects in domain entity Location
+ */
+class DBRouteLocationMapper: Mapper<DBRouteLocation, Location> {
+    override fun map(input: DBRouteLocation): Location {
+        return  Location(
+            lat = input.location.lat,
+            long = input.location.long
+        )
     }
 }

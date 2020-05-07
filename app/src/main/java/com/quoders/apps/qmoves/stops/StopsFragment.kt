@@ -36,7 +36,7 @@ class StopsFragment : Fragment(){
             R.layout.fragment_stops,container, false)
 
         val application = requireNotNull(this.activity).application
-        val viewModelFactory = StopsViewModelFactory(args.transport, args.line,
+        val viewModelFactory = StopsViewModelFactory(args.line,
             TransportRepositoryFactory.getInstance(application))
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(

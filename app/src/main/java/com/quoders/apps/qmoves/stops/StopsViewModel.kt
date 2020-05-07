@@ -3,7 +3,10 @@ package com.quoders.apps.qmoves.stops
 import androidx.lifecycle.*
 import com.quoders.apps.qmoves.Event
 import com.quoders.apps.qmoves.R
-import com.quoders.apps.qmoves.data.*
+import com.quoders.apps.qmoves.data.DataLoadingStatus
+import com.quoders.apps.qmoves.data.Line
+import com.quoders.apps.qmoves.data.Result
+import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.source.TransportRepository
 import kotlinx.coroutines.launch
 
@@ -11,7 +14,7 @@ import kotlinx.coroutines.launch
 /**
  *  ViewModel of Stops page
  */
-class StopsViewModel (private val transport: Transport, private val line: Line,
+class StopsViewModel (private val line: Line,
                       private val repository: TransportRepository
 ) : ViewModel() {
 

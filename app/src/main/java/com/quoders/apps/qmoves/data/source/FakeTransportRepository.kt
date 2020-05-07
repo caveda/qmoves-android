@@ -22,6 +22,10 @@ class FakeTransportRepository : TransportRepository{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun getRoute(line: Line): Result<List<Location>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private fun generateFakeLines(): List<Line> {
         val lines = mutableListOf<Line>()
         (1..30)

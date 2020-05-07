@@ -1,9 +1,6 @@
 package com.quoders.apps.qmoves.data.source
 
-import com.quoders.apps.qmoves.data.Line
-import com.quoders.apps.qmoves.data.Result
-import com.quoders.apps.qmoves.data.Stop
-import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.*
 
 /**
  Interface to query transport information
@@ -20,4 +17,8 @@ interface TransportRepository {
      */
     suspend fun getLineStops(line: Line): Result<List<Stop>>
 
+    /**
+     * Returns the route of a line
+     */
+    suspend fun getRoute(line: Line): Result<List<Location>>
 }
