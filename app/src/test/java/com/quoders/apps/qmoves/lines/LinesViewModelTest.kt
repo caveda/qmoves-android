@@ -76,14 +76,14 @@ class LinesViewModelTest {
     @Test
     fun getLines_validLineListInRepository_OnlyForwardLinesReturned() = runBlockingTest {
         // Given
-        coEvery { mockRepository.getLines(mockTransport) } returns Result.Success(MoqLinesData.validLineList)
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Success(TestDataLines.validLineList)
 
         // When
         sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val expectedLines =
-            MoqLinesData.validLineList.filter { line -> line.direction == Line.Direction.FORWARD }
+            TestDataLines.validLineList.filter { line -> line.direction == Line.Direction.FORWARD }
         val value = sut.lines.getOrAwaitValue()
         assertThat(value).hasSize(expectedLines.size)
         assertThat(value).isEqualTo(expectedLines)
@@ -150,7 +150,7 @@ class LinesViewModelTest {
     @Test
     fun getDataLoading_linesLoaded_dataLoadingIsDone() {
         // Given
-        coEvery { mockRepository.getLines(mockTransport) } returns Result.Success(MoqLinesData.validLineList)
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Success(TestDataLines.validLineList)
 
         // When
         sut =LinesViewModel(mockTransport, mockRepository)

@@ -5,7 +5,7 @@ import com.quoders.apps.qmoves.data.Line
 /**
  * Mocked data to use in tests involving Line lists
  */
-class MoqLinesData {
+class TestDataLines {
 
     companion object {
         val validLineList = listOf(
