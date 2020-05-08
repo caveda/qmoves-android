@@ -1,21 +1,22 @@
 package com.quoders.apps.qmoves.stops
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.quoders.apps.qmoves.Event
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.DataLoadingStatus
 import com.quoders.apps.qmoves.data.Line
+import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.data.Stop
-import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.source.TransportRepository
+import kotlinx.coroutines.launch
 
 
 /**
  *  ViewModel of Stops page
  */
-class StopsViewModel (val transport: Transport, val line: Line) : ViewModel() {
+class StopsViewModel (private val line: Line,
+                      private val repository: TransportRepository
+) : ViewModel() {
 
     // Stop items to be listed in the page
     private val _stops = MutableLiveData<List<Stop>>()
@@ -43,14 +44,17 @@ class StopsViewModel (val transport: Transport, val line: Line) : ViewModel() {
     }
 
     private fun loadStops() {
-        _dataLoading.value = DataLoadingStatus.LOADING
-        if (line.stops.isNotEmpty()) {
-            _stops.value = line.stops
-            _dataLoading.value = DataLoadingStatus.DONE
-        }
-        else {
-            _dataLoading.value = DataLoadingStatus.ERROR
-            showSnackbarMessage(R.string.error_loading_stops)
+        viewModelScope.launch {
+            _dataLoading.value = DataLoadingStatus.LOADING
+            val result = repository.getLineStops(line)
+            if (result is Result.Success) {
+                _stops.value = result.data
+                _dataLoading.value = DataLoadingStatus.DONE
+            }
+            else {
+                _dataLoading.value = DataLoadingStatus.ERROR
+                showSnackbarMessage(R.string.error_loading_stops)
+            }
         }
     }
 

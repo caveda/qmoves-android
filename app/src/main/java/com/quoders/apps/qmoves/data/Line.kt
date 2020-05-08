@@ -1,26 +1,31 @@
 package com.quoders.apps.qmoves.data
 
 import android.os.Parcelable
-import com.squareup.moshi.Json
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 /**
- Data class representing a line of a transit
+ Data class representing domain entity: line of a transport
  */
 @Parcelize
-//@JsonClass(generateAdapter = true)
 data class Line (
-    @Json(name = "Id") val id: String,
-    @Json(name = "AgencyId") val agencyId: String,
-    @Json(name = "Name") val name: String,
-    @Json(name = "Dir") val direction: Direction,
-    @Json(name = "Night") val isNightLine: Boolean,
-    @Json(name = "Stops") val stops: MutableList<Stop> = mutableListOf<Stop>(),
-    @Json(name = "Map") val route: MutableList<Location> = mutableListOf<Location>()): Parcelable {
+    val uuid: Long = 0L,
+    val code: String,
+    val agencyId: String,
+    val name: String,
+    val direction: Direction = Direction.FORWARD,
+    val isNightLine: Boolean)
+    : Parcelable {
 
-    val uniqueId : String
-        get() = agencyId + direction.code
 
+    var stops: List<Stop> = listOf()
+
+    var route: List<Location> = listOf()
+
+    @IgnoredOnParcel
+    val uniqueId : String = agencyId + direction.code
+
+    @IgnoredOnParcel
     val type : LineType = if (isNightLine) LineType.NIGHT else LineType.REGULAR
 
     enum class Direction (val direction: String, val code: String){

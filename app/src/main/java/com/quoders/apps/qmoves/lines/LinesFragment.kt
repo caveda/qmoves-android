@@ -13,11 +13,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
+import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentLinesBinding
-import com.quoders.apps.qmoves.home.HomeFragmentDirections
-import com.quoders.apps.qmoves.home.HomeViewModel
 import com.quoders.apps.qmoves.tools.setupSnackbar
-import com.quoders.apps.qmoves.tools.showSnackbar
 
 /**
  *  List of lines page
@@ -37,8 +35,11 @@ class LinesFragment : Fragment(){
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_lines,container, false)
 
+        val application = requireNotNull(this.activity).application
+        val viewModelFactory = LinesViewModelFactory(args.transport,
+            TransportRepositoryFactory.getInstance(application))
 
-        viewModel = ViewModelProvider(this, LinesViewModelFactory(args.transport)).get(LinesViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LinesViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 

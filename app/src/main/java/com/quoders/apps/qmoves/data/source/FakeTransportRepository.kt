@@ -11,11 +11,19 @@ class FakeTransportRepository : TransportRepository{
 
     private var data : List<Line> = listOf()
 
-    override suspend fun getLines(): Result<List<Line>>{
+    override suspend fun getLines(agency: Transport): Result<List<Line>>{
         if (data.isNotEmpty())
             return Result.Success(data)
         data=generateFakeLines()
         return Result.Success(data)
+    }
+
+    override suspend fun getLineStops(line: Line): Result<List<Stop>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override suspend fun getRoute(line: Line): Result<List<Location>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun generateFakeLines(): List<Line> {
@@ -35,28 +43,25 @@ class FakeTransportRepository : TransportRepository{
 
     private fun createLine(id: String, direction: Line.Direction): Line {
         val line =  Line (
-            id = id,
+            code = id,
             agencyId = id,
             name = if (direction== Line.Direction.FORWARD) "Origin $id - Destination $id"
                     else "Destination $id -Origin $id",
             direction = direction,
-            isNightLine = false
-            )
-        line.stops.addAll(createStops(line))
+            isNightLine = false)
+        line.stops = createStops(line.uniqueId)
         return line
     }
 
-    private fun createStops (line: Line) : List<Stop> {
+    private fun createStops (lineId: String) : List<Stop> {
         val stops = mutableListOf<Stop>()
         (1..Random.nextInt(10..20))
             .forEach{
                 val stop = Stop(
-                    Random.nextInt(1000..9999).toString(),
-                    "Stop $it of ${line.uniqueId}",
-                    generateSchedule(),
-                    generateLocation(it),
-                    null
-                )
+                    code = Random.nextInt(1000..9999).toString(),
+                    name = "Stop $it of ${lineId}",
+                    schedule = generateSchedule(),
+                    location = generateLocation(it))
                 stops.add(stop)
             }
         return stops
@@ -72,8 +77,8 @@ class FakeTransportRepository : TransportRepository{
 
     private fun generateLocation (i: Int): Location {
         return Location(
-            40.4378698 + (.001 * i),
-            -3.8196207 +  (.001 * i)
+            lat = 40.4378698 + (.001 * i),
+            long = -3.8196207 +  (.001 * i)
         )
     }
 }

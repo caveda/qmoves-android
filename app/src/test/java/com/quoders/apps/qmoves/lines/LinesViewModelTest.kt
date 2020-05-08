@@ -46,15 +46,14 @@ class LinesViewModelTest {
 
         // Basic training
         every { mockTransport.name} returns transportName
-        every { mockTransport.repository } returns mockRepository
-        coEvery { mockRepository.getLines()} returns Result.Success(listOf())
+        coEvery { mockRepository.getLines(mockTransport)} returns Result.Success(listOf())
     }
 
     @Test
     fun navigateToStops_invoked_navigateEventSet() = runBlockingTest {
         // Given
-        sut = LinesViewModel(mockTransport)
-        val line = Line("I1", "01", "orig-dest", Line.Direction.FORWARD, false)
+        sut = LinesViewModel(mockTransport, mockRepository)
+        val line = Line(0,"I1", "01", "orig-dest", Line.Direction.FORWARD, false)
 
         // When
         sut.navigateToStops(line)
@@ -67,7 +66,7 @@ class LinesViewModelTest {
     @Test
     fun getLines_noLinesInRepository_linesIsEmpty() = runBlockingTest {
         // When
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.lines.getOrAwaitValue()
@@ -77,14 +76,14 @@ class LinesViewModelTest {
     @Test
     fun getLines_validLineListInRepository_OnlyForwardLinesReturned() = runBlockingTest {
         // Given
-        coEvery { mockRepository.getLines() } returns Result.Success(MoqLinesData.validLineList)
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Success(TestDataLines.validLineList)
 
         // When
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val expectedLines =
-            MoqLinesData.validLineList.filter { line -> line.direction == Line.Direction.FORWARD }
+            TestDataLines.validLineList.filter { line -> line.direction == Line.Direction.FORWARD }
         val value = sut.lines.getOrAwaitValue()
         assertThat(value).hasSize(expectedLines.size)
         assertThat(value).isEqualTo(expectedLines)
@@ -93,10 +92,10 @@ class LinesViewModelTest {
     @Test
     fun getLines_errorLoadingLines_emptyLinesList() = runBlockingTest {
         // Given
-        coEvery { mockRepository.getLines() } returns Result.Error(Exception("loading error"))
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Error(Exception("loading error"))
 
         // When
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.lines.getOrAwaitValue()
@@ -106,7 +105,7 @@ class LinesViewModelTest {
     @Test
     fun getTransportName_validTransport_transportObjectNameReturned() = runBlockingTest {
         // Given
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         assertThat(sut.transportName.getOrAwaitValue()).isEqualTo(transportName)
@@ -115,7 +114,7 @@ class LinesViewModelTest {
     @Test
     fun getEmpty_noLinesInRepository_emptyIsTrue() = runBlockingTest {
         // When
-        sut = LinesViewModel(mockTransport)
+        sut = LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.empty.getOrAwaitValue()
@@ -125,10 +124,10 @@ class LinesViewModelTest {
     @Test
     fun getSnackbarText_errorLoadingLines_snackBarTextSetWithError() = runBlockingTest {
         // Given
-        coEvery { mockRepository.getLines() } returns Result.Error(Exception("loading error"))
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Error(Exception("loading error"))
 
         // When
-        sut =LinesViewModel(mockTransport)
+        sut =LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.snackbarText.getOrAwaitValue()
@@ -138,10 +137,10 @@ class LinesViewModelTest {
     @Test
     fun getDataLoading_errorLoadingLines_dataLoadingIsError() {
         // Given
-        coEvery { mockRepository.getLines() } returns Result.Error(Exception("loading error"))
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Error(Exception("loading error"))
 
         // When
-        sut =LinesViewModel(mockTransport)
+        sut =LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.dataLoading.getOrAwaitValue()
@@ -151,10 +150,10 @@ class LinesViewModelTest {
     @Test
     fun getDataLoading_linesLoaded_dataLoadingIsDone() {
         // Given
-        coEvery { mockRepository.getLines() } returns Result.Success(MoqLinesData.validLineList)
+        coEvery { mockRepository.getLines(mockTransport) } returns Result.Success(TestDataLines.validLineList)
 
         // When
-        sut =LinesViewModel(mockTransport)
+        sut =LinesViewModel(mockTransport, mockRepository)
 
         // Then
         val value = sut.dataLoading.getOrAwaitValue()

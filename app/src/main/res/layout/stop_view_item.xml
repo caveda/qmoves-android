@@ -27,7 +27,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@{stop.id}"
+            android:text="@{stop.code}"
             android:textAlignment="viewEnd"
             android:textColor="@android:color/primary_text_light"
             android:textSize="48sp"
