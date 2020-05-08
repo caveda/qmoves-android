@@ -50,8 +50,17 @@ class TestDataDao{
             Stop( "102", "Stop2",  defaultSchedule, defaultLocation,""),
             Stop( "103", "Stop3",  defaultSchedule, defaultLocation,""))
 
-        val validDBFullLine = LineWithStops (
+        val validDBLineWithStops= LineWithStops (
                 line = validSingleDBLine,
                 stops = validListDBStops)
+
+        private val validDBRoute = MutableList(4) { i ->
+            DBRouteLocation((i+1).toLong(),1,defaultDBLocation)}
+
+        val validRoute = MutableList(4) {_ -> defaultLocation}
+
+        val validDBLineWithRoute = LineWithRoute (
+            line = validSingleDBLine,
+            route = validDBRoute)
     }
 }

@@ -80,7 +80,7 @@ class TransportRepositoryTest {
     fun getStops_DatabaseReturnedDBStopsOfLine_successWithNonEmptyListOfStops() = runBlockingTest {
         // Given
         val line = TestDataDao.validLineList[0]
-        coEvery { mockDaoTransport.getLineWithStops(line.uuid) } returns TestDataDao.validDBFullLine
+        coEvery { mockDaoTransport.getLineWithStops(line.uuid) } returns TestDataDao.validDBLineWithStops
         val expectedStops = TestDataDao.validListStops
 
         // When
@@ -91,5 +91,22 @@ class TransportRepositoryTest {
         val returnedStops = (resultStops as Result.Success).data
         Truth.assertThat(returnedStops).hasSize(expectedStops.size)
         Truth.assertThat(returnedStops).isEqualTo(expectedStops)
+    }
+
+    @Test
+    fun getRoute_DatabaseReturnedDBRouteOfLine_successWithNonEmptyListOfLocations() = runBlockingTest {
+        // Given
+        val line = TestDataDao.validLineList[0]
+        coEvery { mockDaoTransport.getLineWithRoute(line.uuid) } returns TestDataDao.validDBLineWithRoute
+        val expectedRoute = TestDataDao.validRoute
+
+        // When
+        val resultRoute = sut.getRoute(line)
+
+        // Then
+        Truth.assertThat(resultRoute.succeeded)
+        val returnedRoute = (resultRoute as Result.Success).data
+        Truth.assertThat(returnedRoute).hasSize(expectedRoute.size)
+        Truth.assertThat(returnedRoute).isEqualTo(expectedRoute)
     }
 }
