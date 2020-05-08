@@ -60,8 +60,8 @@ class DBScheduleMapper: Mapper<DBSchedule, Schedule> {
             workingDays = input.workingDays,
             sunday = input.sunday,
             saturday = input.saturday,
-            friday = null,
-            monday2Tuesday = null)
+            friday = input.friday,
+            monday2Tuesday = input.monday2Tuesday)
     }
 }
 

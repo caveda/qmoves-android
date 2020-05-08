@@ -6,10 +6,7 @@ import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.local.TransportDatabaseDao
 import com.quoders.apps.qmoves.data.source.remote.RemoteTransportService
 import com.quoders.apps.qmoves.data.succeeded
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.every
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
@@ -59,5 +56,40 @@ class TransportRepositoryTest {
         val returnedLines = (resultLines as Result.Success).data
         Truth.assertThat(returnedLines).hasSize(expectedLines.size)
         Truth.assertThat(returnedLines).isEqualTo(expectedLines)
+    }
+
+    @Test
+    fun getLines_newRemoteData_remoteDataInsertedInDatabase() = runBlockingTest {
+        // Given
+        coEvery { mockRemoteTransport.isNewDataAvailable(mockTransport) } returns Result.Success(true)
+        coEvery { mockRemoteTransport.fetchLines(mockTransport) } returns Result.Success(TestDataRemote.validRemoteLines)
+        coEvery { mockDaoTransport.getLines(defaultTransportName) } returns TestDataDao.validDBLineList
+        coEvery { mockDaoTransport.insertUpdateTransportData(defaultTransportName, any()) } just Runs
+
+        // When
+        sut.getLines(mockTransport)
+
+        // Then
+        coVerify { mockDaoTransport.insertUpdateTransportData(defaultTransportName, match {
+            it.size == TestDataRemote.validRemoteLines.size
+            })
+        }
+    }
+
+    @Test
+    fun getStops_DatabaseReturnedDBStopsOfLine_successWithNonEmptyListOfStops() = runBlockingTest {
+        // Given
+        val line = TestDataDao.validLineList[0]
+        coEvery { mockDaoTransport.getLineWithStops(line.uuid) } returns TestDataDao.validDBFullLine
+        val expectedStops = TestDataDao.validListStops
+
+        // When
+        val resultStops = sut.getLineStops(line)
+
+        // Then
+        Truth.assertThat(resultStops.succeeded)
+        val returnedStops = (resultStops as Result.Success).data
+        Truth.assertThat(returnedStops).hasSize(expectedStops.size)
+        Truth.assertThat(returnedStops).isEqualTo(expectedStops)
     }
 }
