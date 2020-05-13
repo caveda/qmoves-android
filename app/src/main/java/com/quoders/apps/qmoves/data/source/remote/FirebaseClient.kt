@@ -8,11 +8,13 @@ import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.data.Transport
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.io.File
+import java.lang.reflect.Type
 
 /**
  * Firebase client class that interacts with Firebase to authenticate and
@@ -75,9 +77,9 @@ class FirebaseClient(private val config: FirebaseClientConfig){
 
     private suspend fun downloadTransportData (transport: Transport): Result<List<RemoteLine>> {
         return try {
-            var metadataRef = storage.reference.child(transport.dataPath)
+            var dataRef = storage.reference.child(transport.dataPath)
             val localTempFile = File.createTempFile( "${transport.name}_alldata", "zip")
-            metadataRef.getFile(localTempFile).await()
+            dataRef.getFile(localTempFile).await()
             TransitFileLoader.loadContentFile(localTempFile.absolutePath)
         }catch (e : Exception){
             Timber.e("downloadTransportData: failure ${e.message}")
@@ -128,5 +130,60 @@ class FirebaseClient(private val config: FirebaseClientConfig){
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
         val adapter: JsonAdapter<RemoteMetadata> = moshi.adapter(RemoteMetadata::class.java)
         return adapter.fromJson(content)
+    }
+
+    private fun parseTransportsList (content: String): Result<List<RemoteTransport>> {
+        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+        val listMyData: Type = Types.newParameterizedType(
+            MutableList::class.java,
+            RemoteTransport::class.java
+        )
+        val adapter: JsonAdapter<List<RemoteTransport>> = moshi.adapter(listMyData)
+        try {
+            val transports = adapter.fromJson(content)
+            return Result.Success(transports!!)
+        }
+        catch (e: Exception) {
+            return Result.Error(e)
+        }
+    }
+
+    suspend fun fetchTransports(): Result<List<RemoteTransport>> {
+        val initialized= initializeFirebase()
+        if (!initialized) {
+            Timber.w("isNewDataAvailable: Firebase could not be initialized.")
+            return Result.Error(Exception("Error initializing Firebase"))
+        }
+
+        return downloadTransportsList(storage)
+    }
+
+    private suspend fun downloadTransportsList(storage: FirebaseStorage): Result<List<RemoteTransport>> {
+        var fetchedContentResult = fetchStorageJson(storage,config.storageTransportPath)
+        return if (fetchedContentResult is Result.Success) {
+            val parseTransportsList = parseTransportsList(fetchedContentResult.data)
+            parseTransportsList
+        } else
+        {
+            val error = fetchedContentResult as Result.Error
+            error
+        }
+    }
+
+    private suspend fun fetchStorageJson(storage: FirebaseStorage, path: String): Result<String> {
+        return try{
+            var metadataRef = storage.reference.child(path)
+            val bufferSize: Long = 32 * 1024
+            val content = metadataRef.getBytes(bufferSize).await()
+            return if (content!=null)
+                        Result.Success(content.toString(Charsets.UTF_8))
+                   else {
+                        Timber.w("fetchStorageJson: cannot download content of $path")
+                        Result.Error(Exception("Cannot get content of $path"))
+                    }
+        }catch (e : Exception){
+            Timber.e("fetchStorageJson: failure ${e.message}")
+            Result.Error(e)
+        }
     }
 }

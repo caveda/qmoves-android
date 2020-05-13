@@ -24,6 +24,10 @@ class RemoteTransportServiceImpl(context: Context): RemoteTransportService {
         return firebaseClient!!.fetchLines(transport)
     }
 
+    override suspend fun fetchTransports(): Result<List<RemoteTransport>>{
+        return firebaseClient!!.fetchTransports()
+    }
+
     private fun readFirebaseConfig(context: Context): FirebaseClientConfig {
         return FirebaseClientConfig(
                 funcUrl = context.getString(R.string.firebase_func_url),
