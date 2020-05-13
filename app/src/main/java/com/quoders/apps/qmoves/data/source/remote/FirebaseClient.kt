@@ -103,12 +103,11 @@ class FirebaseClient(private val config: FirebaseClientConfig){
 
     private suspend fun checkNewData (storage: FirebaseStorage, transport: Transport): Result<Boolean> {
         return try{
-            var metadataRef = storage.reference.child(transport.metadataPath)
-            val bufferSize: Long = 32 * 1024
-            val content = metadataRef.getBytes(bufferSize).await()
+            var metadataContentResult = fetchStorageJson(storage,transport.metadataPath)
             var newDataAvailable = false
-            content?.let {
-                val metadata = parseMetadata(it.toString(Charsets.UTF_8))
+            if (metadataContentResult is Result.Success)
+            {
+                val metadata = parseMetadata(metadataContentResult.data)
                 if (metadata != null) {
                     newDataAvailable = metadata.hash!="0"
                 }
@@ -151,7 +150,7 @@ class FirebaseClient(private val config: FirebaseClientConfig){
     suspend fun fetchTransports(): Result<List<RemoteTransport>> {
         val initialized= initializeFirebase()
         if (!initialized) {
-            Timber.w("isNewDataAvailable: Firebase could not be initialized.")
+            Timber.w("fetchTransports: Firebase could not be initialized.")
             return Result.Error(Exception("Error initializing Firebase"))
         }
 
