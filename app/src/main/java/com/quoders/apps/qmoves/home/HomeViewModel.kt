@@ -34,7 +34,13 @@ class HomeViewModel(private val transportRepository: TransportRepository): ViewM
     val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     init {
-        _transport.value = Transport(name = "Bus")
+        TODO("Transports must be fetched from remote source")
+        _transport.value = Transport(name = "Bus",
+            type = Transport.TransportType.BUS,
+            color = "#332211",
+            dataPath = "whatever/path",
+            metadataPath = "whatever/path",
+            newsFeed = "newsfeed")
         updateTransitData()
     }
 

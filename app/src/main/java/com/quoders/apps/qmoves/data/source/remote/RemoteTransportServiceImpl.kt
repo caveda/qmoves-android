@@ -28,8 +28,7 @@ class RemoteTransportServiceImpl(context: Context): RemoteTransportService {
         return FirebaseClientConfig(
                 funcUrl = context.getString(R.string.firebase_func_url),
                 funcHeaderValue = context.getString(R.string.firebase_func_header_value),
-                storageMetadataPath = context.getString(R.string.firebase_storage_metadata),
-                storageDataPath = context.getString(R.string.firebase_storage_data)
+                storageTransportPath = context.getString(R.string.firebase_transports_file)
             )
     }
 }

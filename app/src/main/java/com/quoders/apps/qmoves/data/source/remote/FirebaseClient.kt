@@ -46,7 +46,7 @@ class FirebaseClient(private val config: FirebaseClientConfig){
             return Result.Error(Exception("Error initializing Firebase"))
         }
 
-        return checkNewData(storage)
+        return checkNewData(storage, transport)
     }
 
     private suspend fun initializeFirebase(): Boolean {
@@ -75,7 +75,7 @@ class FirebaseClient(private val config: FirebaseClientConfig){
 
     private suspend fun downloadTransportData (transport: Transport): Result<List<RemoteLine>> {
         return try {
-            var metadataRef = storage.reference.child(config.storageDataPath)
+            var metadataRef = storage.reference.child(transport.dataPath)
             val localTempFile = File.createTempFile( "${transport.name}_alldata", "zip")
             metadataRef.getFile(localTempFile).await()
             TransitFileLoader.loadContentFile(localTempFile.absolutePath)
@@ -99,9 +99,9 @@ class FirebaseClient(private val config: FirebaseClientConfig){
         }
     }
 
-    private suspend fun checkNewData (storage: FirebaseStorage): Result<Boolean> {
+    private suspend fun checkNewData (storage: FirebaseStorage, transport: Transport): Result<Boolean> {
         return try{
-            var metadataRef = storage.reference.child(config.storageMetadataPath)
+            var metadataRef = storage.reference.child(transport.metadataPath)
             val bufferSize: Long = 32 * 1024
             val content = metadataRef.getBytes(bufferSize).await()
             var newDataAvailable = false

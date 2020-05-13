@@ -6,6 +6,5 @@ package com.quoders.apps.qmoves.data.source.remote
 data class FirebaseClientConfig (
     val funcUrl: String,
     val funcHeaderValue: String,
-    val storageMetadataPath: String,
-    val storageDataPath: String
+    val storageTransportPath: String
 )
