@@ -64,13 +64,13 @@ class TransportRepositoryTest {
         coEvery { mockRemoteTransport.isNewDataAvailable(mockTransport) } returns Result.Success(true)
         coEvery { mockRemoteTransport.fetchLines(mockTransport) } returns Result.Success(TestDataRemote.validRemoteLines)
         coEvery { mockDaoTransport.getLines(defaultTransportName) } returns TestDataDao.validDBLineList
-        coEvery { mockDaoTransport.insertUpdateTransportData(defaultTransportName, any()) } just Runs
+        coEvery { mockDaoTransport.insertUpdateLines(defaultTransportName, any()) } just Runs
 
         // When
         sut.getLines(mockTransport)
 
         // Then
-        coVerify { mockDaoTransport.insertUpdateTransportData(defaultTransportName, match {
+        coVerify { mockDaoTransport.insertUpdateLines(defaultTransportName, match {
             it.size == TestDataRemote.validRemoteLines.size
             })
         }

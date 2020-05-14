@@ -7,10 +7,10 @@ import timber.log.Timber
 interface TransportDatabaseDao {
 
     @Transaction
-    suspend fun insertUpdateTransportData (transport: String, data: List<DBFullLine>) {
+    suspend fun insertUpdateLines (transport: String, lines: List<DBFullLine>) {
         val deletedItems = deleteAllTransportLines(transport)
         Timber.d("insertUpdateTransportData: Deleted $deletedItems lines")
-        data.forEach{
+        lines.forEach{
             val lineId = insertLine(it.line)
             it.stops.forEach{ s -> s.stopLineId = lineId}
             insertStops(it.stops)
@@ -19,8 +19,18 @@ interface TransportDatabaseDao {
         }
     }
 
+    @Transaction
+    suspend fun insertUpdateTransports (data: List<DBTransport>) {
+        val deletedItems = deleteAllTransports()
+        Timber.d("insertUpdateTransports: Deleted $deletedItems transports")
+        insertTransports(data)
+    }
+
     @Query("DELETE FROM transport_line WHERE transportName=:transport")
     suspend fun deleteAllTransportLines(transport: String): Int
+
+    @Query("DELETE FROM transport_agencies")
+    suspend fun deleteAllTransports(): Int
 
     @Insert (onConflict = OnConflictStrategy.ABORT)
     suspend fun insertLine(lines : DBLine): Long
@@ -30,6 +40,9 @@ interface TransportDatabaseDao {
 
     @Insert (onConflict = OnConflictStrategy.ABORT)
     suspend fun insertRoute(route : List<DBRouteLocation>)
+
+    @Insert (onConflict = OnConflictStrategy.ABORT)
+    suspend fun insertTransports(transports : List<DBTransport>)
 
     @Query("SELECT * FROM transport_line WHERE transportName=:agency")
     suspend fun getLines(agency : String): List<DBLine>
@@ -41,4 +54,8 @@ interface TransportDatabaseDao {
     @Transaction
     @Query("SELECT * FROM transport_line WHERE lineId=:lineId")
     suspend fun getLineWithRoute(lineId: Long): LineWithRoute
+
+    @Transaction
+    @Query("SELECT * FROM transport_agencies")
+    suspend fun getTransports(): List<DBTransport>
 }
