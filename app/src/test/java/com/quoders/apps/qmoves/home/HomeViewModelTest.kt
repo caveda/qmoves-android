@@ -24,8 +24,7 @@ class HomeViewModelTest {
     private val sutConfig = FirebaseClientConfig(
                 funcUrl = "fakeUrl",
                 funcHeaderValue = "fakeHeader",
-                storageMetadataPath = "fakeMetadataPath",
-                storageDataPath = "fakeDataPath")
+                storageTransportPath = "fakeTransportPath")
 
     @Before
     fun setUp() {
@@ -36,7 +35,7 @@ class HomeViewModelTest {
     @Test
     fun navigateToLines_invoked_navigateEventSet() {
         // Given
-        val transport = Transport(name = "SubwayXYZ")
+        val transport = buildTestTransport()
 
         // When
         sut.navigateToLines(transport)
@@ -44,5 +43,16 @@ class HomeViewModelTest {
         // Then
         val value = sut.eventNavigateLines.getOrAwaitValue()
         assertEquals(value.getContentIfNotHandled(),transport)
+    }
+
+    private fun buildTestTransport(): Transport {
+        return Transport(
+            name = "SubwayXYZ",
+            type = Transport.TransportType.SUBWAY,
+            color = "",
+            dataPath = "",
+            metadataPath = "",
+            newsFeed = ""
+        )
     }
 }
