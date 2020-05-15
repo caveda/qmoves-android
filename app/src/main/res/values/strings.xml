@@ -9,4 +9,6 @@
     <string name="error_update_remote">Error updating transit information</string>
     <string name="update_successful">Transit info updated successfully</string>
     <string name="error_loading_route">Error loading the route of the line</string>
+    <string name="cd_transport_icon">Transport icon</string>
+    <string name="cd_transport_name">Transport name</string>
 </resources>

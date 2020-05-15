@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.quoders.apps.qmoves.data.DataLoadingStatus
+import com.quoders.apps.qmoves.data.Transport
 
 @BindingAdapter("loadingStatus")
 fun bindStatus(statusImageView: ImageView, status: DataLoadingStatus?) {
@@ -18,6 +19,21 @@ fun bindStatus(statusImageView: ImageView, status: DataLoadingStatus?) {
         }
         DataLoadingStatus.DONE -> {
             statusImageView.visibility = View.GONE
+        }
+    }
+}
+
+@BindingAdapter("transportImage")
+fun bindStatus(transportImageView: ImageView, type: Transport.TransportType?) {
+    when (type) {
+        Transport.TransportType.BUS -> {
+            transportImageView.setImageResource(R.drawable.ic_transport_bus)
+        }
+        Transport.TransportType.SUBWAY -> {
+            transportImageView.setImageResource(R.drawable.ic_transport_subway)
+        }
+        Transport.TransportType.TRAM -> {
+            transportImageView.setImageResource(R.drawable.ic_transport_tram)
         }
     }
 }

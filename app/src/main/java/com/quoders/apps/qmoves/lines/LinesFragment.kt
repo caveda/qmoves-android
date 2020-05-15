@@ -66,7 +66,6 @@ class LinesFragment : Fragment(){
 
     private fun setupLineList() {
         binding.linesListView.adapter = LinesAdapter(viewModel)
-
         binding.linesListView.addItemDecoration(DividerItemDecoration(binding.linesListView.context,
             DividerItemDecoration.VERTICAL))
     }
