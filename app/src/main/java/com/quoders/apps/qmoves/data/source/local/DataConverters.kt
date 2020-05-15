@@ -26,9 +26,9 @@ class DataConverters {
     fun stringToTransportType(value: String?): Transport.TransportType? {
         return value?.let {
             when (it) {
-                Transport.TransportType.BUS.name -> Transport.TransportType.BUS
-                Transport.TransportType.TRAM.name -> Transport.TransportType.TRAM
-                Transport.TransportType.SUBWAY.name -> Transport.TransportType.SUBWAY
+                Transport.TransportType.BUS.value -> Transport.TransportType.BUS
+                Transport.TransportType.TRAM.value -> Transport.TransportType.TRAM
+                Transport.TransportType.SUBWAY.value -> Transport.TransportType.SUBWAY
                 else -> throw Exception("Unknown transport $it")
             }
         }
@@ -36,6 +36,6 @@ class DataConverters {
 
     @TypeConverter
     fun transportTypeToString(type: Transport.TransportType?): String? {
-        return type?.name
+        return type?.value
     }
 }
