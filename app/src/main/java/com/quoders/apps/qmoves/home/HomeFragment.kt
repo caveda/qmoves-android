@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
@@ -68,10 +68,7 @@ class HomeFragment : Fragment(){
     }
 
     private fun setupTransportsList() {
+        binding.transportsListView.layoutManager = GridLayoutManager(activity, 2)
         binding.transportsListView.adapter = TransportsAdapter(viewModel)
-        binding.transportsListView.addItemDecoration(
-            DividerItemDecoration(binding.transportsListView.context,
-            DividerItemDecoration.VERTICAL)
-        )
     }
 }
