@@ -12,7 +12,12 @@ import org.junit.Test
 class FakeTransportRepositoryTest {
 
     private lateinit var sut: FakeTransportRepository
-    private val transport = Transport("Any")
+    private val transport = Transport(name = "Any",
+                                type = Transport.TransportType.BUS,
+                                color = "",
+                                dataPath = "",
+                                metadataPath = "",
+                                newsFeed = "")
     @Before
     fun createRepository() {
         sut = FakeTransportRepository()

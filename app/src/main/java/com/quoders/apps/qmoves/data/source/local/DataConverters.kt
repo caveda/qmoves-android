@@ -2,6 +2,7 @@ package com.quoders.apps.qmoves.data.source.local
 
 import androidx.room.TypeConverter
 import com.quoders.apps.qmoves.data.Line
+import com.quoders.apps.qmoves.data.Transport
 
 class DataConverters {
     @TypeConverter
@@ -19,5 +20,22 @@ class DataConverters {
     @TypeConverter
     fun stringToDirection(direction: Line.Direction?): String? {
         return direction?.name
+    }
+
+    @TypeConverter
+    fun stringToTransportType(value: String?): Transport.TransportType? {
+        return value?.let {
+            when (it) {
+                Transport.TransportType.BUS.value -> Transport.TransportType.BUS
+                Transport.TransportType.TRAM.value -> Transport.TransportType.TRAM
+                Transport.TransportType.SUBWAY.value -> Transport.TransportType.SUBWAY
+                else -> throw Exception("Unknown transport $it")
+            }
+        }
+    }
+
+    @TypeConverter
+    fun transportTypeToString(type: Transport.TransportType?): String? {
+        return type?.value
     }
 }

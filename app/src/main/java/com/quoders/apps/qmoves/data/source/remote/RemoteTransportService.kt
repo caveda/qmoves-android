@@ -17,4 +17,9 @@ interface RemoteTransportService {
      * Fetch all lines of the given transport.
      */
     suspend fun fetchLines(transport: Transport): Result<List<RemoteLine>>
+
+    /***
+     * Fetch transports list
+     */
+    suspend fun fetchTransports(): Result<List<RemoteTransport>>
 }

@@ -10,6 +10,9 @@ import kotlin.random.nextInt
 class FakeTransportRepository : TransportRepository{
 
     private var data : List<Line> = listOf()
+    override suspend fun getTransports(): Result<List<Transport>> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override suspend fun getLines(agency: Transport): Result<List<Line>>{
         if (data.isNotEmpty())

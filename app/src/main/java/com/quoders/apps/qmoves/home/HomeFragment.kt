@@ -8,12 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
-import com.quoders.apps.qmoves.data.source.remote.FirebaseClientConfig
 import com.quoders.apps.qmoves.databinding.FragmentHomeBinding
 import com.quoders.apps.qmoves.tools.setupSnackbar
 
@@ -38,11 +38,11 @@ class HomeFragment : Fragment(){
         val repository = TransportRepositoryFactory.getInstance(application)
         viewModel = ViewModelProvider(this, HomeViewModelFactory(repository)).
             get(HomeViewModel::class.java)
-        binding.homeViewModel = viewModel
+        binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         setupNavigation()
-
+        setupTransportsList()
         return binding.root
     }
 
@@ -65,5 +65,10 @@ class HomeFragment : Fragment(){
     private fun navigateToLines(transport: Transport) {
         val action = HomeFragmentDirections.actionHomeFragmentToLinesFragment(transport)
         findNavController().navigate(action)
+    }
+
+    private fun setupTransportsList() {
+        binding.transportsListView.layoutManager = GridLayoutManager(activity, 2)
+        binding.transportsListView.adapter = TransportsAdapter(viewModel)
     }
 }

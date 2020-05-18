@@ -57,9 +57,9 @@ class LinesViewModelTest {
 
         // When
         sut.navigateToStops(line)
+        val value = sut.eventNavigateStops.getOrAwaitValue()
 
         // Then
-        val value = sut.eventNavigateStops.getOrAwaitValue()
         assertThat(value.getContentIfNotHandled()).isEqualTo(line)
     }
 
@@ -67,9 +67,9 @@ class LinesViewModelTest {
     fun getLines_noLinesInRepository_linesIsEmpty() = runBlockingTest {
         // When
         sut = LinesViewModel(mockTransport, mockRepository)
+        val value = sut.lines.getOrAwaitValue()
 
         // Then
-        val value = sut.lines.getOrAwaitValue()
         assertThat(value).isEmpty()
     }
 
@@ -96,9 +96,9 @@ class LinesViewModelTest {
 
         // When
         sut = LinesViewModel(mockTransport, mockRepository)
+        val value = sut.lines.getOrAwaitValue()
 
         // Then
-        val value = sut.lines.getOrAwaitValue()
         assertThat(value).isEmpty()
     }
 
@@ -115,9 +115,9 @@ class LinesViewModelTest {
     fun getEmpty_noLinesInRepository_emptyIsTrue() = runBlockingTest {
         // When
         sut = LinesViewModel(mockTransport, mockRepository)
+        val value = sut.empty.getOrAwaitValue()
 
         // Then
-        val value = sut.empty.getOrAwaitValue()
         assertThat(value).isTrue()
     }
 
@@ -128,9 +128,9 @@ class LinesViewModelTest {
 
         // When
         sut =LinesViewModel(mockTransport, mockRepository)
+        val value = sut.snackbarText.getOrAwaitValue()
 
         // Then
-        val value = sut.snackbarText.getOrAwaitValue()
         assertThat(value.getContentIfNotHandled()).isEqualTo(R.string.error_loading_lines)
     }
 
@@ -141,9 +141,9 @@ class LinesViewModelTest {
 
         // When
         sut =LinesViewModel(mockTransport, mockRepository)
+        val value = sut.dataLoading.getOrAwaitValue()
 
         // Then
-        val value = sut.dataLoading.getOrAwaitValue()
         assertThat(value).isEqualTo(DataLoadingStatus.ERROR)
     }
 

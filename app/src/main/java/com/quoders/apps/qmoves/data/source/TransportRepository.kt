@@ -8,6 +8,11 @@ import com.quoders.apps.qmoves.data.*
 interface TransportRepository {
 
     /**
+     * Returns the list of available transports
+     */
+    suspend fun getTransports(): Result<List<Transport>>
+
+    /**
      * Returns the complete list of lines.
      */
     suspend fun getLines(agency: Transport): Result<List<Line>>
