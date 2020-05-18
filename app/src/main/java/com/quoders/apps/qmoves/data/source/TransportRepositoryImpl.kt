@@ -13,15 +13,21 @@ class TransportRepositoryImpl (
     private val dbSource: TransportDatabaseDao,
     private val remoteSource: RemoteTransportService): TransportRepository {
 
-    var checkRemoteUpdatesDone: Boolean = false
-    var checkRemoteTransportsDone: Boolean = false
+    private var checkRemoteTransportsDone: Boolean = false
+    private val transportControlUpdatesSet = mutableSetOf<String> ()
 
     override suspend fun getTransports(): Result<List<Transport>> {
         checkRemoteTransports()
 
         val result = dbSource.getTransports()
         val mapper = ListMapperImpl(DBTransportMapper())
-        return Result.Success(mapper.map(result))
+        val transports = mapper.map(result)
+        resetTransportControlUpdates()
+        return Result.Success(transports)
+    }
+
+    private fun resetTransportControlUpdates() {
+         transportControlUpdatesSet.clear()
     }
 
     override suspend fun getLines(transport: Transport): Result<List<Line>> {
@@ -45,7 +51,7 @@ class TransportRepositoryImpl (
     }
 
     private suspend fun checkRemoteUpdates(transport: Transport) {
-        if (checkRemoteUpdatesDone) {
+        if (transport.name in transportControlUpdatesSet) {
             Timber.i("checkRemoteUpdates: Remote updates for $transport already checked")
             return
         }
@@ -53,7 +59,7 @@ class TransportRepositoryImpl (
         val newDataAvailable = remoteSource.isNewDataAvailable(transport)
         if (newDataAvailable is Success && !newDataAvailable.data) {
             Timber.i("checkRemoteUpdates: No new data in remote source for $transport")
-            checkRemoteUpdatesDone=true
+            transportControlUpdatesSet.add(transport.name)
             return
         }
         if (newDataAvailable is Error) {
@@ -65,7 +71,7 @@ class TransportRepositoryImpl (
         if (lines is Success && lines.data.isNotEmpty()) {
             Timber.i("checkRemoteUpdates: ${lines.data.size} $transport lines fetched")
             updateDbWithLinesData(transport, lines.data)
-            checkRemoteUpdatesDone=true
+            transportControlUpdatesSet.add(transport.name)
         }
         else {
             Timber.w("checkRemoteUpdates: Error fetching for $transport remote data: $lines")
