@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="empty_placeholder_image_size">80dp</dimen>
+    <dimen name="empty_placeholder_image_size">50dp</dimen>
     <dimen name="list_row_vertical_padding">16dp</dimen>
     <dimen name="grid_cell_vertical_padding">24dp</dimen>
 </resources>
