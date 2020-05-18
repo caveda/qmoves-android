@@ -27,7 +27,6 @@ class HomeViewModel(private val repository: TransportRepository): ViewModel() {
     private val _transports = MutableLiveData<List<Transport>>()
     val transports: LiveData<List<Transport>> = _transports
 
-
     // Autocalculated property that flags when the empty list placeholder need to be visible.
     val empty: LiveData<Boolean> = Transformations.map(_transports) {
         it.isEmpty()
@@ -47,9 +46,9 @@ class HomeViewModel(private val repository: TransportRepository): ViewModel() {
     }
 
     private fun loadTransports() {
+        _dataLoading.value = DataLoadingStatus.LOADING
         viewModelScope.launch {
             try {
-                _dataLoading.value = DataLoadingStatus.LOADING
                 val result = repository.getTransports()
                 if (result is Result.Success) {
                     _transports.value = result.data
