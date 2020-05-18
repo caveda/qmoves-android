@@ -38,6 +38,7 @@ class HomeViewModel(private val repository: TransportRepository): ViewModel() {
     val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     init {
+        _transports.value = listOf()
         loadTransports()
     }
 
