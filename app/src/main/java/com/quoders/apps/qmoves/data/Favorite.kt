@@ -8,7 +8,7 @@ Data class representing a the domain entity favorite stop.
  */
 @Parcelize
 data class Favorite (
-    var stop: Stop,
+    var transport: Transport,
     var line: Line,
-    var transport: Transport
+    var stop: Stop
 ): Parcelable

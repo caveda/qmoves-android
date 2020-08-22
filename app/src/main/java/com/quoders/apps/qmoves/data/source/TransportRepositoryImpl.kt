@@ -1,5 +1,7 @@
 package com.quoders.apps.qmoves.data.source
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import com.quoders.apps.qmoves.data.*
 import com.quoders.apps.qmoves.data.Result.Success
 import com.quoders.apps.qmoves.data.mapper.*
@@ -48,6 +50,22 @@ class TransportRepositoryImpl (
         val queryResult = dbSource.getLineWithRoute(line.uuid)
         val mapper = ListMapperImpl(DBRouteLocationMapper())
         return Result.Success(mapper.map(queryResult.route))
+    }
+
+    override suspend fun addFavorite(favorite: Favorite) {
+        val mapper = FavoriteMapper()
+        dbSource.insertFavorite(mapper.map(favorite))
+    }
+
+    override suspend fun getAllFavorites(): Result<List<Favorite>> {
+        val queryResult = dbSource.getFavorites()
+        val retList = queryResult.map {
+            val transport = DBTransportMapper().map(dbSource.getTransport(it.transportName))
+            val line = DBLineMapper().map(dbSource.getLineOfAgency(it.transportName, it.lineCode))
+            val stop = line.stops.first { s:Stop -> it.lineCode == s.code}
+            Favorite(transport,line,stop)
+        }
+        return Result.Success(retList)
     }
 
     private suspend fun checkRemoteUpdates(transport: Transport) {

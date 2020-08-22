@@ -10,6 +10,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "favorite")
 data class DBFavorite (
     @PrimaryKey(autoGenerate = true)
+    val lineId: Long = 0L,
     val lineCode: String,
     var stopCode: String,
     var transportName: String)

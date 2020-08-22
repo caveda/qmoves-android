@@ -29,6 +29,14 @@ class FakeTransportRepository : TransportRepository{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    override suspend fun addFavorite(favorite: Favorite) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getAllFavorites(): Result<List<Favorite>> {
+        TODO("Not yet implemented")
+    }
+
     private fun generateFakeLines(): List<Line> {
         val lines = mutableListOf<Line>()
         (1..30)

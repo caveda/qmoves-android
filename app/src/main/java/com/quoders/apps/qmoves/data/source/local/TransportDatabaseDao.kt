@@ -60,10 +60,18 @@ interface TransportDatabaseDao {
     @Transaction
     @Query("SELECT * FROM transport_line WHERE lineId=:lineId")
     suspend fun getLineWithRoute(lineId: Long): LineWithRoute
+    @Transaction
+
+    @Query("SELECT * FROM transport_line WHERE transportName=:agency AND code=:lineCode")
+    suspend fun getLineOfAgency(agency: String, lineCode: String): DBLine
 
     @Transaction
     @Query("SELECT * FROM transport_agencies")
     suspend fun getTransports(): List<DBTransport>
+
+    @Transaction
+    @Query("SELECT * FROM transport_agencies WHERE name=:name")
+    suspend fun getTransport(name: String): DBTransport
 
     @Transaction
     @Query("SELECT * FROM favorite")

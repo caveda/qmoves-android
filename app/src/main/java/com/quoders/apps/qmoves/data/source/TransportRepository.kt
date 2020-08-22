@@ -26,4 +26,14 @@ interface TransportRepository {
      * Returns the route of a line
      */
     suspend fun getRoute(line: Line): Result<List<Location>>
+
+    /**
+     * Add the favorite to the repository. Typically a favorite is a stop of a line.
+     */
+    suspend fun addFavorite(favorite: Favorite)
+
+    /**
+     * Returns the list of all favorites.
+     */
+    suspend fun getAllFavorites(): Result<List<Favorite>>
 }
