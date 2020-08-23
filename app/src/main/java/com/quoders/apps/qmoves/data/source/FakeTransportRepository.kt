@@ -10,6 +10,8 @@ import kotlin.random.nextInt
 class FakeTransportRepository : TransportRepository{
 
     private var data : List<Line> = listOf()
+    private var favorites = mutableListOf<Favorite>()
+
     override suspend fun getTransports(): Result<List<Transport>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -30,11 +32,15 @@ class FakeTransportRepository : TransportRepository{
     }
 
     override suspend fun addFavorite(favorite: Favorite) {
-        TODO("Not yet implemented")
+        favorites.add(favorite)
+    }
+
+    override suspend fun removeFavorite(favorite: Favorite) {
+        favorites.remove(favorite)
     }
 
     override suspend fun getAllFavorites(): Result<List<Favorite>> {
-        TODO("Not yet implemented")
+        return Result.Success(favorites)
     }
 
     private fun generateFakeLines(): List<Line> {

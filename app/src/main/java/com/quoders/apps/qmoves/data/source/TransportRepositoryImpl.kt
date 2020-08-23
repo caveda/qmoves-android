@@ -57,6 +57,11 @@ class TransportRepositoryImpl (
         dbSource.insertFavorite(mapper.map(favorite))
     }
 
+    override suspend fun removeFavorite(favorite: Favorite) {
+        val mapper = FavoriteMapper()
+        dbSource.deleteFavorite(mapper.map(favorite))
+    }
+
     override suspend fun getAllFavorites(): Result<List<Favorite>> {
         val queryResult = dbSource.getFavorites()
         val retList = queryResult.map {

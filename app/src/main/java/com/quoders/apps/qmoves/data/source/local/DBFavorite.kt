@@ -1,5 +1,6 @@
 package com.quoders.apps.qmoves.data.source.local
 
+import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -7,10 +8,11 @@ import androidx.room.PrimaryKey
  * DTO object representing a favorite stop. A favorite can be uniquely identified by
  * the tuple: transport, line, stop.
  */
-@Entity(tableName = "favorite")
+@Entity(tableName = "favorite", primaryKeys = ["lineCode", "stopCode", "transportName"])
 data class DBFavorite (
-    @PrimaryKey(autoGenerate = true)
-    val lineId: Long = 0L,
+    @NonNull
     val lineCode: String,
+    @NonNull
     var stopCode: String,
+    @NonNull
     var transportName: String)
