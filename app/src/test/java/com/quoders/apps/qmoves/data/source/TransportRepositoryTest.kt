@@ -94,7 +94,7 @@ class TransportRepositoryTest {
     }
 
     @Test
-    fun getRoute_DatabaseReturnedDBRouteOfLine_successWithNonEmptyListOfLocations() = runBlockingTest {
+    fun getRoute_daoReturnedDBRouteOfLine_successWithNonEmptyListOfLocations() = runBlockingTest {
         // Given
         val line = TestDataDao.validLineList[0]
         coEvery { mockDaoTransport.getLineWithRoute(line.uuid) } returns TestDataDao.validDBLineWithRoute
@@ -108,5 +108,28 @@ class TransportRepositoryTest {
         val returnedRoute = (resultRoute as Result.Success).data
         Truth.assertThat(returnedRoute).hasSize(expectedRoute.size)
         Truth.assertThat(returnedRoute).isEqualTo(expectedRoute)
+    }
+
+    @Test
+    fun getAllFavorites_daoReturnedDBFavoriteList_successWithNonEmptyListOfFavorites() = runBlockingTest {
+        // Given
+        val line = TestDataDao.validDBLineList
+        coEvery { mockDaoTransport.getTransport(defaultTransportName) } returns TestDataDao.validDBTransport
+        coEvery { mockDaoTransport.getLineOfAgency(defaultTransportName, TestDataDao.validFavoriteLineCode)} returns TestDataDao.validDBLineWithFavoriteStops
+        coEvery { mockDaoTransport.getFavorites()} returns TestDataDao.validDBFavoriteList
+
+        // When
+        val resultFavorites = sut.getAllFavorites()
+
+        // Then
+        Truth.assertThat(resultFavorites.succeeded)
+        val returnedFavorites = (resultFavorites as Result.Success).data
+        Truth.assertThat(returnedFavorites).hasSize(TestDataDao.validDBFavoriteList.size)
+        returnedFavorites.forEachIndexed { i, fav ->
+            val expectedFavorite = TestDataDao.validDBFavoriteList[i]
+            Truth.assertThat(expectedFavorite.lineAgencyId).isEqualTo(fav.line.agencyId)
+            Truth.assertThat(expectedFavorite.transportName).isEqualTo(fav.transport.name)
+            Truth.assertThat(expectedFavorite.stopCode).isEqualTo(fav.stop.code)
+        }
     }
 }

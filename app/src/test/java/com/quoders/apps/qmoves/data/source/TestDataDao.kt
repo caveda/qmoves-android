@@ -1,9 +1,6 @@
 package com.quoders.apps.qmoves.data.source
 
-import com.quoders.apps.qmoves.data.Line
-import com.quoders.apps.qmoves.data.Location
-import com.quoders.apps.qmoves.data.Schedule
-import com.quoders.apps.qmoves.data.Stop
+import com.quoders.apps.qmoves.data.*
 import com.quoders.apps.qmoves.data.source.local.*
 
 /**
@@ -14,6 +11,8 @@ class TestDataDao{
     companion object {
 
         const val transportName = "Bus"
+
+        val validDBTransport = DBTransport(1, transportName, "0xFF0000", Transport.TransportType.BUS, "any", "any", "any")
 
         val validSingleDBLine = DBLine(1,transportName, "01", "F01", "orig1 - dest1",Line.Direction.FORWARD, false)
         val validDBLineList = listOf(
@@ -40,7 +39,10 @@ class TestDataDao{
         val validListDBStops = listOf(
             DBStop(1, 1, "101", "Stop1",  defaultDBSchedule, defaultDBLocation,""),
             DBStop(2, 1, "102", "Stop2",  defaultDBSchedule, defaultDBLocation,""),
-            DBStop(3, 1, "103", "Stop3",  defaultDBSchedule, defaultDBLocation,"")
+            DBStop(3, 1, "103", "Stop3",  defaultDBSchedule, defaultDBLocation,""),
+            DBStop(4, 4, "201", "Stop201",  defaultDBSchedule, defaultDBLocation,""),
+            DBStop(5, 4, "202", "Stop202",  defaultDBSchedule, defaultDBLocation,""),
+            DBStop(6, 4, "203", "Stop203",  defaultDBSchedule, defaultDBLocation,"")
         )
 
         private val defaultSchedule = Schedule("1:00", "2:00", "3:00", "6", "5")
@@ -48,7 +50,11 @@ class TestDataDao{
         val validListStops = listOf(
             Stop("101", "Stop1",  defaultSchedule, defaultLocation,""),
             Stop( "102", "Stop2",  defaultSchedule, defaultLocation,""),
-            Stop( "103", "Stop3",  defaultSchedule, defaultLocation,""))
+            Stop( "103", "Stop3",  defaultSchedule, defaultLocation,""),
+            Stop("201", "Stop201",  defaultSchedule, defaultLocation,""),
+            Stop( "202", "Stop202",  defaultSchedule, defaultLocation,""),
+            Stop( "203", "Stop203",  defaultSchedule, defaultLocation,"")
+        )
 
         val validDBLineWithStops= LineWithStops (
                 line = validSingleDBLine,
@@ -62,5 +68,19 @@ class TestDataDao{
         val validDBLineWithRoute = LineWithRoute (
             line = validSingleDBLine,
             route = validDBRoute)
+
+        val validDBLineWithFavoriteStops = LineWithStops (
+            line = DBLine(1,transportName, "01", "F01", "orig1 - dest1",Line.Direction.FORWARD, false),
+            stops = listOf(
+                DBStop(1, 1, "101", "Stop1",  defaultDBSchedule, defaultDBLocation,""),
+                DBStop(2, 1, "102", "Stop2",  defaultDBSchedule, defaultDBLocation,"")
+            )
+        )
+
+        val validFavoriteLineCode = "F01"
+        val validDBFavoriteList = listOf(
+            DBFavorite(stopCode = "101", transportName = transportName, lineAgencyId = validFavoriteLineCode),
+            DBFavorite(stopCode = "102", transportName = transportName, lineAgencyId = validFavoriteLineCode)
+        )
     }
 }

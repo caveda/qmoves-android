@@ -63,7 +63,7 @@ interface TransportDatabaseDao {
     @Transaction
 
     @Query("SELECT * FROM transport_line WHERE transportName=:agency AND code=:lineCode")
-    suspend fun getLineOfAgency(agency: String, lineCode: String): DBLine
+    suspend fun getLineOfAgency(agency: String, lineCode: String): LineWithStops
 
     @Transaction
     @Query("SELECT * FROM transport_agencies")

@@ -8,10 +8,10 @@ import androidx.room.PrimaryKey
  * DTO object representing a favorite stop. A favorite can be uniquely identified by
  * the tuple: transport, line, stop.
  */
-@Entity(tableName = "favorite", primaryKeys = ["lineCode", "stopCode", "transportName"])
+@Entity(tableName = "favorite", primaryKeys = ["lineAgencyId", "stopCode", "transportName"])
 data class DBFavorite (
     @NonNull
-    val lineCode: String,
+    val lineAgencyId: String,
     @NonNull
     var stopCode: String,
     @NonNull

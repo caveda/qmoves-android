@@ -10,7 +10,7 @@ class FavoriteMapper: Mapper<Favorite, DBFavorite>{
 
     override fun map(input: Favorite): DBFavorite {
         return  DBFavorite(
-            lineCode = input.line.code,
+            lineAgencyId = input.line.code,
             stopCode = input.stop.code,
             transportName = input.transport.name
         )

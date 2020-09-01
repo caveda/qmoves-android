@@ -1,10 +1,9 @@
 package com.quoders.apps.qmoves.data.source
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import com.quoders.apps.qmoves.data.*
 import com.quoders.apps.qmoves.data.Result.Success
 import com.quoders.apps.qmoves.data.mapper.*
+import com.quoders.apps.qmoves.data.source.local.DBStop
 import com.quoders.apps.qmoves.data.source.local.TransportDatabaseDao
 import com.quoders.apps.qmoves.data.source.remote.RemoteLine
 import com.quoders.apps.qmoves.data.source.remote.RemoteTransport
@@ -66,9 +65,10 @@ class TransportRepositoryImpl (
         val queryResult = dbSource.getFavorites()
         val retList = queryResult.map {
             val transport = DBTransportMapper().map(dbSource.getTransport(it.transportName))
-            val line = DBLineMapper().map(dbSource.getLineOfAgency(it.transportName, it.lineCode))
-            val stop = line.stops.first { s:Stop -> it.lineCode == s.code}
-            Favorite(transport,line,stop)
+            val lineWithStops = dbSource.getLineOfAgency(it.transportName, it.lineAgencyId)
+            val line = DBLineMapper().map(lineWithStops.line)
+            val stop = lineWithStops.stops.first { s: DBStop -> it.stopCode == s.code}
+            Favorite(transport, line, DBStopMapper().map(stop))
         }
         return Result.Success(retList)
     }
