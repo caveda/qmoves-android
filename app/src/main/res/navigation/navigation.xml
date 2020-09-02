@@ -16,6 +16,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_favoritesFragment"
+            app:destination="@id/favoritesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/linesFragment"
@@ -73,4 +80,8 @@
             android:name="transport"
             app:argType="com.quoders.apps.qmoves.data.Transport" />
     </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.quoders.apps.qmoves.favorites.FavoritesFragment"
+        android:label="FavoritesFragment" />
 </navigation>
