@@ -60,10 +60,19 @@ class HomeFragment : Fragment(){
         viewModel.eventNavigateLines.observe(viewLifecycleOwner, EventObserver {
             navigateToLines(it)
         })
+
+        viewModel.eventNavigateFavorites.observe(viewLifecycleOwner, EventObserver {
+            navigateToFavorites()
+        })
     }
 
     private fun navigateToLines(transport: Transport) {
         val action = HomeFragmentDirections.actionHomeFragmentToLinesFragment(transport)
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToFavorites() {
+        val action = HomeFragmentDirections.actionHomeFragmentToFavoritesFragment()
         findNavController().navigate(action)
     }
 

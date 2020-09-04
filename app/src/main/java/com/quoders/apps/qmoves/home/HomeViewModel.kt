@@ -9,6 +9,7 @@ import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.TransportRepository
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import kotlin.reflect.jvm.internal.impl.types.checker.TypeCheckerContext
 
 /**
  * Viewmodel of the Home page
@@ -18,6 +19,9 @@ class HomeViewModel(private val repository: TransportRepository): ViewModel() {
     // Events
     private val _eventNavigateLines = MutableLiveData<Event<Transport>>()
     val eventNavigateLines : LiveData<Event<Transport>> = _eventNavigateLines
+
+    private val _eventNavigateFavorites = MutableLiveData<Event<Boolean>>()
+    val eventNavigateFavorites : LiveData<Event<Boolean>> = _eventNavigateFavorites
 
     // State of the loading operation
     private val _dataLoading = MutableLiveData<DataLoadingStatus>()
@@ -43,6 +47,10 @@ class HomeViewModel(private val repository: TransportRepository): ViewModel() {
 
     fun navigateToLines (transport: Transport) {
         _eventNavigateLines.value = Event(transport)
+    }
+
+    fun navigateToFavorites () {
+        _eventNavigateFavorites.value = Event(true)
     }
 
     private fun loadTransports() {

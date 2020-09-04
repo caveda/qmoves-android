@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 
 @Database(entities = [DBTransport::class, DBLine::class, DBStop::class, DBRouteLocation::class,
     DBFavorite::class],
-    version = 2,  exportSchema = false)
+    version = 3,  exportSchema = false)
 @TypeConverters(DataConverters::class)
 abstract class TransportDatabase : RoomDatabase() {
 
