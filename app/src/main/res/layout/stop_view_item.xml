@@ -68,6 +68,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/line_id_text"
             app:layout_constraintStart_toEndOf="@+id/line_id_text"
             app:layout_constraintTop_toTopOf="@+id/line_id_text"
-            app:srcCompat="@drawable/ic_favorite_disable" />
+            app:srcCompat="@drawable/ic_favorite_disable"
+            android:onClick="@{() -> viewModel.toggleFavorite(stop)}"
+            app:favoriteStatus="@{stop.favorite}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

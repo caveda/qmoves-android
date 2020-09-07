@@ -14,4 +14,6 @@
     <string name="error_loading_favorites">Error loading favorites!</string>
     <string name="menu_favorites_name">Favorites</string>
     <string name="cd_favorite_button">Favorite selector</string>
+    <string name="favorite_removed">Stop removed from favorites</string>
+    <string name="favorite_added">Stop added to favorites</string>
 </resources>
