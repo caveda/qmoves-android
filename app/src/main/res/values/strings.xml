@@ -13,4 +13,5 @@
     <string name="cd_transport_name">Transport name</string>
     <string name="error_loading_favorites">Error loading favorites!</string>
     <string name="menu_favorites_name">Favorites</string>
+    <string name="cd_favorite_button">Favorite selector</string>
 </resources>
