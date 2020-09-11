@@ -39,10 +39,11 @@ class TransportRepositoryImpl (
         return Result.Success(mapper.map(result))
     }
 
-    override suspend fun getLineStops(line: Line): Result<List<Stop>> {
+    override suspend fun getLineStops(transport: Transport, line: Line): Result<List<Stop>> {
         val queryResult = dbSource.getLineWithStops(line.uuid)
         val mapper = ListMapperImpl(DBStopMapper())
-        return Result.Success(mapper.map(queryResult.stops))
+        val stops = mapper.map(queryResult.stops)
+        return setFavoriteStops(transport, line, stops)
     }
 
     override suspend fun getRoute(line: Line): Result<List<Location>> {
@@ -65,12 +66,24 @@ class TransportRepositoryImpl (
         val queryResult = dbSource.getFavorites()
         val retList = queryResult.map {
             val transport = DBTransportMapper().map(dbSource.getTransport(it.transportName))
-            val lineWithStops = dbSource.getLineOfAgency(it.transportName, it.lineAgencyId)
+            val lineWithStops = dbSource.getLineOfAgency(it.transportName, it.lineCode)
             val line = DBLineMapper().map(lineWithStops.line)
             val stop = lineWithStops.stops.first { s: DBStop -> it.stopCode == s.code}
             Favorite(transport, line, DBStopMapper().map(stop))
         }
         return Result.Success(retList)
+    }
+
+    private suspend fun setFavoriteStops (transport: Transport, line: Line, stops: List<Stop>): Result<List<Stop>> {
+        val queryResult = dbSource.getFavoritesOfLine(transport.name, line.code)
+        stops.forEach { s ->
+            queryResult.forEach { f ->
+                if (s.code == f.stopCode) {
+                    s.favorite = true
+                }
+            }
+        }
+        return Result.Success(stops)
     }
 
     private suspend fun checkRemoteUpdates(transport: Transport) {

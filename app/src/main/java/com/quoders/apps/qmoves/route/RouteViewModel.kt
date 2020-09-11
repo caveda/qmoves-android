@@ -4,17 +4,14 @@ import androidx.lifecycle.*
 import com.google.android.gms.maps.model.LatLng
 import com.quoders.apps.qmoves.Event
 import com.quoders.apps.qmoves.R
-import com.quoders.apps.qmoves.data.DataLoadingStatus
-import com.quoders.apps.qmoves.data.Line
-import com.quoders.apps.qmoves.data.Result
-import com.quoders.apps.qmoves.data.Stop
+import com.quoders.apps.qmoves.data.*
 import com.quoders.apps.qmoves.data.source.TransportRepository
 import kotlinx.coroutines.launch
 
 /**
  *  ViewModel of Stops page
  */
-class RouteViewModel (private val line: Line,
+class RouteViewModel (private val transport: Transport, private val line: Line,
                       private val repository: TransportRepository
 ) : ViewModel() {
 
@@ -67,7 +64,7 @@ class RouteViewModel (private val line: Line,
     }
 
     private suspend fun loadLineStops() : Boolean {
-        val stopsResult = repository.getLineStops(line)
+        val stopsResult = repository.getLineStops(transport, line)
         var result = false
         if (stopsResult is Result.Success) {
             _stops.value = stopsResult.data

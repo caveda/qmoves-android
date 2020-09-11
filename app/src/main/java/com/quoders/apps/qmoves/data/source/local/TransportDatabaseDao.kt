@@ -1,6 +1,7 @@
 package com.quoders.apps.qmoves.data.source.local
 
 import androidx.room.*
+import com.quoders.apps.qmoves.data.Line
 import timber.log.Timber
 
 @Dao
@@ -76,4 +77,8 @@ interface TransportDatabaseDao {
     @Transaction
     @Query("SELECT * FROM favorite")
     suspend fun getFavorites(): List<DBFavorite>
+
+    @Transaction
+    @Query("SELECT * FROM favorite WHERE transportName=:agency AND lineCode=:lineCode")
+    suspend fun getFavoritesOfLine(agency: String, lineCode: String): List<DBFavorite>
 }

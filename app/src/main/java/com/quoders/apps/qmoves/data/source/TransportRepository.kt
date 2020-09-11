@@ -20,7 +20,7 @@ interface TransportRepository {
     /**
      * Returns the list of stops of the given line
      */
-    suspend fun getLineStops(line: Line): Result<List<Stop>>
+    suspend fun getLineStops(transport: Transport, line: Line): Result<List<Stop>>
 
     /**
      * Returns the route of a line
@@ -41,4 +41,5 @@ interface TransportRepository {
      * Returns the list of all favorites.
      */
     suspend fun getAllFavorites(): Result<List<Favorite>>
+
 }

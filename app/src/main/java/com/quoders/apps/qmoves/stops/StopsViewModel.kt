@@ -42,9 +42,8 @@ class StopsViewModel (private val transport: Transport, private val line: Line,
     private fun loadStops() {
         viewModelScope.launch {
             _dataLoading.value = DataLoadingStatus.LOADING
-            val result = repository.getLineStops(line)
+            val result = repository.getLineStops(transport, line)
             if (result is Result.Success) {
-                result.data[2].favorite=true
                 _stops.value = result.data
                 _dataLoading.value = DataLoadingStatus.DONE
             }
@@ -72,7 +71,13 @@ class StopsViewModel (private val transport: Transport, private val line: Line,
             } else {
                 repository.addFavorite(favorite)
             }
-            stop.favorite = !stop.favorite
+
+            // Reload data from repository
+            val result = repository.getLineStops(transport, line)
+            if (result is Result.Success) {
+                _stops.value = result.data
+            }
+
             showSnackbarMessage(if (stop.favorite) R.string.favorite_added else R.string.favorite_removed)
         }
     }

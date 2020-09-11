@@ -23,7 +23,7 @@ class FakeTransportRepository : TransportRepository{
         return Result.Success(data)
     }
 
-    override suspend fun getLineStops(line: Line): Result<List<Stop>> {
+    override suspend fun getLineStops(transport: Transport, line: Line): Result<List<Stop>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

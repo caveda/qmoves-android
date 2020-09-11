@@ -39,7 +39,7 @@ class StopsAdapter (private val viewModel: StopsViewModel): ListAdapter<Stop, St
         }
 
         override fun areContentsTheSame(oldItem: Stop, newItem: Stop): Boolean {
-            return oldItem == newItem
+            return oldItem == newItem && oldItem.favorite == newItem.favorite
         }
     }
 
