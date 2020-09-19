@@ -11,8 +11,11 @@ class TestDataDao{
     companion object {
 
         const val transportName = "Bus"
+        const val transportColor = "0xFF0000"
 
-        val validDBTransport = DBTransport(1, transportName, "0xFF0000", Transport.TransportType.BUS, "any", "any", "any")
+        val validTransport = Transport(transportName, Transport.TransportType.BUS,transportColor,"any","any","any")
+
+        val validDBTransport = DBTransport(1, transportName, transportColor, Transport.TransportType.BUS, "any", "any", "any")
 
         val validSingleDBLine = DBLine(1,transportName, "01", "F01", "orig1 - dest1",Line.Direction.FORWARD, false)
         val validDBLineList = listOf(
@@ -79,8 +82,8 @@ class TestDataDao{
 
         val validFavoriteLineCode = "F01"
         val validDBFavoriteList = listOf(
-            DBFavorite(stopCode = "101", transportName = transportName, lineAgencyId = validFavoriteLineCode),
-            DBFavorite(stopCode = "102", transportName = transportName, lineAgencyId = validFavoriteLineCode)
+            DBFavorite(stopCode = "101", transportName = transportName, lineCode = validFavoriteLineCode),
+            DBFavorite(stopCode = "102", transportName = transportName, lineCode = validFavoriteLineCode)
         )
     }
 }

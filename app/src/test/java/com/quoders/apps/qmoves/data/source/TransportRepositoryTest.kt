@@ -3,6 +3,7 @@ package com.quoders.apps.qmoves.data.source
 import com.google.common.truth.Truth
 import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.data.Transport
+import com.quoders.apps.qmoves.data.source.local.DBFavorite
 import com.quoders.apps.qmoves.data.source.local.TransportDatabaseDao
 import com.quoders.apps.qmoves.data.source.remote.RemoteTransportService
 import com.quoders.apps.qmoves.data.succeeded
@@ -81,10 +82,11 @@ class TransportRepositoryTest {
         // Given
         val line = TestDataDao.validLineList[0]
         coEvery { mockDaoTransport.getLineWithStops(line.uuid) } returns TestDataDao.validDBLineWithStops
+        coEvery { mockDaoTransport.getFavoritesOfLine(TestDataDao.validTransport.name,line.code) } returns emptyList()
         val expectedStops = TestDataDao.validListStops
 
         // When
-        val resultStops = sut.getLineStops(line)
+        val resultStops = sut.getLineStops(TestDataDao.validTransport, line)
 
         // Then
         Truth.assertThat(resultStops.succeeded)
@@ -127,7 +129,7 @@ class TransportRepositoryTest {
         Truth.assertThat(returnedFavorites).hasSize(TestDataDao.validDBFavoriteList.size)
         returnedFavorites.forEachIndexed { i, fav ->
             val expectedFavorite = TestDataDao.validDBFavoriteList[i]
-            Truth.assertThat(expectedFavorite.lineAgencyId).isEqualTo(fav.line.agencyId)
+            Truth.assertThat(expectedFavorite.lineCode).isEqualTo(fav.line.agencyId)
             Truth.assertThat(expectedFavorite.transportName).isEqualTo(fav.transport.name)
             Truth.assertThat(expectedFavorite.stopCode).isEqualTo(fav.stop.code)
         }
