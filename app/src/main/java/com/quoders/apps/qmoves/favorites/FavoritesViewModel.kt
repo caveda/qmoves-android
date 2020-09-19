@@ -38,6 +38,7 @@ class FavoritesViewModel (private val repository: TransportRepository) : ViewMod
     val eventNavigateToStopDetail : LiveData<Event<Stop>> = _eventNavigateToFavoriteDetail
 
     init {
+        _favorites.value = emptyList()
         loadFavorites()
     }
 
@@ -51,7 +52,7 @@ class FavoritesViewModel (private val repository: TransportRepository) : ViewMod
             }
             else {
                 _dataLoading.value = DataLoadingStatus.ERROR
-                showSnackbarMessage(R.string.error_loading_stops)
+                showSnackbarMessage(R.string.error_loading_favorites)
             }
         }
     }
