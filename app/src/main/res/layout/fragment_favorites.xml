@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.quoders.apps.qmoves.favorites.FavoritesViewModel">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name = "viewModel"
+            type = "com.quoders.apps.qmoves.favorites.FavoritesViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/favorites_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:visibility="visible"
+            android:visibility="@{viewModel.empty ? View.GONE : View.VISIBLE}">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/favorites_listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layout_margin="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:favorites="@{viewModel.favorites}"
+                tools:itemCount="5"
+                tools:listitem="@layout/favorite_view_item" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/favorites_error_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="@{viewModel.empty ? View.VISIBLE : View.GONE}">
+
+            <ImageView
+                android:id="@+id/image_status"
+                android:layout_width="@dimen/empty_placeholder_image_size"
+                android:layout_height="@dimen/empty_placeholder_image_size"
+                tools:src ="@drawable/ic_data_fetching_error"
+                app:loadingStatus="@{viewModel.dataLoading}"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

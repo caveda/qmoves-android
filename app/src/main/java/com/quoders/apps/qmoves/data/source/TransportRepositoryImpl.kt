@@ -3,6 +3,7 @@ package com.quoders.apps.qmoves.data.source
 import com.quoders.apps.qmoves.data.*
 import com.quoders.apps.qmoves.data.Result.Success
 import com.quoders.apps.qmoves.data.mapper.*
+import com.quoders.apps.qmoves.data.source.local.DBStop
 import com.quoders.apps.qmoves.data.source.local.TransportDatabaseDao
 import com.quoders.apps.qmoves.data.source.remote.RemoteLine
 import com.quoders.apps.qmoves.data.source.remote.RemoteTransport
@@ -38,16 +39,51 @@ class TransportRepositoryImpl (
         return Result.Success(mapper.map(result))
     }
 
-    override suspend fun getLineStops(line: Line): Result<List<Stop>> {
+    override suspend fun getLineStops(transport: Transport, line: Line): Result<List<Stop>> {
         val queryResult = dbSource.getLineWithStops(line.uuid)
         val mapper = ListMapperImpl(DBStopMapper())
-        return Result.Success(mapper.map(queryResult.stops))
+        val stops = mapper.map(queryResult.stops)
+        return setFavoriteStops(transport, line, stops)
     }
 
     override suspend fun getRoute(line: Line): Result<List<Location>> {
         val queryResult = dbSource.getLineWithRoute(line.uuid)
         val mapper = ListMapperImpl(DBRouteLocationMapper())
         return Result.Success(mapper.map(queryResult.route))
+    }
+
+    override suspend fun addFavorite(favorite: Favorite) {
+        val mapper = FavoriteMapper()
+        dbSource.insertFavorite(mapper.map(favorite))
+    }
+
+    override suspend fun removeFavorite(favorite: Favorite) {
+        val mapper = FavoriteMapper()
+        dbSource.deleteFavorite(mapper.map(favorite))
+    }
+
+    override suspend fun getAllFavorites(): Result<List<Favorite>> {
+        val queryResult = dbSource.getFavorites()
+        val retList = queryResult.map {
+            val transport = DBTransportMapper().map(dbSource.getTransport(it.transportName))
+            val lineWithStops = dbSource.getLineOfAgency(it.transportName, it.lineCode)
+            val line = DBLineMapper().map(lineWithStops.line)
+            val stop = lineWithStops.stops.first { s: DBStop -> it.stopCode == s.code}
+            Favorite(transport, line, DBStopMapper().map(stop))
+        }
+        return Result.Success(retList)
+    }
+
+    private suspend fun setFavoriteStops (transport: Transport, line: Line, stops: List<Stop>): Result<List<Stop>> {
+        val queryResult = dbSource.getFavoritesOfLine(transport.name, line.code)
+        stops.forEach { s ->
+            queryResult.forEach { f ->
+                if (s.code == f.stopCode) {
+                    s.favorite = true
+                }
+            }
+        }
+        return Result.Success(stops)
     }
 
     private suspend fun checkRemoteUpdates(transport: Transport) {

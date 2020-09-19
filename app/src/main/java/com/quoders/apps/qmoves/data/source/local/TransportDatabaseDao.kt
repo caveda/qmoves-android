@@ -1,6 +1,7 @@
 package com.quoders.apps.qmoves.data.source.local
 
 import androidx.room.*
+import com.quoders.apps.qmoves.data.Line
 import timber.log.Timber
 
 @Dao
@@ -32,6 +33,9 @@ interface TransportDatabaseDao {
     @Query("DELETE FROM transport_agencies")
     suspend fun deleteAllTransports(): Int
 
+    @Delete
+    suspend fun deleteFavorite(favorite : DBFavorite)
+
     @Insert (onConflict = OnConflictStrategy.ABORT)
     suspend fun insertLine(lines : DBLine): Long
 
@@ -44,6 +48,9 @@ interface TransportDatabaseDao {
     @Insert (onConflict = OnConflictStrategy.ABORT)
     suspend fun insertTransports(transports : List<DBTransport>)
 
+    @Insert (onConflict = OnConflictStrategy.ABORT)
+    suspend fun insertFavorite(favorite : DBFavorite)
+
     @Query("SELECT * FROM transport_line WHERE transportName=:agency")
     suspend fun getLines(agency : String): List<DBLine>
 
@@ -54,8 +61,24 @@ interface TransportDatabaseDao {
     @Transaction
     @Query("SELECT * FROM transport_line WHERE lineId=:lineId")
     suspend fun getLineWithRoute(lineId: Long): LineWithRoute
+    @Transaction
+
+    @Query("SELECT * FROM transport_line WHERE transportName=:agency AND code=:lineCode")
+    suspend fun getLineOfAgency(agency: String, lineCode: String): LineWithStops
 
     @Transaction
     @Query("SELECT * FROM transport_agencies")
     suspend fun getTransports(): List<DBTransport>
+
+    @Transaction
+    @Query("SELECT * FROM transport_agencies WHERE name=:name")
+    suspend fun getTransport(name: String): DBTransport
+
+    @Transaction
+    @Query("SELECT * FROM favorite")
+    suspend fun getFavorites(): List<DBFavorite>
+
+    @Transaction
+    @Query("SELECT * FROM favorite WHERE transportName=:agency AND lineCode=:lineCode")
+    suspend fun getFavoritesOfLine(agency: String, lineCode: String): List<DBFavorite>
 }

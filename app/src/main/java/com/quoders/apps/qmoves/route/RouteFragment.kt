@@ -41,7 +41,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
     ): View? {
 
         val application = requireNotNull(this.activity).application
-        val viewModelFactory = RouteViewModelFactory(args.line,
+        val viewModelFactory = RouteViewModelFactory(args.transport, args.line,
             TransportRepositoryFactory.getInstance(application))
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(RouteViewModel::class.java)

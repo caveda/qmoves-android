@@ -12,7 +12,8 @@ data class Stop (
     var name: String,
     var schedule: Schedule,
     var location: Location,
-    var connections: String? = null
+    var connections: String? = null,
+    var favorite: Boolean = false
 ): Parcelable
 
 @Parcelize

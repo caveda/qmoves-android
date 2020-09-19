@@ -24,15 +24,56 @@
             tools:visibility="visible"
             android:visibility="@{viewModel.empty ? View.GONE : View.VISIBLE}">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/transports_listView"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:layout_margin="8dp"
-                app:transports="@{viewModel.transports}"
-                tools:itemCount="5"
-                tools:listitem="@layout/transport_view_item" />
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/transports_listView"
+                    android:layout_width="match_parent"
+                    android:layout_height="286dp"
+                    android:layout_margin="8dp"
+                    android:clipToPadding="false"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.035"
+                    app:transports="@{viewModel.transports}"
+                    tools:itemCount="5"
+                    tools:layout_editor_absoluteX="16dp"
+                    tools:listitem="@layout/transport_view_item" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:onClick="@{() -> viewModel.navigateToFavorites()}"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.085"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/transports_listView"
+                    app:layout_constraintVertical_bias="0.0">
+
+                    <ImageView
+                        android:layout_width="118dp"
+                        android:layout_height="65dp"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/cd_transport_icon"
+                        android:src="@drawable/ic_favorite_enable" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:contentDescription="@string/cd_transport_name"
+                        android:fontFamily="sans-serif-light"
+                        android:text="@string/menu_favorites_name"
+                        android:textSize="25sp"
+                        tools:text="Favorites" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/transports_error_layout"

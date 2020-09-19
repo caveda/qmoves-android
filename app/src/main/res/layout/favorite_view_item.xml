@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.quoders.apps.qmoves.favorites.FavoritesViewModel" />
+
+        <variable
+            name="favorite"
+            type="com.quoders.apps.qmoves.data.Favorite" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/list_row_vertical_padding"
+        android:layout_marginBottom="@dimen/list_row_vertical_padding"
+        android:onClick="@{() -> viewModel.navigateToFavoriteDetail(favorite.stop)}">
+
+        <TextView
+            android:id="@+id/favorite_stop_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="sans-serif-light"
+            android:maxLines="3"
+            android:text="@{favorite.stop.name}"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/fav_line_id_text"
+            app:layout_constraintTop_toBottomOf="@+id/fav_line_id_text"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Name of the fav Stop" />
+
+        <ImageView
+            android:id="@+id/fav_transport_image"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/favorite_stop_name_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/fav_line_id_text"
+            app:transportImage="@{favorite.transport.type}"
+            tools:srcCompat="@drawable/ic_transport_subway" />
+
+        <TextView
+            android:id="@+id/fav_line_id_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="296dp"
+            android:text="@{favorite.line.agencyId}"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/fav_transport_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="11" />
+
+        <TextView
+            android:id="@+id/fav_line_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{favorite.line.name}"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.06"
+            app:layout_constraintStart_toEndOf="@+id/fav_line_id_text"
+            app:layout_constraintTop_toTopOf="@+id/fav_line_id_text"
+            tools:text="origin - destination" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

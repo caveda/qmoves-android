@@ -3,18 +3,14 @@ package com.quoders.apps.qmoves.stops
 import androidx.lifecycle.*
 import com.quoders.apps.qmoves.Event
 import com.quoders.apps.qmoves.R
-import com.quoders.apps.qmoves.data.DataLoadingStatus
-import com.quoders.apps.qmoves.data.Line
-import com.quoders.apps.qmoves.data.Result
-import com.quoders.apps.qmoves.data.Stop
+import com.quoders.apps.qmoves.data.*
 import com.quoders.apps.qmoves.data.source.TransportRepository
 import kotlinx.coroutines.launch
 
 
 /**
- *  ViewModel of Stops page
- */
-class StopsViewModel (private val line: Line,
+ *  ViewModel of Stops page */
+class StopsViewModel (private val transport: Transport, private val line: Line,
                       private val repository: TransportRepository
 ) : ViewModel() {
 
@@ -46,7 +42,7 @@ class StopsViewModel (private val line: Line,
     private fun loadStops() {
         viewModelScope.launch {
             _dataLoading.value = DataLoadingStatus.LOADING
-            val result = repository.getLineStops(line)
+            val result = repository.getLineStops(transport, line)
             if (result is Result.Success) {
                 _stops.value = result.data
                 _dataLoading.value = DataLoadingStatus.DONE
@@ -64,5 +60,25 @@ class StopsViewModel (private val line: Line,
 
     fun navigateToStopDetail(stop: Stop) {
         _eventNavigateToStopDetail.value = Event(stop)
+    }
+
+    fun toggleFavorite(stop: Stop) {
+        viewModelScope.launch {
+            val favorite = Favorite(transport, line, stop)
+            if (stop.favorite) {
+                repository.removeFavorite(favorite)
+
+            } else {
+                repository.addFavorite(favorite)
+            }
+
+            // Reload data from repository
+            val result = repository.getLineStops(transport, line)
+            if (result is Result.Success) {
+                _stops.value = result.data
+            }
+
+            showSnackbarMessage(if (stop.favorite) R.string.favorite_added else R.string.favorite_removed)
+        }
     }
 }

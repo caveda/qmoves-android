@@ -37,3 +37,8 @@ fun bindStatus(transportImageView: ImageView, type: Transport.TransportType?) {
         }
     }
 }
+
+@BindingAdapter("favoriteStatus")
+fun bindStatus(favoriteImageView: ImageView, favorite: Boolean?) {
+    favoriteImageView.setImageResource(if (favorite==true) R.drawable.ic_favorite_enable else R.drawable.ic_favorite_disable)
+}
