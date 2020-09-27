@@ -34,8 +34,8 @@ class FavoritesViewModel (private val repository: TransportRepository) : ViewMod
     val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     // Navigation
-    private val _eventNavigateToFavoriteDetail = MutableLiveData<Event<Stop>>()
-    val eventNavigateToStopDetail : LiveData<Event<Stop>> = _eventNavigateToFavoriteDetail
+    private val _eventNavigateToFavoriteDetail = MutableLiveData<Event<Favorite>>()
+    val eventNavigateToStopDetail : LiveData<Event<Favorite>> = _eventNavigateToFavoriteDetail
 
     init {
         _favorites.value = emptyList()
@@ -61,7 +61,7 @@ class FavoritesViewModel (private val repository: TransportRepository) : ViewMod
         _snackbarText.value = Event(message)
     }
 
-    fun navigateToFavoriteDetail(stop: Stop) {
-        _eventNavigateToFavoriteDetail.value = Event(stop)
+    fun navigateToFavoriteDetail(favorite: Favorite) {
+        _eventNavigateToFavoriteDetail.value = Event(favorite)
     }
 }
