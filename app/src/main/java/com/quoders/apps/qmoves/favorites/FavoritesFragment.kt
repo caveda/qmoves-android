@@ -57,7 +57,8 @@ class FavoritesFragment : Fragment(){
     private fun setupNavigation() {
         viewModel.eventNavigateToStopDetail.observe(viewLifecycleOwner, EventObserver {
             val action = FavoritesFragmentDirections.actionFavoritesFragmentToStopDetailFragment(it.stop,it.line,it.transport)
-            findNavController().navigate(action)
+            val controller = findNavController()
+                controller.navigate(action)
         })
     }
 

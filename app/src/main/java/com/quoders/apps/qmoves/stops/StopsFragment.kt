@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,6 +17,7 @@ import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
+import com.quoders.apps.qmoves.favorites.FavoritesFragmentDirections
 import com.quoders.apps.qmoves.lines.LinesFragmentDirections
 import com.quoders.apps.qmoves.tools.setupSnackbar
 import com.quoders.apps.qmoves.tools.showSnackbar
@@ -59,8 +61,9 @@ class StopsFragment : Fragment(){
 
     private fun setupNavigation() {
         viewModel.eventNavigateToStopDetail.observe(viewLifecycleOwner, EventObserver {
-            val action = StopsFragmentDirections.actionStopsFragmentToStopDetailFragment(it,args.line,args.transport)
-            findNavController().navigate(action)
+            val action = StopsFragmentDirections.actionStopsFragmentToStopDetailFragment3(it,args.line,args.transport)
+            val controller = findNavController()
+            controller.navigate(action)
         })
     }
 

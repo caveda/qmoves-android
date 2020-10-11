@@ -58,12 +58,8 @@
             android:name="line"
             app:argType="com.quoders.apps.qmoves.data.Line" />
         <action
-            android:id="@+id/action_stopsFragment_to_stopDetailFragment"
-            app:destination="@id/stopDetailFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            android:id="@+id/action_stopsFragment_to_stopDetailFragment3"
+            app:destination="@id/stopDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/stopsHostFragment"

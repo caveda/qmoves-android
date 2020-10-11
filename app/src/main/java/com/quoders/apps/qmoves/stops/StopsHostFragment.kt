@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.route.RouteFragment
@@ -19,7 +21,7 @@ class StopsHostFragment : Fragment() {
     private val args: StopsHostFragmentArgs by navArgs()
     private var mapFragment : Fragment? = null
     private var stopListFragment: Fragment? = null
-    private var currentVisibleViewId : Int = R.id.menu_stop_list
+    private var currentVisibleViewId : Int = R.id.stopsFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,26 +34,28 @@ class StopsHostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupBottomNavigationBar(view)
         if (savedInstanceState != null) {
-            currentVisibleViewId = savedInstanceState.getInt(KEY_CURRENT_VIEW,R.id.menu_stop_list)
+            currentVisibleViewId = savedInstanceState.getInt(KEY_CURRENT_VIEW,R.id.stopsFragment)
         }
         showViewFragment(currentVisibleViewId)
     }
 
     fun setupBottomNavigationBar(view: View) {
-        (stops_bottom_view as BottomNavigationView).setOnNavigationItemSelectedListener { menuItem ->
-            currentVisibleViewId = menuItem.itemId
-            showViewFragment(currentVisibleViewId)
+        val navViewController = findNavController()
+        stops_bottom_view?.setupWithNavController(navViewController)
+        stops_bottom_view.setOnNavigationItemSelectedListener { menuItem ->
+            findNavController().navigate(menuItem.itemId,getDestFragmentArguments())
+            true
         }
     }
 
     private fun showViewFragment(viewId: Int): Boolean {
         return when (viewId) {
-            R.id.menu_stop_list -> {
+            R.id.stopsFragment -> {
                 val fragment = createStopListFragment()
                 openFragment(fragment)
                 true
             }
-            R.id.menu_stop_map -> {
+            R.id.routeFragment -> {
                 val fragment = createMapFragment()
                 openFragment(fragment)
                 true
@@ -74,10 +78,7 @@ class StopsHostFragment : Fragment() {
     private fun createMapFragment(): Fragment {
         if (mapFragment == null) {
             mapFragment = RouteFragment()
-            mapFragment?.arguments = Bundle().apply {
-                putParcelable("line", args.line)
-                putParcelable("transport", args.transport)
-            }
+            mapFragment?.arguments = getDestFragmentArguments()
         }
         return mapFragment as Fragment
     }
@@ -85,11 +86,15 @@ class StopsHostFragment : Fragment() {
     private fun createStopListFragment(): Fragment {
         if (stopListFragment == null) {
             stopListFragment = StopsFragment()
-            stopListFragment?.arguments = Bundle().apply {
-                putParcelable("line", args.line)
-                putParcelable("transport", args.transport)
-            }
+            stopListFragment?.arguments = getDestFragmentArguments()
         }
         return stopListFragment as Fragment
+    }
+
+    private fun getDestFragmentArguments(): Bundle {
+        return Bundle().apply {
+            putParcelable("line", args.line)
+            putParcelable("transport", args.transport)
+        }
     }
 }
