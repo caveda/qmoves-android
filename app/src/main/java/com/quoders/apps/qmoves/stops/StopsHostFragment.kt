@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavArgument
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.route.RouteFragment
 import kotlinx.android.synthetic.main.fragment_stops_host.*
+
 
 /**
  *  Fragment that hosts the stops pages: list, map.
@@ -36,65 +37,89 @@ class StopsHostFragment : Fragment() {
         if (savedInstanceState != null) {
             currentVisibleViewId = savedInstanceState.getInt(KEY_CURRENT_VIEW,R.id.stopsFragment)
         }
-        showViewFragment(currentVisibleViewId)
+        //showViewFragment(currentVisibleViewId)
     }
 
     fun setupBottomNavigationBar(view: View) {
         val navViewController = findNavController()
         stops_bottom_view?.setupWithNavController(navViewController)
-        stops_bottom_view.setOnNavigationItemSelectedListener { menuItem ->
-            findNavController().navigate(menuItem.itemId,getDestFragmentArguments())
-            true
-        }
+
+        // Arguments
+        val transportArg = NavArgument.Builder().setDefaultValue(args.transport).build()
+        val lineArg = NavArgument.Builder().setDefaultValue(args.line).build()
+
+        // Assign to bottomView destinations
+        val listNavDestination = navViewController.graph.findNode(R.id.stopsFragment)
+        listNavDestination?.addArgument("transport", transportArg)
+        listNavDestination?.addArgument("line", lineArg)
+
+        val mapNavDestination = navViewController.graph.findNode(R.id.routeFragment)
+        mapNavDestination?.addArgument("transport", transportArg)
+        mapNavDestination?.addArgument("line", lineArg)
+
+       // stops_bottom_view?.selectedItemId = R.id.stopsFragment
+
+//        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+//            when(destination.id) {
+//                R.id.homeFragment -> {
+//                    val argument = NavArgument.Builder().setDefaultValue(6).build()
+//                    destination.addArgument("Argument", argument)
+//                }
+//            }
+//        }
+//        stops_bottom_view.setOnNavigationItemSelectedListener { menuItem ->
+//            findNavController().navigate(menuItem.itemId,getDestFragmentArguments())
+//            true
+//        }
     }
 
-    private fun showViewFragment(viewId: Int): Boolean {
-        return when (viewId) {
-            R.id.stopsFragment -> {
-                val fragment = createStopListFragment()
-                openFragment(fragment)
-                true
-            }
-            R.id.routeFragment -> {
-                val fragment = createMapFragment()
-                openFragment(fragment)
-                true
-            }
-            else -> false
-        }
-    }
+//    private fun showViewFragment(viewId: Int): Boolean {
+//        return when (viewId) {
+//            R.id.stopsFragment -> {
+//                val fragment = createStopListFragment()
+//                openFragment(fragment)
+//                true
+//            }
+//            R.id.routeFragment -> {
+//                val fragment = createMapFragment()
+//                openFragment(fragment)
+//                true
+//            }
+//            else -> false
+//        }
+//    }
 
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(KEY_CURRENT_VIEW, currentVisibleViewId)
         super.onSaveInstanceState(outState)
     }
 
-    private fun openFragment(fragment: Fragment) {
-        val transaction = childFragmentManager.beginTransaction()
-        transaction.replace(R.id.main_container, fragment)
-        transaction.commit()
-    }
-
-    private fun createMapFragment(): Fragment {
-        if (mapFragment == null) {
-            mapFragment = RouteFragment()
-            mapFragment?.arguments = getDestFragmentArguments()
-        }
-        return mapFragment as Fragment
-    }
-
-    private fun createStopListFragment(): Fragment {
-        if (stopListFragment == null) {
-            stopListFragment = StopsFragment()
-            stopListFragment?.arguments = getDestFragmentArguments()
-        }
-        return stopListFragment as Fragment
-    }
-
-    private fun getDestFragmentArguments(): Bundle {
-        return Bundle().apply {
-            putParcelable("line", args.line)
-            putParcelable("transport", args.transport)
-        }
-    }
+//    private fun openFragment(fragment: Fragment) {
+//        val transaction = childFragmentManager.beginTransaction()
+//        transaction.replace(R.id.main_container, fragment)
+//        transaction.commit()
+//    }
+//
+//    private fun createMapFragment(): Fragment {
+//        if (mapFragment == null) {
+//            mapFragment = RouteFragment()
+//            mapFragment?.arguments = getDestFragmentArguments()
+//        }
+//        return mapFragment as Fragment
+//    }
+//
+//    private fun createStopListFragment(): Fragment {
+//        if (stopListFragment == null) {
+//            stopListFragment = StopsFragment()
+//            stopListFragment?.arguments = getDestFragmentArguments()
+//        }
+//        return stopListFragment as Fragment
+//    }
+//
+//    private fun getDestFragmentArguments(): Bundle {
+//        return Bundle().apply {
+//            putParcelable("line", args.line)
+//            putParcelable("transport", args.transport)
+//        }
+//    }
 }
