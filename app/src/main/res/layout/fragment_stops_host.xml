@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/stops_host_fragment"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/stops_host_tablayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"/>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/stops_bottom_view"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/stops_host_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemIconTint="@drawable/bottomnavigation_icon_selector"
-        app:itemTextColor="@drawable/bottomnavigation_icon_selector"
-        app:menu="@menu/stops_bottom_menu"/>
+        android:layout_height="match_parent"/>
+
 </LinearLayout>
-
 
