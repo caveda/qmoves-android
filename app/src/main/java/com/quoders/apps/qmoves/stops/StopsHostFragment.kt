@@ -24,9 +24,7 @@ import kotlinx.android.synthetic.main.fragment_stops_host.*
  */
 class StopsHostFragment : Fragment() {
 
-    private val KEY_CURRENT_VIEW: String = "STOPS_HOST_CURRENT_VIEW"
     private val args: StopsHostFragmentArgs by navArgs()
-    private var currentVisibleViewId : Int = R.id.stopsFragment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,10 +35,10 @@ class StopsHostFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        stops_host_pager.adapter = activity?.let { StopsHostFragmentAdapter(it, buildFragmentArguments())}
+        stops_host_pager.adapter = StopsHostFragmentAdapter(this.childFragmentManager, lifecycle, buildFragmentArguments())
 
         TabLayoutMediator(stops_host_tablayout, stops_host_pager) { tab, position ->
-            tab.text = resources.getString(StopsHostFragmentAdapter.StopsFragments.getTitle(position))
+            tab.text = resources.getString(StopsFragments.getTitle(position))
         }.attach()
     }
 

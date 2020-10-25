@@ -3,56 +3,59 @@ package com.quoders.apps.qmoves.stops
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.route.RouteFragment
 
-class StopsHostFragmentAdapter(activity: FragmentActivity, val args: Bundle) : FragmentStateAdapter(activity) {
+class StopsHostFragmentAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle, private val args: Bundle) : FragmentStateAdapter(fragmentManager, lifecycle) {
 
     override fun getItemCount(): Int = StopsFragments.size()
 
     override fun createFragment(position: Int): Fragment {
         return StopsFragments.getFragment(position, args)
     }
+}
 
-    /**
-     * Builds the necessary fragment according to the position.
-     */
-    object StopsFragments {
 
-        private val fragmentBuilders: List<Pair<Int, (Bundle) -> Fragment>>
+/**
+ * Builds the necessary fragment according to the position.
+ */
+object StopsFragments {
 
-        init {
-            fragmentBuilders = listOf(
-                Pair(R.string.stops_list, { args -> createStopListFragment(args) }),
-                Pair(R.string.stops_map, { args -> createMapFragment(args) })
-            )
-        }
+    private val fragmentBuilders: List<Pair<Int, (Bundle) -> Fragment>>
 
-        fun size(): Int {
-            return fragmentBuilders.size
-        }
+    init {
+        fragmentBuilders = listOf(
+            Pair(R.string.stops_list, { args -> createStopListFragment(args) }),
+            Pair(R.string.stops_map, { args -> createMapFragment(args) })
+        )
+    }
 
-        fun getFragment(position: Int, args: Bundle): Fragment {
-            require(position < fragmentBuilders.size)
-            return fragmentBuilders[position].second(args)
-        }
+    fun size(): Int {
+        return fragmentBuilders.size
+    }
 
-        fun getTitle(position: Int): Int {
-            require(position < fragmentBuilders.size)
-            return fragmentBuilders[position].first
-        }
+    fun getFragment(position: Int, args: Bundle): Fragment {
+        require(position < fragmentBuilders.size)
+        return fragmentBuilders[position].second(args)
+    }
 
-        private fun createMapFragment(args: Bundle): Fragment {
-            val mapFragment = RouteFragment()
-            mapFragment.arguments = args
-            return mapFragment
-        }
+    fun getTitle(position: Int): Int {
+        require(position < fragmentBuilders.size)
+        return fragmentBuilders[position].first
+    }
 
-        private fun createStopListFragment(args: Bundle): Fragment {
-            val stopListFragment = StopsFragment()
-            stopListFragment.arguments = args
-            return stopListFragment as Fragment
-        }
+    private fun createMapFragment(args: Bundle): Fragment {
+        val mapFragment = RouteFragment()
+        mapFragment.arguments = args
+        return mapFragment
+    }
+
+    private fun createStopListFragment(args: Bundle): Fragment {
+        val stopListFragment = StopsFragment()
+        stopListFragment.arguments = args
+        return stopListFragment as Fragment
     }
 }
