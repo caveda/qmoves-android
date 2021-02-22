@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,8 +18,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import com.quoders.apps.qmoves.R
+import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
+import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
+import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
+import com.quoders.apps.qmoves.stops.StopsFragment
 import timber.log.Timber
 
 /**
@@ -26,26 +31,20 @@ import timber.log.Timber
  */
 class RouteFragment : Fragment(), OnMapReadyCallback {
 
-    private lateinit var map: GoogleMap
-    private val args: RouteFragmentArgs by navArgs()
-    private lateinit var viewModel: RouteViewModel
-
-    companion object {
+    companion object{
+        const val ARG_KEY_TRANSPORT = "Transport"
+        const val ARG_KEY_LINE = "Line"
         private const val DefaultZoom = 16f
     }
+
+    private lateinit var map: GoogleMap
+    private lateinit var viewModel: RouteViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = RouteViewModelFactory(args.transport, args.line,
-            TransportRepositoryFactory.getInstance(application))
-
-        viewModel = ViewModelProvider(this, viewModelFactory).get(RouteViewModel::class.java)
-
+    ): View {
         return inflater.inflate(R.layout.fragment_route, container, false)
     }
 
@@ -62,6 +61,22 @@ class RouteFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        lateinit var line: Line
+        lateinit var transport: Transport
+
+        arguments?.takeIf { it.containsKey(RouteFragment.ARG_KEY_TRANSPORT) && it.containsKey(
+            RouteFragment.ARG_KEY_LINE) }?.apply {
+            line = getParcelable(RouteFragment.ARG_KEY_LINE)!!
+            transport = getParcelable(RouteFragment.ARG_KEY_TRANSPORT)!!
+        }
+
+        val application = requireNotNull(this.activity).application
+        val viewModelFactory = RouteViewModelFactory(transport, line,
+            TransportRepositoryFactory.getInstance(application))
+
+        viewModel = ViewModelProvider(this, viewModelFactory).get(RouteViewModel::class.java)
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager.findFragmentById(R.id.route_map) as SupportMapFragment
         mapFragment.getMapAsync(this)

@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
+import com.quoders.apps.qmoves.data.Line
+import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
 import com.quoders.apps.qmoves.favorites.FavoritesFragmentDirections
@@ -25,23 +27,38 @@ import com.quoders.apps.qmoves.tools.showSnackbar
 /**
  *  Page that shows the list of stops of a line.
  */
-class StopsFragment : Fragment(){
+class StopsFragment : Fragment() {
+
+    companion object{
+        const val ARG_KEY_TRANSPORT = "Transport"
+        const val ARG_KEY_LINE = "Line"
+    }
 
     private lateinit var binding: FragmentStopsBinding
     private lateinit var viewModel: StopsViewModel
-    private val args: StopsFragmentArgs by navArgs()
+    private lateinit var line: Line
+    private lateinit var transport: Transport
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_stops,container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
+
+        arguments?.takeIf { it.containsKey(ARG_KEY_TRANSPORT) && it.containsKey(ARG_KEY_LINE) }?.apply {
+            line = getParcelable(ARG_KEY_LINE)!!
+            transport = getParcelable(ARG_KEY_TRANSPORT)!!
+        }
 
         val application = requireNotNull(this.activity).application
-        val viewModelFactory = StopsViewModelFactory(args.transport, args.line,
+        val viewModelFactory = StopsViewModelFactory(transport, line,
             TransportRepositoryFactory.getInstance(application))
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(
@@ -51,7 +68,6 @@ class StopsFragment : Fragment(){
 
         setupNavigation()
         setupStopList()
-        return binding.root
     }
 
     override fun onStart() {
@@ -61,7 +77,7 @@ class StopsFragment : Fragment(){
 
     private fun setupNavigation() {
         viewModel.eventNavigateToStopDetail.observe(viewLifecycleOwner, EventObserver {
-            val action = StopsFragmentDirections.actionStopsFragmentToStopDetailFragment3(it,args.line,args.transport)
+            val action = StopsFragmentDirections.actionStopsFragmentToStopDetailFragment3(it,line,transport)
             val controller = findNavController()
             controller.navigate(action)
         })
@@ -74,7 +90,9 @@ class StopsFragment : Fragment(){
     private fun setupStopList() {
         binding.stopsListView.adapter = StopsAdapter(viewModel)
 
-        binding.stopsListView.addItemDecoration(DividerItemDecoration(binding.stopsListView.context,
-            DividerItemDecoration.VERTICAL))
+        binding.stopsListView.addItemDecoration(
+            DividerItemDecoration(binding.stopsListView.context,
+                DividerItemDecoration.VERTICAL)
+        )
     }
 }

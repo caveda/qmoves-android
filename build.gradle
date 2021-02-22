@@ -10,7 +10,7 @@ buildscript {
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:4.1.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$androidXNavigationVersion"
         classpath "com.google.gms:google-services:$googleServicesVersion"
@@ -55,6 +55,7 @@ ext {
     retrofitCorroutinesVersion = '0.9.2'
     moshiVersion = '1.8.0'
     roomVersion = '2.2.5'
+    viewPagerVersion = '1.0.0'
 
     // Testing
     fragmentVersion = '1.2.0'
