@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -77,9 +79,9 @@ class StopsFragment : Fragment() {
 
     private fun setupNavigation() {
         viewModel.eventNavigateToStopDetail.observe(viewLifecycleOwner, EventObserver {
-            val action = StopsFragmentDirections.actionStopsFragmentToStopDetailFragment3(it,line,transport)
-            val controller = findNavController()
-            controller.navigate(action)
+            val bundle = bundleOf("transport" to transport,
+            "line" to line, "stop" to it)
+            findNavController().navigate(R.id.action_global_stopDetailFragment, bundle)
         })
     }
 

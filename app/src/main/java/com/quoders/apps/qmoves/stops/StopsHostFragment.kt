@@ -1,42 +1,15 @@
 package com.quoders.apps.qmoves.stops
 
-import android.app.Activity
 import android.os.Bundle
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.*
-import androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavArgument
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import com.quoders.apps.qmoves.BuildConfig
-import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
-import com.quoders.apps.qmoves.data.Line
-import com.quoders.apps.qmoves.data.Transport
-import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
-import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
 import com.quoders.apps.qmoves.route.RouteFragment
-import com.quoders.apps.qmoves.stopDetail.StopDetailPagerAdapter
-import com.quoders.apps.qmoves.tools.setupSnackbar
-import kotlinx.android.synthetic.main.fragment_stop_detail.*
-import kotlinx.android.synthetic.main.fragment_stops_host.*
 
 
 /**

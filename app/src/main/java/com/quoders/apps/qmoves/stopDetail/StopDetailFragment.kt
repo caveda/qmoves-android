@@ -28,10 +28,5 @@ class StopDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        stopdetail_pager.adapter = activity?.let { StopDetailPagerAdapter(it) }
-
-        TabLayoutMediator(stopsdetail_tablayout, stopdetail_pager) { tab, position ->
-            tab.text = "STOP INFO ${(position + 1)}"
-        }.attach()
     }
 }
