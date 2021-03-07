@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/stopTimeFragment"
+        android:id="@+id/stopNextFragment"
         android:icon="@drawable/ic_transport_bus"
         android:contentDescription="@string/cd_stop_detail_time"
         android:title="@string/stop_detail_time" />
@@ -11,7 +11,7 @@
         android:contentDescription="@string/cd_stop_detail_timetable"
         android:title="@string/stop_detail_timetable" />
     <item
-        android:id="@+id/stopMapFragment"
+        android:id="@+id/stopLocationFragment"
         android:icon="@drawable/ic_map"
         android:contentDescription="@string/cd_stop_detail_map"
         android:title="@string/stop_detail_map" />
