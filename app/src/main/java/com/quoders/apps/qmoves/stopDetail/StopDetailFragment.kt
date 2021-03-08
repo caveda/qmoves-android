@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import com.quoders.apps.qmoves.R
+import com.quoders.apps.qmoves.data.Line
+import com.quoders.apps.qmoves.data.Stop
+import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.route.RouteFragment
 import com.quoders.apps.qmoves.stops.StopsFragment
 import kotlinx.android.synthetic.main.fragment_stop_detail.*
@@ -19,11 +23,20 @@ import kotlinx.android.synthetic.main.fragment_stops_host.*
  */
 class StopDetailFragment : Fragment() {
 
+    companion object{
+        const val ARG_KEY_TRANSPORT = "Transport"
+        const val ARG_KEY_LINE = "Line"
+        const val ARG_KEY_STOP = "Stop"
+    }
+
     private val KEY_CURRENT_VIEW: String = "STOP_DETAIL_CURRENT_VIEW"
     private var stopLocationFragment : Fragment? = null
     private var stopNextFragment: Fragment? = null
     private var stopScheduleFragment: Fragment? = null
     private var currentVisibleViewId : Int = R.id.stopNextFragment
+    private lateinit var line: Line
+    private lateinit var transport: Transport
+    private lateinit var stop: Stop
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +47,13 @@ class StopDetailFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        arguments?.takeIf { it.containsKey(ARG_KEY_TRANSPORT) && it.containsKey(ARG_KEY_LINE) && it.containsKey(ARG_KEY_STOP) }?.apply {
+            line = getParcelable(ARG_KEY_LINE)!!
+            transport = getParcelable(ARG_KEY_TRANSPORT)!!
+            stop = getParcelable(ARG_KEY_STOP)!!
+        }
+
         setupBottomNavigationBar(view)
         if (savedInstanceState != null) {
             currentVisibleViewId = savedInstanceState.getInt(KEY_CURRENT_VIEW,R.id.stopNextFragment)
@@ -83,6 +103,7 @@ class StopDetailFragment : Fragment() {
     private fun createStopNextFragment(): Fragment {
         if (stopNextFragment == null) {
             stopNextFragment = StopNextFragment()
+            stopNextFragment?.arguments = bundleOf(StopNextFragment.ARG_KEY_STOP to stop)
 /*            stopLocationFragment?.arguments = Bundle().apply {
                 putParcelable("line", args.line)
                 putParcelable("transport", args.transport)
@@ -94,6 +115,7 @@ class StopDetailFragment : Fragment() {
     private fun createStopScheduleFragment(): Fragment {
         if (stopScheduleFragment == null) {
             stopScheduleFragment = StopScheduleFragment()
+            stopScheduleFragment?.arguments = bundleOf(StopScheduleFragment.ARG_KEY_STOP to stop)
 /*            stopLocationFragment?.arguments = Bundle().apply {
                 putParcelable("line", args.line)
                 putParcelable("transport", args.transport)
@@ -105,6 +127,7 @@ class StopDetailFragment : Fragment() {
     private fun createStopLocationFragment(): Fragment {
         if (stopLocationFragment == null) {
             stopLocationFragment = StopLocationFragment()
+            stopLocationFragment?.arguments = bundleOf(StopLocationFragment.ARG_KEY_STOP to stop)
 /*            stopLocationFragment?.arguments = Bundle().apply {
                 putParcelable("line", args.line)
                 putParcelable("transport", args.transport)

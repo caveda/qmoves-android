@@ -23,6 +23,8 @@ import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
 import com.quoders.apps.qmoves.favorites.FavoritesFragmentDirections
 import com.quoders.apps.qmoves.lines.LinesFragmentDirections
+import com.quoders.apps.qmoves.stopDetail.StopDetailFragment
+import com.quoders.apps.qmoves.stopDetail.StopLocationFragment
 import com.quoders.apps.qmoves.tools.setupSnackbar
 import com.quoders.apps.qmoves.tools.showSnackbar
 
@@ -79,8 +81,8 @@ class StopsFragment : Fragment() {
 
     private fun setupNavigation() {
         viewModel.eventNavigateToStopDetail.observe(viewLifecycleOwner, EventObserver {
-            val bundle = bundleOf("transport" to transport,
-            "line" to line, "stop" to it)
+            val bundle = bundleOf(StopDetailFragment.ARG_KEY_TRANSPORT to transport,
+                StopDetailFragment.ARG_KEY_LINE to line, StopDetailFragment.ARG_KEY_STOP to it)
             findNavController().navigate(R.id.action_global_stopDetailFragment, bundle)
         })
     }
