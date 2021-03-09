@@ -18,11 +18,7 @@ import com.quoders.apps.qmoves.route.RouteFragment
 class StopsHostFragment : Fragment() {
 
     private val args: StopsHostFragmentArgs by navArgs()
-
-    // When requested, this adapter returns a DemoObjectFragment,
-    // representing an object in the collection.
     private lateinit var viewPager: ViewPager
-    private val fragments: MutableList<Pair<Int, Fragment>> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,11 +29,10 @@ class StopsHostFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         viewPager = view.findViewById(R.id.stops_host_pager)
-        fragments.add(Pair(R.string.stops_list,createStopsFragment()))
-        fragments.add(Pair(R.string.stops_map,createRouteMapFragment()))
-
+        val fragments: MutableList<Pair<Int, Fragment>> = mutableListOf()
+        fragments.add(Pair(R.string.stops_list, createStopsFragment()))
+        fragments.add(Pair(R.string.stops_map, createRouteMapFragment()))
 
         // The pager adapter, which provides the pages to the view pager widget.
         val pagerAdapter = StopsPagerAdapter(this.childFragmentManager)
