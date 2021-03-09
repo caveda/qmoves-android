@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +17,7 @@ import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentFavoritesBinding
 import com.quoders.apps.qmoves.home.HomeFragmentDirections
+import com.quoders.apps.qmoves.stopDetail.StopDetailFragment
 import com.quoders.apps.qmoves.tools.setupSnackbar
 import com.quoders.apps.qmoves.tools.showSnackbar
 
@@ -56,9 +58,11 @@ class FavoritesFragment : Fragment(){
 
     private fun setupNavigation() {
         viewModel.eventNavigateToStopDetail.observe(viewLifecycleOwner, EventObserver {
-            val action = FavoritesFragmentDirections.actionFavoritesFragmentToStopDetailFragment(it.stop,it.line,it.transport)
-            val controller = findNavController()
-                controller.navigate(action)
+            val bundle = bundleOf(
+                StopDetailFragment.ARG_KEY_TRANSPORT to it.transport,
+                StopDetailFragment.ARG_KEY_LINE to it.line,
+                StopDetailFragment.ARG_KEY_STOP to it.stop)
+            findNavController().navigate(R.id.action_global_stopDetailFragment, bundle)
         })
     }
 
