@@ -16,4 +16,10 @@
     <string name="cd_favorite_button">Favorite selector</string>
     <string name="favorite_removed">Stop removed from favorites</string>
     <string name="favorite_added">Stop added to favorites</string>
+    <string name="stop_detail_time">Time</string>
+    <string name="stop_detail_map">Location</string>
+    <string name="stop_detail_timetable">Timetable</string>
+    <string name="cd_stop_detail_time">Time for next transports</string>
+    <string name="cd_stop_detail_timetable">Stop timetable</string>
+    <string name="cd_stop_detail_map">Stop location</string>
 </resources>

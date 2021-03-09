@@ -4,22 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.*
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.viewpager.widget.ViewPager
+import com.google.android.material.tabs.TabLayout
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.route.RouteFragment
-import kotlinx.android.synthetic.main.fragment_stops_host.*
+
 
 /**
  *  Fragment that hosts the stops pages: list, map.
  */
 class StopsHostFragment : Fragment() {
-    private val KEY_CURRENT_VIEW: String = "STOPS_HOST_CURRENT_VIEW"
+
     private val args: StopsHostFragmentArgs by navArgs()
-    private var mapFragment : Fragment? = null
-    private var stopListFragment: Fragment? = null
-    private var currentVisibleViewId : Int = R.id.menu_stop_list
+    private lateinit var viewPager: ViewPager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,66 +29,57 @@ class StopsHostFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupBottomNavigationBar(view)
-        if (savedInstanceState != null) {
-            currentVisibleViewId = savedInstanceState.getInt(KEY_CURRENT_VIEW,R.id.menu_stop_list)
+        viewPager = view.findViewById(R.id.stops_host_pager)
+        val fragments: MutableList<Pair<Int, Fragment>> = mutableListOf()
+        fragments.add(Pair(R.string.stops_list, createStopsFragment()))
+        fragments.add(Pair(R.string.stops_map, createRouteMapFragment()))
+
+        // The pager adapter, which provides the pages to the view pager widget.
+        val pagerAdapter = StopsPagerAdapter(this.childFragmentManager)
+        pagerAdapter.addFragments(fragments.toTypedArray());
+        viewPager.adapter = pagerAdapter
+
+        val tabLayout = view.findViewById(R.id.stops_host_tab_layout) as TabLayout
+        tabLayout.setupWithViewPager(viewPager)
+    }
+
+    private fun createStopsFragment(): Fragment {
+        val fragment = StopsFragment()
+        fragment.arguments = Bundle().apply {
+            putParcelable(StopsFragment.ARG_KEY_LINE, args.line)
+            putParcelable(StopsFragment.ARG_KEY_TRANSPORT, args.transport)
         }
-        showViewFragment(currentVisibleViewId)
+        return fragment
     }
 
-    fun setupBottomNavigationBar(view: View) {
-        (stops_bottom_view as BottomNavigationView).setOnNavigationItemSelectedListener { menuItem ->
-            currentVisibleViewId = menuItem.itemId
-            showViewFragment(currentVisibleViewId)
+    private fun createRouteMapFragment(): Fragment {
+        val fragment = RouteFragment()
+        fragment.arguments = Bundle().apply {
+            putParcelable(StopsFragment.ARG_KEY_LINE, args.line)
+            putParcelable(StopsFragment.ARG_KEY_TRANSPORT, args.transport)
         }
+        return fragment
     }
 
-    private fun showViewFragment(viewId: Int): Boolean {
-        return when (viewId) {
-            R.id.menu_stop_list -> {
-                val fragment = createStopListFragment()
-                openFragment(fragment)
-                true
-            }
-            R.id.menu_stop_map -> {
-                val fragment = createMapFragment()
-                openFragment(fragment)
-                true
-            }
-            else -> false
+    /**
+     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
+     * sequence.
+     */
+    private inner class StopsPagerAdapter(fm: FragmentManager) :
+        FragmentStatePagerAdapter(fm) {
+
+        private val fragments = mutableListOf<Pair<Int, Fragment>>()
+
+        fun addFragments(fragment: Array<Pair<Int, Fragment>>) {
+            fragments.addAll(fragment)
         }
-    }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putInt(KEY_CURRENT_VIEW, currentVisibleViewId)
-        super.onSaveInstanceState(outState)
-    }
-
-    private fun openFragment(fragment: Fragment) {
-        val transaction = childFragmentManager.beginTransaction()
-        transaction.replace(R.id.main_container, fragment)
-        transaction.commit()
-    }
-
-    private fun createMapFragment(): Fragment {
-        if (mapFragment == null) {
-            mapFragment = RouteFragment()
-            mapFragment?.arguments = Bundle().apply {
-                putParcelable("line", args.line)
-                putParcelable("transport", args.transport)
-            }
+        override fun getPageTitle(position: Int): CharSequence {
+            return getString(fragments[position].first)
         }
-        return mapFragment as Fragment
-    }
 
-    private fun createStopListFragment(): Fragment {
-        if (stopListFragment == null) {
-            stopListFragment = StopsFragment()
-            stopListFragment?.arguments = Bundle().apply {
-                putParcelable("line", args.line)
-                putParcelable("transport", args.transport)
-            }
-        }
-        return stopListFragment as Fragment
+        override fun getCount(): Int = fragments.size
+
+        override fun getItem(position: Int): Fragment = fragments[position].second
     }
 }
