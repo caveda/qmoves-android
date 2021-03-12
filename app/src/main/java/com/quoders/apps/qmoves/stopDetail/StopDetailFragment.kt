@@ -6,17 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayoutMediator
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.Transport
-import com.quoders.apps.qmoves.route.RouteFragment
-import com.quoders.apps.qmoves.stops.StopsFragment
+import com.quoders.apps.qmoves.stopDetail.location.StopLocationFragment
 import kotlinx.android.synthetic.main.fragment_stop_detail.*
-import kotlinx.android.synthetic.main.fragment_stops_host.*
 
 /**
  *  Fragment that hosts the details of the stop: next transport, schedule, location.
@@ -126,7 +122,8 @@ class StopDetailFragment : Fragment() {
 
     private fun createStopLocationFragment(): Fragment {
         if (stopLocationFragment == null) {
-            stopLocationFragment = StopLocationFragment()
+            stopLocationFragment =
+                StopLocationFragment()
             stopLocationFragment?.arguments = bundleOf(StopLocationFragment.ARG_KEY_STOP to stop)
 /*            stopLocationFragment?.arguments = Bundle().apply {
                 putParcelable("line", args.line)
