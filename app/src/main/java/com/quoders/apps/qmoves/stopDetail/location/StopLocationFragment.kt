@@ -34,7 +34,6 @@ class StopLocationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
     }
 
     private lateinit var stop: Stop
-    private lateinit var map: GoogleMap
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,7 +52,6 @@ class StopLocationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager.findFragmentById(R.id.stop_location_map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
     }
 
     /**
@@ -66,9 +64,13 @@ class StopLocationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
      * installed Google Play services and returned to the app.
      */
     override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
         Timber.d("onMapReady: Map is loaded")
-        drawStopsOnMap(map,stop)
+        setupMapContent(googleMap)
+    }
+
+    private fun setupMapContent(map: GoogleMap) {
+        map.uiSettings.isZoomControlsEnabled = true
+        drawStopsOnMap(map, stop)
     }
 
     private fun drawStopsOnMap(map: GoogleMap, stop: Stop) {
@@ -94,9 +96,9 @@ class StopLocationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
 
     /** Called when the user clicks a marker.  */
     override fun onMarkerClick(marker: Marker): Boolean {
-
         // Retrieve the data from the marker.
         val stop = marker.tag as Stop
+        Timber.d("onMarkerClick: Clicked stop ${stop.name}")
         return false
     }
 }
