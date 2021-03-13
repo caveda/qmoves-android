@@ -87,9 +87,9 @@ class StopLocationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
             val marker = map.addMarker(
                 MarkerOptions()
                 .position(stop.location.toLatLng())
-                .title(stop.name)
-                    .)
+                .title(stop.name))
             marker.tag = stop
+            marker.showInfoWindow()
     }
 
     /** Called when the user clicks a marker.  */
@@ -97,10 +97,6 @@ class StopLocationFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerC
 
         // Retrieve the data from the marker.
         val stop = marker.tag as Stop
-        //navigateToStopDetails(stop)
-        // Return false to indicate that we have not consumed the event and that we wish
-        // for the default behavior to occur (which is for the camera to move such that the
-        // marker is centered and for the marker's info window to open, if it has one).
         return false
     }
 }
