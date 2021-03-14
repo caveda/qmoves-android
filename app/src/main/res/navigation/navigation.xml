@@ -127,7 +127,7 @@
         app:destination="@id/stopDetailFragment" />
     <fragment
         android:id="@+id/stopLocationFragment2"
-        android:name="com.quoders.apps.qmoves.stopDetail.StopLocationFragment"
+        android:name="com.quoders.apps.qmoves.stopDetail.location.StopLocationFragment"
         android:label="StopLocationFragment" />
     <fragment
         android:id="@+id/stopNextFragment2"
