@@ -24,6 +24,8 @@ import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
 import com.quoders.apps.qmoves.favorites.FavoritesFragmentDirections
 import com.quoders.apps.qmoves.lines.LinesFragmentDirections
+import com.quoders.apps.qmoves.realTime.BusRealTimeService
+import com.quoders.apps.qmoves.realTime.RealTimeService
 import com.quoders.apps.qmoves.tools.setupSnackbar
 import com.quoders.apps.qmoves.tools.showSnackbar
 import kotlinx.android.synthetic.main.fragment_stop_location.*
@@ -57,5 +59,7 @@ class StopNextFragment : Fragment() {
         stop.let {
             stop_next_label.text = "${stop.name} \n ${stop.connections}";
         }
+
+        val realtimeService = BusRealTimeService()
     }
 }
