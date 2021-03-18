@@ -2,10 +2,19 @@ package com.quoders.apps.qmoves.realTime
 
 import com.squareup.moshi.Json
 
+
 /***
  * Data object containing the data of the realtime Bus service
  */
-data class BusServiceConfig(
+data class RemoteServicesConfig(
+    @Json(name = "realtime")
+    val realTimeService: RealTimeServiceConfig
+)
+
+/***
+ * Data object containing the data of the realtime Bus service
+ */
+data class RealTimeServiceConfig(
     @Json(name = "url")
     val uri: String,
     @Json(name = "qss")
