@@ -61,5 +61,6 @@ class StopNextFragment : Fragment() {
         }
 
         val realtimeService = BusRealTimeService()
+        realtimeService.getStopNextTransports(stop)
     }
 }

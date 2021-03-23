@@ -1,10 +1,16 @@
 package com.quoders.apps.qmoves.realTime
 
 import com.quoders.apps.qmoves.data.Stop
+import com.quoders.apps.qmoves.realTime.api.RealTimeServiceApi
+import com.quoders.apps.qmoves.realTime.model.Arrivals
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import kotlinx.android.synthetic.main.fragment_stop_schedule.*
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
+import java.lang.IllegalStateException
 
 /**
  * Real time service client for Bus
@@ -13,6 +19,17 @@ class BusRealTimeService: RealTimeService {
 
     private var serviceConfig: RemoteServicesConfig? = null
     private val isServiceAvailable = serviceConfig!=null
+
+    private val retrofitInstance by lazy{
+        Retrofit.Builder()
+            .baseUrl(serviceConfig!!.realTimeService.uri)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+    }
+
+    private val serviceApi: RealTimeServiceApi by lazy{
+        retrofitInstance.create(RealTimeServiceApi::class.java)
+    }
 
     // initializer block
     init {
@@ -23,7 +40,7 @@ class BusRealTimeService: RealTimeService {
 
         try{
             val serviceInfoContent = javaClass.getResource("/res/raw/quoders_services.json")?.readText()
-            val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+            val moshi = Moshi.Builder().build()
             val adapter: JsonAdapter<RemoteServicesConfig> = moshi.adapter(RemoteServicesConfig::class.java)
             serviceConfig = adapter.fromJson(serviceInfoContent)
         }
@@ -34,7 +51,16 @@ class BusRealTimeService: RealTimeService {
     }
 
 
-    override fun getStopNextTransports(stop: Stop): List<StopNextTransports> {
-        TODO("Not yet implemented")
+    override suspend fun getStopNextTransports(stop: Stop): List<StopNextTransports> {
+        if (!isServiceAvailable)
+            throw IllegalStateException("The service configuration has not been loaded")
+        val uri = serviceConfig!!.realTimeService.getTransportQueryUri(stop.code)
+        val arrivals = serviceApi.getRealTime(uri.toString(),"someCookie")
+        return arrivalsToStopNextTransport(arrivals)
+    }
+
+    private fun arrivalsToStopNextTransport(arrivals: Arrivals): List<StopNextTransports> {
+        // TODO NOT IMPLEMENTED
+        return listOf()
     }
 }

@@ -9,7 +9,7 @@ interface RealTimeService {
     /**
      * Given a stop, returns the list of next transports to arrive at the stop.
      */
-    fun getStopNextTransports(stop: Stop): List<StopNextTransports>
+    suspend fun getStopNextTransports(stop: Stop): List<StopNextTransports>
 }
 
 /**
