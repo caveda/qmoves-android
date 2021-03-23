@@ -18,7 +18,8 @@ import java.lang.IllegalStateException
 class BusRealTimeService: RealTimeService {
 
     private var serviceConfig: RemoteServicesConfig? = null
-    private val isServiceAvailable = serviceConfig!=null
+    private val isServiceAvailable get() = serviceConfig!=null
+
 
     private val retrofitInstance by lazy{
         Retrofit.Builder()
@@ -54,9 +55,17 @@ class BusRealTimeService: RealTimeService {
     override suspend fun getStopNextTransports(stop: Stop): List<StopNextTransports> {
         if (!isServiceAvailable)
             throw IllegalStateException("The service configuration has not been loaded")
-        val uri = serviceConfig!!.realTimeService.getTransportQueryUri(stop.code)
-        val arrivals = serviceApi.getRealTime(uri.toString(),"someCookie")
-        return arrivalsToStopNextTransport(arrivals)
+
+        try {
+            val uri = serviceConfig!!.realTimeService.getTransportQueryUri(stop.code)
+            val arrivals = serviceApi.getRealTime(uri.toString(), "someCookie")
+            return arrivalsToStopNextTransport(arrivals)
+        }
+        catch (ex: Exception)
+        {
+            Timber.e("can not get next transport data due to exception: $ex")
+        }
+        return emptyList()
     }
 
     private fun arrivalsToStopNextTransport(arrivals: Arrivals): List<StopNextTransports> {

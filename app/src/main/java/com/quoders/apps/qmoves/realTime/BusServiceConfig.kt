@@ -19,6 +19,8 @@ data class RemoteServicesConfig(
  */
 @JsonClass(generateAdapter = true)
 data class RealTimeServiceConfig(
+    @Json(name = "sch")
+    val schema: String,
     @Json(name = "url")
     val uri: String,
     @Json(name = "qss")
@@ -35,6 +37,7 @@ data class RealTimeServiceConfig(
 
     fun getTransportQueryUri(id :String) : Uri {
         return Uri.Builder()
+            .scheme(schema)
             .authority(uri)
             .appendPath(service)
             .appendPath(city)

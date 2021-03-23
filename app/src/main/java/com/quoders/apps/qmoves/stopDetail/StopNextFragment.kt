@@ -23,6 +23,8 @@ import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
 import com.quoders.apps.qmoves.favorites.FavoritesFragmentDirections
+import com.quoders.apps.qmoves.favorites.FavoritesViewModel
+import com.quoders.apps.qmoves.favorites.FavoritesViewModelFactory
 import com.quoders.apps.qmoves.lines.LinesFragmentDirections
 import com.quoders.apps.qmoves.realTime.BusRealTimeService
 import com.quoders.apps.qmoves.realTime.RealTimeService
@@ -61,6 +63,10 @@ class StopNextFragment : Fragment() {
         }
 
         val realtimeService = BusRealTimeService()
-        realtimeService.getStopNextTransports(stop)
+        val viewModelFactory = StopNextViewModelFactory(
+            stop, realtimeService)
+
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(
+            StopNextViewModel::class.java)
     }
 }
