@@ -1,4 +1,4 @@
-package com.quoders.apps.qmoves.realTime
+package com.quoders.apps.qmoves.realTime.model
 
 import android.net.Uri
 import com.squareup.moshi.Json
@@ -10,7 +10,7 @@ import com.squareup.moshi.JsonClass
  */
 @JsonClass(generateAdapter = true)
 data class RemoteServicesConfig(
-    @Json(name = "realtime")
+    @field:Json(name = "realtime")
     val realTimeService: RealTimeServiceConfig
 )
 
@@ -19,26 +19,36 @@ data class RemoteServicesConfig(
  */
 @JsonClass(generateAdapter = true)
 data class RealTimeServiceConfig(
-    @Json(name = "sch")
-    val schema: String,
-    @Json(name = "url")
+    @field:Json(name = "sch")
+    val scheme: String,
+    @field:Json(name = "url")
     val uri: String,
-    @Json(name = "qss")
+    @field:Json(name = "qss")
     val token: String,
-    @Json(name = "sqt")
+    @field:Json(name = "sqt")
     val service: String,
-    @Json(name = "sty")
+    @field:Json(name = "sty")
     val transport: String,
-    @Json(name = "scit")
+    @field:Json(name = "scit")
     val city: String,
-    @Json(name = "scht")
-    val type: String
+    @field:Json(name = "scht")
+    val type: String,
+    @field:Json(name = "alg")
+    val algorithm: String,
+    @field:Json(name = "text")
+    val text: String,
+    @field:Json(name = "content")
+    val content: String
 ) {
 
-    fun getTransportQueryUri(id :String) : Uri {
+    val serviceBaseUri : Uri
+        get() =  Uri.Builder()
+                    .scheme(scheme)
+                    .authority(uri)
+                    .build()
+
+    fun getStopQueryPath(id :String) : Uri {
         return Uri.Builder()
-            .scheme(schema)
-            .authority(uri)
             .appendPath(service)
             .appendPath(city)
             .appendPath(transport)

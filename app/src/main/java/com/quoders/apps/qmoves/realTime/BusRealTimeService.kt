@@ -1,16 +1,16 @@
 package com.quoders.apps.qmoves.realTime
 
+import android.util.Base64
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.realTime.api.RealTimeServiceApi
-import com.quoders.apps.qmoves.realTime.model.Arrivals
+import com.quoders.apps.qmoves.realTime.model.*
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import kotlinx.android.synthetic.main.fragment_stop_schedule.*
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
-import java.lang.IllegalStateException
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 
 /**
  * Real time service client for Bus
@@ -20,10 +20,9 @@ class BusRealTimeService: RealTimeService {
     private var serviceConfig: RemoteServicesConfig? = null
     private val isServiceAvailable get() = serviceConfig!=null
 
-
     private val retrofitInstance by lazy{
         Retrofit.Builder()
-            .baseUrl(serviceConfig!!.realTimeService.uri)
+            .baseUrl(serviceConfig!!.realTimeService.serviceBaseUri.toString())
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
     }
@@ -42,7 +41,8 @@ class BusRealTimeService: RealTimeService {
         try{
             val serviceInfoContent = javaClass.getResource("/res/raw/quoders_services.json")?.readText()
             val moshi = Moshi.Builder().build()
-            val adapter: JsonAdapter<RemoteServicesConfig> = moshi.adapter(RemoteServicesConfig::class.java)
+            val adapter: JsonAdapter<RemoteServicesConfig> = moshi.adapter(
+                RemoteServicesConfig::class.java)
             serviceConfig = adapter.fromJson(serviceInfoContent)
         }
         catch (ex: Exception)
@@ -52,14 +52,14 @@ class BusRealTimeService: RealTimeService {
     }
 
 
-    override suspend fun getStopNextTransports(stop: Stop): List<StopNextTransports> {
+    override suspend fun getStopNextTransports(stop: Stop): List<StopNextTransport> {
         if (!isServiceAvailable)
             throw IllegalStateException("The service configuration has not been loaded")
 
         try {
-            val uri = serviceConfig!!.realTimeService.getTransportQueryUri(stop.code)
-            val arrivals = serviceApi.getRealTime(uri.toString(), "someCookie")
-            return arrivalsToStopNextTransport(arrivals)
+            val path = serviceConfig!!.realTimeService.getStopQueryPath(stop.code)
+            val arrivals = serviceApi.getRealTime(path.toString(), buildMessage(serviceConfig!!.realTimeService, stop))
+            return arrivalsToStopNextTransport(stop,arrivals)
         }
         catch (ex: Exception)
         {
@@ -68,8 +68,21 @@ class BusRealTimeService: RealTimeService {
         return emptyList()
     }
 
-    private fun arrivalsToStopNextTransport(arrivals: Arrivals): List<StopNextTransports> {
-        // TODO NOT IMPLEMENTED
-        return listOf()
+    private fun arrivalsToStopNextTransport(stop: Stop, stopRealTimeInfo: Arrivals): List<StopNextTransport> {
+        val nextTransports = mutableListOf<StopNextTransport>()
+        stopRealTimeInfo.arrivals.forEach { nextTransports.add(StopNextTransport(
+            lineId = it.line,
+            stopId = stop.code,
+            arrivalTime = it.time
+        ))}
+        return nextTransports
+    }
+
+    fun buildMessage(config: RealTimeServiceConfig, stop: Stop): String {
+        val ts = (System.currentTimeMillis() / 1000L).toString();
+        val final = String.format(config.content,config.getStopQueryPath(stop.code),ts).toByteArray()
+        val instance = Mac.getInstance(config.algorithm)
+        instance.init(SecretKeySpec(config.token.toByteArray(), config.algorithm))
+        return String.format(config.text,Base64.encodeToString(instance.doFinal(final),Base64.NO_WRAP),ts)
     }
 }
