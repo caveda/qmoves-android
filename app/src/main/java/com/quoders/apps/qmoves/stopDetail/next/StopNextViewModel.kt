@@ -1,4 +1,4 @@
-package com.quoders.apps.qmoves.stopDetail
+package com.quoders.apps.qmoves.stopDetail.next
 
 import androidx.lifecycle.*
 import com.quoders.apps.qmoves.Event
