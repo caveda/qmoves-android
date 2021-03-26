@@ -5,20 +5,15 @@
 
     <data>
         <variable
-            name="viewModel"
-            type="com.quoders.apps.qmoves.stops.StopsViewModel" />
-
-        <variable
-            name="stop"
-            type="com.quoders.apps.qmoves.data.Stop" />
+            name="nextTransport"
+            type="com.quoders.apps.qmoves.realTime.model.StopNextTransport" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/list_row_vertical_padding"
-        android:layout_marginBottom="@dimen/list_row_vertical_padding"
-        android:onClick="@{() -> viewModel.navigateToStopDetail(stop)}">
+        android:layout_marginBottom="@dimen/list_row_vertical_padding">
 
         <TextView
             android:id="@+id/next_line_id_text"
@@ -27,49 +22,33 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:text="@{stop.code}"
+            android:text="@{nextTransport.lineId}"
             android:textAlignment="viewEnd"
             android:textColor="@android:color/primary_text_light"
-            android:textSize="28sp"
+            android:textSize="48sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.012"
-            tools:text="1234" />
+            tools:text="56" />
 
         <TextView
             android:id="@+id/next_time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center_vertical"
             android:maxLines="3"
-            android:text="@{stop.name}"
-            android:textAlignment="gravity"
+            android:text="@{nextTransport.arrivalTime}"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/next_line_id_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.133"
-            app:layout_constraintStart_toEndOf="@+id/favorite_image"
-            app:layout_constraintTop_toTopOf="@+id/next_line_id_text"
-            app:layout_constraintVertical_bias="0.4"
-            tools:text="Stop XYZ" />
-
-        <ImageView
-            android:id="@+id/favorite_image"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="16dp"
-            android:contentDescription="@string/cd_favorite_button"
-            app:layout_constraintBottom_toBottomOf="@+id/next_line_id_text"
             app:layout_constraintStart_toEndOf="@+id/next_line_id_text"
             app:layout_constraintTop_toTopOf="@+id/next_line_id_text"
-            app:srcCompat="@drawable/ic_favorite_disable"
-            android:onClick="@{() -> viewModel.toggleFavorite(stop)}"
-            app:favoriteStatus="@{stop.favorite}"/>
+            tools:text="1 - 00:11:22" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

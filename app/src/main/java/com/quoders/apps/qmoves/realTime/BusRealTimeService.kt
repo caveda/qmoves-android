@@ -11,6 +11,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import timber.log.Timber
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
+import com.quoders.apps.qmoves.data.*
 
 /**
  * Real time service client for Bus
@@ -52,20 +53,20 @@ class BusRealTimeService: RealTimeService {
     }
 
 
-    override suspend fun getStopNextTransports(stop: Stop): List<StopNextTransport> {
+    override suspend fun getStopNextTransports(stop: Stop): Result<List<StopNextTransport>> {
         if (!isServiceAvailable)
             throw IllegalStateException("The service configuration has not been loaded")
 
         try {
             val path = serviceConfig!!.realTimeService.getStopQueryPath(stop.code)
             val arrivals = serviceApi.getRealTime(path.toString(), buildMessage(serviceConfig!!.realTimeService, stop))
-            return arrivalsToStopNextTransport(stop,arrivals)
+            return Result.Success(arrivalsToStopNextTransport(stop,arrivals))
         }
         catch (ex: Exception)
         {
             Timber.e("can not get next transport data due to exception: $ex")
+            return Result.Error(ex)
         }
-        return emptyList()
     }
 
     private fun arrivalsToStopNextTransport(stop: Stop, stopRealTimeInfo: Arrivals): List<StopNextTransport> {
