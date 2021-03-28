@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentLinesBinding
 import com.quoders.apps.qmoves.databinding.FragmentStopNextBinding
+import com.quoders.apps.qmoves.lines.LinesAdapter
 import com.quoders.apps.qmoves.lines.LinesViewModel
 import com.quoders.apps.qmoves.lines.LinesViewModelFactory
 import com.quoders.apps.qmoves.realTime.BusRealTimeService
@@ -23,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_stop_next.*
 class StopNextFragment : Fragment() {
 
     private lateinit var binding: FragmentStopNextBinding
+    private lateinit var viewModel: StopNextViewModel
 
     companion object{
         const val ARG_KEY_STOP = "Stop"
@@ -34,14 +37,11 @@ class StopNextFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater,
-            R.layout.fragment_stop_next,container, false)
-        return binding.root
-    }
+    ): View? {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+        binding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_stop_next,container, false)
+
         arguments?.takeIf { it.containsKey(ARG_KEY_STOP) }?.apply {
             stop = getParcelable(ARG_KEY_STOP)!!
         }
@@ -57,5 +57,15 @@ class StopNextFragment : Fragment() {
 
         binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
+
+        setupArrivalsList(viewModel)
+
+        return binding.root
+    }
+
+    private fun setupArrivalsList(viewModel: StopNextViewModel) {
+        binding.stopNextListView.adapter = StopNextAdapter(viewModel)
+        binding.stopNextListView.addItemDecoration(DividerItemDecoration(binding.stopNextListView.context,
+            DividerItemDecoration.VERTICAL))
     }
 }

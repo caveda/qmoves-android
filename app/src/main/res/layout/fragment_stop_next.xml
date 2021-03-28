@@ -17,34 +17,26 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/stopnext_layout"
+            android:id="@+id/stopNext_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             tools:visibility="visible"
             android:visibility="@{viewModel.empty ? View.GONE : View.VISIBLE}">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/stopNext_listView"
                     android:layout_width="match_parent"
-                    android:layout_height="286dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:clipToPadding="false"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.035"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:nextTransports="@{viewModel.nextTransports}"
                     tools:itemCount="5"
-                    tools:layout_editor_absoluteX="16dp"
                     tools:listitem="@layout/arrival_view_item" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/nextTransports_error_layout"
+            android:id="@+id/stopNext_error_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"

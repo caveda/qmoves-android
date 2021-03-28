@@ -5,6 +5,10 @@
 
     <data>
         <variable
+            name="viewModel"
+            type="com.quoders.apps.qmoves.stopDetail.next.StopNextViewModel" />
+
+        <variable
             name="nextTransport"
             type="com.quoders.apps.qmoves.realTime.model.StopNextTransport" />
     </data>

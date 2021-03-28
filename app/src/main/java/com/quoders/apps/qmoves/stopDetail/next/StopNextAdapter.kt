@@ -22,9 +22,9 @@ class StopNextAdapter (private val viewModel: StopNextViewModel): ListAdapter<St
      */
     class StopNextViewHolder(private var binding: ArrivalViewItemBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(nextTransport: StopNextTransport) {
-            binding.nextTransport = nextTransport
-
+        fun bind(nextTransports: StopNextTransport, viewModel: StopNextViewModel) {
+            binding.nextTransport = nextTransports
+            binding.viewModel = viewModel
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
             binding.executePendingBindings()
@@ -37,7 +37,7 @@ class StopNextAdapter (private val viewModel: StopNextViewModel): ListAdapter<St
      */
     companion object DiffCallback : DiffUtil.ItemCallback<StopNextTransport>() {
         override fun areItemsTheSame(oldItem: StopNextTransport, newItem: StopNextTransport): Boolean {
-            return oldItem.lineId === newItem.lineId && oldItem.stopId === newItem.stopId
+            return oldItem.lineId === newItem.lineId
         }
 
         override fun areContentsTheSame(oldItem: StopNextTransport, newItem: StopNextTransport): Boolean {
@@ -58,6 +58,6 @@ class StopNextAdapter (private val viewModel: StopNextViewModel): ListAdapter<St
      */
     override fun onBindViewHolder(holder: StopNextViewHolder, position: Int) {
         val nextTransport = getItem(position)
-        holder.bind(nextTransport)
+        holder.bind(nextTransport, viewModel)
     }
 }
