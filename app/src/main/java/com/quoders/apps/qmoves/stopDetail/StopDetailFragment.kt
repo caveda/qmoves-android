@@ -102,12 +102,11 @@ class StopDetailFragment : Fragment() {
         if (stopNextFragment == null) {
             stopNextFragment =
                 StopNextFragment()
-            stopNextFragment?.arguments = bundleOf(StopNextFragment.ARG_KEY_STOP to stop)
-/*            stopLocationFragment?.arguments = Bundle().apply {
-                putParcelable("line", args.line)
-                putParcelable("transport", args.transport)
-            }*/
+            stopNextFragment?.arguments = bundleOf(
+                StopNextFragment.ARG_KEY_LINE to line,
+                StopNextFragment.ARG_KEY_STOP to stop)
         }
+
         return stopNextFragment as Fragment
     }
 

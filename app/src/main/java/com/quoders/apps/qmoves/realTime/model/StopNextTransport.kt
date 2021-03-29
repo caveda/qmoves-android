@@ -11,4 +11,5 @@ import kotlinx.android.parcel.Parcelize
 data class StopNextTransport(
     val lineId: String,
     val stopId: String,
-    val arrivalTime: String): Parcelable
+    val arrivalTime: String,
+    val minutesToArrival: String): Parcelable

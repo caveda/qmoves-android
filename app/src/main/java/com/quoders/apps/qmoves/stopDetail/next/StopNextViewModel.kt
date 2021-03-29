@@ -6,13 +6,14 @@ import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.*
 import com.quoders.apps.qmoves.realTime.RealTimeService
 import com.quoders.apps.qmoves.realTime.model.StopNextTransport
+import com.quoders.apps.qmoves.tools.TimeUtils
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 /**
  *  ViewModel of StopNext details fragment
  */
-class StopNextViewModel (private val stop: Stop, private val realTimeService: RealTimeService) : ViewModel() {
+class StopNextViewModel (private val stop: Stop, private val line: Line, private val realTimeService: RealTimeService) : ViewModel() {
 
     // State of the loading operation
     private val _dataLoading = MutableLiveData<DataLoadingStatus>()
@@ -44,6 +45,7 @@ class StopNextViewModel (private val stop: Stop, private val realTimeService: Re
                 if (result is Result.Success) {
                     _nextTransports.value = result.data
                     _dataLoading.value = DataLoadingStatus.DONE
+
                 } else {
                     _dataLoading.value = DataLoadingStatus.ERROR
                     showSnackbarMessage(R.string.error_loading_lines)

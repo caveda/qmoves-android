@@ -12,6 +12,7 @@ import timber.log.Timber
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import com.quoders.apps.qmoves.data.*
+import com.quoders.apps.qmoves.tools.TimeUtils
 
 /**
  * Real time service client for Bus
@@ -74,7 +75,8 @@ class BusRealTimeService: RealTimeService {
         stopRealTimeInfo.arrivals.forEach { nextTransports.add(StopNextTransport(
             lineId = it.line,
             stopId = stop.code,
-            arrivalTime = it.time
+            arrivalTime = it.time,
+            minutesToArrival = TimeUtils.MinutesTo(it.time).toString()
         ))}
         return nextTransports
     }

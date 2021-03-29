@@ -8,7 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.quoders.apps.qmoves.R
+import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentLinesBinding
@@ -25,13 +28,14 @@ import kotlinx.android.synthetic.main.fragment_stop_next.*
 class StopNextFragment : Fragment() {
 
     private lateinit var binding: FragmentStopNextBinding
-    private lateinit var viewModel: StopNextViewModel
 
     companion object{
+        const val ARG_KEY_LINE = "Line"
         const val ARG_KEY_STOP = "Stop"
     }
 
     private lateinit var stop: Stop
+    private lateinit var line: Line
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,15 +46,22 @@ class StopNextFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_stop_next,container, false)
 
-        arguments?.takeIf { it.containsKey(ARG_KEY_STOP) }?.apply {
+        arguments?.takeIf { it.containsKey(ARG_KEY_STOP) && it.containsKey(ARG_KEY_LINE)}?.apply {
             stop = getParcelable(ARG_KEY_STOP)!!
+            line = getParcelable(ARG_KEY_LINE)!!
         }
 
+        if (this::stop.isInitialized && this::line.isInitialized) {
+            setupViewModel(stop, line)
+        }
+        return binding.root
+    }
+
+    private fun setupViewModel(stop:Stop, line:Line) {
+
         val realtimeService = BusRealTimeService()
-        val viewModelFactory =
-            StopNextViewModelFactory(
-                stop, realtimeService
-            )
+        val viewModelFactory = StopNextViewModelFactory(
+            stop, line, realtimeService)
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(
             StopNextViewModel::class.java)
@@ -59,13 +70,20 @@ class StopNextFragment : Fragment() {
         binding.lifecycleOwner = this.viewLifecycleOwner
 
         setupArrivalsList(viewModel)
-
-        return binding.root
     }
 
     private fun setupArrivalsList(viewModel: StopNextViewModel) {
         binding.stopNextListView.adapter = StopNextAdapter(viewModel)
         binding.stopNextListView.addItemDecoration(DividerItemDecoration(binding.stopNextListView.context,
             DividerItemDecoration.VERTICAL))
+
+        val gridLayoutManager = GridLayoutManager(activity, 2)
+        /*
+        gridLayoutManager.spanSizeLookup = object: SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (position == 0) 1 else 2
+            }
+        }*/
+        binding.stopNextListView.layoutManager = gridLayoutManager
     }
 }

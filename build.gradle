@@ -72,4 +72,6 @@ ext {
     jUnitParamsVersion = '1.1.1'
     mockkVersion='1.8.13.kotlin13'
 
+    // android desugar jdk
+    androidDesugarJdkVersion='1.0.9'
 }

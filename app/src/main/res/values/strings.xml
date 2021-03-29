@@ -22,4 +22,6 @@
     <string name="cd_stop_detail_time">Time for next transports</string>
     <string name="cd_stop_detail_timetable">Stop timetable</string>
     <string name="cd_stop_detail_map">Stop location</string>
+    <string name="cd_arrival_time">Arrival time</string>
+    <string name="cd_arrival_line">Line number</string>
 </resources>
