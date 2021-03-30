@@ -15,28 +15,18 @@ class TimeUtils {
         /**
          * Receives a date in ISO 8601 and returns how many minutes
          * from now to the passed date.
+         * Returns -1 if futureDate is older than now().
          */
         fun MinutesTo(futureDate: String):Long {
-
             try {
                 val future = Instant.parse(futureDate)
                 val now = Instant.now()
-                val diff = Duration.between(future,now)
-                return diff.toMinutes()
-                /*
-                Duration.
-                Date.from(Instant.now())
-                var futureDateTime = LocalDate.parse(futureDate)
-                futureDateTime.to
-                futureDateTime.rangeTo()
-                var nowDateTime = LocalDate.now()
-                var diff = futureDateTime.minus(nowDateTime.toEpochDay())
-*/
-
+                val diff = Duration.between(now,future)
+                return if (diff.isNegative) -1 else diff.toMinutes()
             }
             catch (ex: Exception) {
                 Timber.e("Exception transforming to minutes: ${ex.message}")
-                return 0
+                return -1
             }
         }
     }

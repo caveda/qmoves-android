@@ -76,7 +76,7 @@ class BusRealTimeService: RealTimeService {
             lineId = it.line,
             stopId = stop.code,
             arrivalTime = it.time,
-            minutesToArrival = TimeUtils.MinutesTo(it.time).toString()
+            minutesToArrival = transportTimeToMinutes(it.time)
         ))}
         return nextTransports
     }
@@ -87,5 +87,10 @@ class BusRealTimeService: RealTimeService {
         val instance = Mac.getInstance(config.algorithm)
         instance.init(SecretKeySpec(config.token.toByteArray(), config.algorithm))
         return String.format(config.text,Base64.encodeToString(instance.doFinal(final),Base64.NO_WRAP),ts)
+    }
+
+    fun transportTimeToMinutes (arrivalTime: String): String {
+        val minutes = TimeUtils.MinutesTo(arrivalTime)
+        return if (minutes<0) "-" else minutes.toString()
     }
 }
