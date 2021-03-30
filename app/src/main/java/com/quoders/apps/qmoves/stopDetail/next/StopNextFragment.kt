@@ -75,6 +75,9 @@ class StopNextFragment : Fragment() {
     private fun setupArrivalsList(viewModel: StopNextViewModel) {
         binding.stopNextListView.adapter = StopNextAdapter(viewModel)
         binding.stopNextListView.addItemDecoration(DividerItemDecoration(binding.stopNextListView.context,
+            DividerItemDecoration.HORIZONTAL))
+
+        binding.stopNextListView.addItemDecoration(DividerItemDecoration(binding.stopNextListView.context,
             DividerItemDecoration.VERTICAL))
 
         val gridLayoutManager = GridLayoutManager(activity, 2)
