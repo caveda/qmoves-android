@@ -72,17 +72,15 @@ class BusRealTimeService: RealTimeService {
 
     private fun arrivalsToStopNextTransport(stop: Stop, stopRealTimeInfo: Arrivals): List<StopNextTransport> {
         val nextTransports = mutableListOf<StopNextTransport>()
-        for (arrival in stopRealTimeInfo.arrivals){
-            val arrivalEpoch = TimeUtils.ToEpochSeconds(arrival.time)
-            val nextTimeMinutes = transportTimeToMinutes(arrivalEpoch)
-            val next = StopNextTransport(
-                lineId = arrival.line,
-                stopId = stop.code,
-                arrivalTimeEpochSeconds = arrivalEpoch,
-                minutesToArrival = nextTimeMinutes
-            )
-            nextTransports.add(next)
-        }
+        stopRealTimeInfo.arrivals.forEach {
+                val arrivalEpoch = TimeUtils.ToEpochSeconds(it.time)
+                nextTransports.add(StopNextTransport(
+                    lineId = it.line,
+                    stopId = stop.code,
+                    arrivalTimeEpochSeconds = arrivalEpoch,
+                    minutesToArrival = transportTimeToMinutes(arrivalEpoch)
+                ))
+            }
         return nextTransports
     }
 
