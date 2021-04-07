@@ -54,7 +54,7 @@ class BusRealTimeService: RealTimeService {
     }
 
 
-    override suspend fun getStopNextTransports(stop: Stop): Result<List<StopNextTransport>> {
+    override suspend fun getStopNextTransports(stop: Stop): Result<List<TransportRealTimeArrival>> {
         if (!isServiceAvailable)
             throw IllegalStateException("The service configuration has not been loaded")
 
@@ -70,15 +70,14 @@ class BusRealTimeService: RealTimeService {
         }
     }
 
-    private fun arrivalsToStopNextTransport(stop: Stop, stopRealTimeInfo: Arrivals): List<StopNextTransport> {
-        val nextTransports = mutableListOf<StopNextTransport>()
+    private fun arrivalsToStopNextTransport(stop: Stop, stopRealTimeInfo: Arrivals): List<TransportRealTimeArrival> {
+        val nextTransports = mutableListOf<TransportRealTimeArrival>()
         stopRealTimeInfo.arrivals.forEach {
                 val arrivalEpoch = TimeUtils.ToEpochSeconds(it.time)
-                nextTransports.add(StopNextTransport(
+                nextTransports.add(TransportRealTimeArrival(
                     lineId = it.line,
                     stopId = stop.code,
-                    arrivalTimeEpochSeconds = arrivalEpoch,
-                    minutesToArrival = transportTimeToMinutes(arrivalEpoch)
+                    arrivalTimeEpochSeconds = arrivalEpoch
                 ))
             }
         return nextTransports
@@ -92,8 +91,4 @@ class BusRealTimeService: RealTimeService {
         return String.format(config.text,Base64.encodeToString(instance.doFinal(final),Base64.NO_WRAP),ts)
     }
 
-    fun transportTimeToMinutes (epochSeconds: Long): String {
-        val minutes = TimeUtils.MinutesTo(epochSeconds)
-        return if (minutes<0) "-" else minutes.toString()
-    }
 }

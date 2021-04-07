@@ -1,7 +1,7 @@
 package com.quoders.apps.qmoves.realTime
 
 import com.quoders.apps.qmoves.data.Stop
-import com.quoders.apps.qmoves.realTime.model.StopNextTransport
+import com.quoders.apps.qmoves.realTime.model.TransportRealTimeArrival
 import com.quoders.apps.qmoves.data.*
 
 /**
@@ -11,6 +11,6 @@ interface RealTimeService {
     /**
      * Given a stop, returns the list of next transports to arrive at the stop.
      */
-    suspend fun getStopNextTransports(stop: Stop): Result<List<StopNextTransport>>
+    suspend fun getStopNextTransports(stop: Stop): Result<List<TransportRealTimeArrival>>
 }
 

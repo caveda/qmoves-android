@@ -3,4 +3,5 @@
     <dimen name="empty_placeholder_image_size">50dp</dimen>
     <dimen name="list_row_vertical_padding">16dp</dimen>
     <dimen name="grid_cell_vertical_padding">24dp</dimen>
+    <dimen name="realtime_progress_size">30dp</dimen>
 </resources>

@@ -5,24 +5,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.databinding.ArrivalViewItemBinding
-import com.quoders.apps.qmoves.realTime.model.StopNextTransport
+import com.quoders.apps.qmoves.realTime.model.TransportRealTimeArrival
 
 
 /**
- * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [StopNextTransport]
+ * This class implements a [RecyclerView] [ListAdapter] which uses Data Binding to present [StopNextLineTransport]
  * data, including computing diffs between list elements.
  */
-class StopNextAdapter (private val viewModel: StopNextViewModel): ListAdapter<StopNextTransport, StopNextAdapter.StopNextViewHolder>(DiffCallback) {
+class StopNextAdapter (private val viewModel: StopNextViewModel): ListAdapter<StopNextLineTransport, StopNextAdapter.StopNextViewHolder>(DiffCallback) {
 
     /**
      * The [StopNextViewHolder] constructor takes the binding variable from the associated
-     * ViewItem, which gives it access to the full [StopNextTransport] information.
+     * ViewItem, which gives it access to the full [StopNextLineTransport] information.
      */
     class StopNextViewHolder(private var binding: ArrivalViewItemBinding):
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(nextTransports: StopNextTransport) {
+        fun bind(nextTransports: StopNextLineTransport) {
             binding.nextTransport = nextTransports
             // This is important, because it forces the data binding to execute immediately,
             // which allows the RecyclerView to make the correct view size measurements
@@ -31,15 +30,15 @@ class StopNextAdapter (private val viewModel: StopNextViewModel): ListAdapter<St
     }
 
     /**
-     * Allows the RecyclerView to determine which items have changed when the [List] of [StopNextTransport]
+     * Allows the RecyclerView to determine which items have changed when the [List] of [StopNextLineTransport]
      * has been updated.
      */
-    companion object DiffCallback : DiffUtil.ItemCallback<StopNextTransport>() {
-        override fun areItemsTheSame(oldItem: StopNextTransport, newItem: StopNextTransport): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<StopNextLineTransport>() {
+        override fun areItemsTheSame(oldItem: StopNextLineTransport, newItem: StopNextLineTransport): Boolean {
             return oldItem.lineId === newItem.lineId
         }
 
-        override fun areContentsTheSame(oldItem: StopNextTransport, newItem: StopNextTransport): Boolean {
+        override fun areContentsTheSame(oldItem: StopNextLineTransport, newItem: StopNextLineTransport): Boolean {
             return oldItem == newItem
         }
     }

@@ -25,4 +25,5 @@
     <string name="cd_arrival_time">Arrival time</string>
     <string name="cd_arrival_line">Line number</string>
     <string name="arrival_time_unit">min</string>
+    <string name="cd_realtime_progress_indicator">Realtime progress indicator</string>
 </resources>

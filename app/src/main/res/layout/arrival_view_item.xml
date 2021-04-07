@@ -4,14 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
+
         <variable
             name="nextTransport"
-            type="com.quoders.apps.qmoves.realTime.model.StopNextTransport" />
+            type="com.quoders.apps.qmoves.stopDetail.next.StopNextLineTransport" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:minHeight="150dp"
+        android:minWidth="150dp"
         android:layout_marginTop="@dimen/grid_cell_vertical_padding"
         android:layout_marginBottom="@dimen/list_row_vertical_padding">
 
@@ -21,33 +25,49 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:contentDescription="@string/cd_arrival_line"
-            android:text="@{nextTransport.lineId}"
+            android:text="@{nextTransport.lineId + ` ` + nextTransport.lineName}"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="17" />
+            tools:text="17 ORIGIN - DESTINATION" />
 
-        <TextView
-            android:id="@+id/arrival_time_text"
+        <LinearLayout
+            android:id="@+id/arrival_time_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/cd_arrival_time"
-            android:fontFamily="sans-serif-light"
-            android:maxLines="1"
-            android:text="@{nextTransport.minutesToArrival}"
-            android:textAlignment="viewEnd"
-            android:textSize="40sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/arrival_line_text"
             app:layout_constraintStart_toStartOf="@+id/arrival_line_text"
             app:layout_constraintTop_toBottomOf="@+id/arrival_line_text"
             app:layout_constraintVertical_bias="0.0"
-            tools:text="12" />
+            >
+            <TextView
+                android:id="@+id/arrival_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/cd_arrival_time"
+                android:fontFamily="sans-serif-light"
+                android:maxLines="1"
+                android:text="@{nextTransport.minutesToArrival}"
+                android:textAlignment="viewEnd"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:visibility="@{nextTransport.realtimeQueryInProgress ? View.GONE : View.VISIBLE}"
+                tools:text="12" />
 
+            <ImageView
+                android:id="@+id/realtime_progress_indicator"
+                android:layout_gravity="center"
+                android:layout_width="@dimen/realtime_progress_size"
+                android:layout_height="@dimen/realtime_progress_size"
+                tools:src ="@drawable/ic_data_fetching_error"
+                android:visibility="@{nextTransport.realtimeQueryInProgress ? View.VISIBLE : View.GONE}"
+                app:loadingStatus="@{nextTransport.realtimeLoadingStatus}"
+                android:contentDescription="@string/cd_realtime_progress_indicator" />
+        </LinearLayout>
         <TextView
             android:id="@+id/arrival_time_unit_text"
             android:layout_width="wrap_content"
@@ -58,9 +78,9 @@
             android:contentDescription="@string/cd_arrival_line"
             android:text="@string/arrival_time_unit"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="@+id/arrival_time_text"
-            app:layout_constraintStart_toEndOf="@+id/arrival_time_text"
-            app:layout_constraintTop_toTopOf="@+id/arrival_time_text"
+            app:layout_constraintBottom_toBottomOf="@+id/arrival_time_layout"
+            app:layout_constraintStart_toEndOf="@+id/arrival_time_layout"
+            app:layout_constraintTop_toTopOf="@+id/arrival_time_layout"
             app:layout_constraintVertical_bias="1.0"
             tools:text="min" />
     </androidx.constraintlayout.widget.ConstraintLayout>
