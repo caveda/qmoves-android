@@ -4,6 +4,7 @@ import androidx.lifecycle.*
 import com.quoders.apps.qmoves.Event
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.*
+import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.realTime.RealTimeService
 import com.quoders.apps.qmoves.realTime.model.TransportRealTimeArrival
 import com.quoders.apps.qmoves.tools.TimeUtils
@@ -13,7 +14,11 @@ import timber.log.Timber
 /**
  *  ViewModel of StopNext details fragment
  */
-class StopNextViewModel (private val stop: Stop, private val line: Line, private val realTimeService: RealTimeService) : ViewModel() {
+class StopNextViewModel (private val stop: Stop, private val line: Line,
+                         private val realTimeService: RealTimeService,
+                         private val repository: TransportRepository) : ViewModel() {
+
+    private lateinit var connectionLines: List<Line>
 
     // State of the loading operation
     private val _dataLoading = MutableLiveData<DataLoadingStatus>()
@@ -33,75 +38,81 @@ class StopNextViewModel (private val stop: Stop, private val line: Line, private
     val snackbarText: LiveData<Event<Int>> = _snackbarText
 
     init {
-        _nextTransports.value = buildDefaultNextTransportsList()
-        getStopRealTime()
+        loadStopArrivals()
     }
 
-    private fun buildDefaultNextTransportsList(): List<StopNextLineTransport> {
+    private fun loadStopArrivals() {
+        viewModelScope.launch {
+            buildDefaultArrivalList()
+            getStopRealTime()
+        }
+    }
+
+    private suspend fun buildDefaultArrivalList()
+    {
         val result = mutableListOf<StopNextLineTransport>()
-        getStopConnectionsList(stop.connections).forEach { connection ->
+        connectionLines = getConnectionsLines(stop)
+        connectionLines.forEach { connection ->
             result.add(
                 StopNextLineTransport(
-                    lineId = connection,
+                    lineId = connection.agencyId,
                     stopId = stop.code,
                     realtimeQueryInProgress = true,
                     realtimeLoadingStatus = DataLoadingStatus.LOADING,
                     minutesToArrival = "",
-                    lineName = line.name
-            ))
+                    lineName = connection.name
+                )
+            )
+        }
+        _nextTransports.value = result
+    }
+
+    private suspend fun getConnectionsLines(stop: Stop): List<Line> {
+        val result = mutableListOf<Line>()
+        result.add (line)
+        val connectionsLinesResult = repository.getStopConnectionsLines(stop)
+        if (connectionsLinesResult is Result.Success) {
+            result.addAll(connectionsLinesResult.data)
         }
         return result
     }
 
-    private fun getStopConnectionsList(connections: String?): List<String> {
-        val result = mutableListOf<String>()
-        result.add (line.agencyId)
-        connections?.let {
-            val lineIds = it.split(" ")
-            lineIds.forEach { c ->
-                val id = c.substring(1,3)
-                if (!result.contains(id))
-                    result.add(id)
-            }
-        }
-        return result
-    }
-
-    private fun getStopRealTime() {
+    private suspend fun getStopRealTime() {
         _dataLoading.value = DataLoadingStatus.LOADING
-        viewModelScope.launch {
-            try {
-                val result = realTimeService.getStopNextTransports(stop)
-                if (result is Result.Success) {
-                    _nextTransports.value = mapToStopNextLineTransport(result.data)
-                    _dataLoading.value = DataLoadingStatus.DONE
+        try {
+            val result = realTimeService.getStopNextTransports(stop)
+            if (result is Result.Success) {
+                _nextTransports.value = mapToStopNextLineTransport(result.data)
+                _dataLoading.value = DataLoadingStatus.DONE
 
-                } else {
-                    _dataLoading.value = DataLoadingStatus.ERROR
-                    showSnackbarMessage(R.string.error_loading_lines)
-                }
-            }
-            catch (e:Exception) {
-                Timber.e("getNextTransports: Exception catched: ${e.message}")
+            } else {
                 _dataLoading.value = DataLoadingStatus.ERROR
-                showSnackbarMessage(R.string.error_update_remote)
+                showSnackbarMessage(R.string.error_loading_lines)
             }
         }
+        catch (e:Exception) {
+            Timber.e("getNextTransports: Exception catched: ${e.message}")
+            _dataLoading.value = DataLoadingStatus.ERROR
+            showSnackbarMessage(R.string.error_update_remote)
+            }
     }
 
     private fun mapToStopNextLineTransport(arrivals: List<TransportRealTimeArrival>): List<StopNextLineTransport>? {
         val result = mutableListOf<StopNextLineTransport>()
-        arrivals.forEach {
-            result.add(
-                StopNextLineTransport(
-                    lineId = it.lineId,
-                    stopId = it.stopId,
-                    realtimeQueryInProgress = false,
-                    realtimeLoadingStatus = DataLoadingStatus.DONE,
-                    lineName = line.name,
-                    minutesToArrival = transportTimeToMinutes(it.arrivalTimeEpochSeconds)
+        connectionLines.forEach {connection ->
+            val nextArrival = arrivals.find{a -> a.lineId==connection.agencyId}
+            nextArrival?.let { arrival ->
+                result.add(
+                    StopNextLineTransport(
+                        lineId = connection.agencyId,
+                        stopId = arrival.stopId,
+                        realtimeQueryInProgress = false,
+                        realtimeLoadingStatus = DataLoadingStatus.DONE,
+                        lineName = connection.name,
+                        minutesToArrival = transportTimeToMinutes(arrival.arrivalTimeEpochSeconds)
+                    )
                 )
-            )
+            }
         }
         return result
     }

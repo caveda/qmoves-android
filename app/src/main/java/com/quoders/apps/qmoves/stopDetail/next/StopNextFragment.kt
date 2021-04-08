@@ -59,9 +59,10 @@ class StopNextFragment : Fragment() {
 
     private fun setupViewModel(stop:Stop, line:Line) {
 
+        val application = requireNotNull(this.activity).application
         val realtimeService = BusRealTimeService()
         val viewModelFactory = StopNextViewModelFactory(
-            stop, line, realtimeService)
+            stop, line, realtimeService, TransportRepositoryFactory.getInstance(application))
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(
             StopNextViewModel::class.java)

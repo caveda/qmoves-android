@@ -61,8 +61,8 @@ interface TransportDatabaseDao {
     @Transaction
     @Query("SELECT * FROM transport_line WHERE lineId=:lineId")
     suspend fun getLineWithRoute(lineId: Long): LineWithRoute
-    @Transaction
 
+    @Transaction
     @Query("SELECT * FROM transport_line WHERE transportName=:agency AND code=:lineCode")
     suspend fun getLineOfAgency(agency: String, lineCode: String): LineWithStops
 
@@ -81,4 +81,8 @@ interface TransportDatabaseDao {
     @Transaction
     @Query("SELECT * FROM favorite WHERE transportName=:agency AND lineCode=:lineCode")
     suspend fun getFavoritesOfLine(agency: String, lineCode: String): List<DBFavorite>
+
+    @Transaction
+    @Query("SELECT * FROM transport_line WHERE code IN (:lineCodes)")
+    suspend fun getLinesWithCodes(lineCodes: List<String>): List<DBLine>
 }
