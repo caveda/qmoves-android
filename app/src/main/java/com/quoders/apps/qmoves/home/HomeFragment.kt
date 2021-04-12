@@ -18,7 +18,7 @@ import com.quoders.apps.qmoves.databinding.FragmentHomeBinding
 import com.quoders.apps.qmoves.tools.setupSnackbar
 
 /**
- * Limes
+ * Home page of the app
  */
 class HomeFragment : Fragment(){
 

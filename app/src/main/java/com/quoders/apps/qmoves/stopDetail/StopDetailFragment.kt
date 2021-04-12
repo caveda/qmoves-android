@@ -12,6 +12,8 @@ import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.Transport
 import com.quoders.apps.qmoves.stopDetail.location.StopLocationFragment
+import com.quoders.apps.qmoves.stopDetail.next.StopNextFragment
+import com.quoders.apps.qmoves.stopDetail.schedule.StopScheduleFragment
 import kotlinx.android.synthetic.main.fragment_stop_detail.*
 
 /**
@@ -98,19 +100,20 @@ class StopDetailFragment : Fragment() {
 
     private fun createStopNextFragment(): Fragment {
         if (stopNextFragment == null) {
-            stopNextFragment = StopNextFragment()
-            stopNextFragment?.arguments = bundleOf(StopNextFragment.ARG_KEY_STOP to stop)
-/*            stopLocationFragment?.arguments = Bundle().apply {
-                putParcelable("line", args.line)
-                putParcelable("transport", args.transport)
-            }*/
+            stopNextFragment =
+                StopNextFragment()
+            stopNextFragment?.arguments = bundleOf(
+                StopNextFragment.ARG_KEY_LINE to line,
+                StopNextFragment.ARG_KEY_STOP to stop)
         }
+
         return stopNextFragment as Fragment
     }
 
     private fun createStopScheduleFragment(): Fragment {
         if (stopScheduleFragment == null) {
-            stopScheduleFragment = StopScheduleFragment()
+            stopScheduleFragment =
+                StopScheduleFragment()
             stopScheduleFragment?.arguments = bundleOf(StopScheduleFragment.ARG_KEY_STOP to stop)
 /*            stopLocationFragment?.arguments = Bundle().apply {
                 putParcelable("line", args.line)

@@ -43,6 +43,10 @@ class FakeTransportRepository : TransportRepository{
         return Result.Success(favorites)
     }
 
+    override suspend fun getStopConnectionsLines(stop: Stop): Result<List<Line>> {
+        TODO("Not implemented")
+    }
+
     private fun generateFakeLines(): List<Line> {
         val lines = mutableListOf<Line>()
         (1..30)

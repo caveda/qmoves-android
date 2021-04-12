@@ -74,6 +74,19 @@ class TransportRepositoryImpl (
         return Result.Success(retList)
     }
 
+    override suspend fun getStopConnectionsLines(stop: Stop): Result<List<Line>> {
+        var retList = listOf<Line>()
+
+        stop.connections?.let {
+            val codes = stop.connections!!.split(" ")
+            val queryResult = dbSource.getLinesWithCodes(codes)
+            retList = queryResult.map{dbLine ->
+                DBLineMapper().map(dbLine)
+            }
+        }
+        return Success(retList)
+    }
+
     private suspend fun setFavoriteStops (transport: Transport, line: Line, stops: List<Stop>): Result<List<Stop>> {
         val queryResult = dbSource.getFavoritesOfLine(transport.name, line.code)
         stops.forEach { s ->

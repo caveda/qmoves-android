@@ -21,7 +21,7 @@
         android:onClick="@{() -> viewModel.navigateToStops(line)}">
 
         <TextView
-            android:id="@+id/line_id_text"
+            android:id="@+id/next_line_id_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -39,7 +39,7 @@
             tools:text="56" />
 
         <TextView
-            android:id="@+id/line_name_text"
+            android:id="@+id/next_time_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
@@ -50,10 +50,10 @@
             android:maxLines="3"
             android:text="@{line.name}"
             android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/line_id_text"
+            app:layout_constraintBottom_toBottomOf="@+id/next_line_id_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/line_id_text"
-            app:layout_constraintTop_toTopOf="@+id/line_id_text"
+            app:layout_constraintStart_toEndOf="@+id/next_line_id_text"
+            app:layout_constraintTop_toTopOf="@+id/next_line_id_text"
             tools:text="Origin - Destination" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

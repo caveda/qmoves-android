@@ -131,10 +131,10 @@
         android:label="StopLocationFragment" />
     <fragment
         android:id="@+id/stopNextFragment2"
-        android:name="com.quoders.apps.qmoves.stopDetail.StopNextFragment"
+        android:name="com.quoders.apps.qmoves.stopDetail.next.StopNextFragment"
         android:label="StopNextFragment" />
     <fragment
         android:id="@+id/stopScheduleFragment2"
-        android:name="com.quoders.apps.qmoves.stopDetail.StopScheduleFragment"
+        android:name="com.quoders.apps.qmoves.stopDetail.schedule.StopScheduleFragment"
         android:label="StopScheduleFragment" />
 </navigation>

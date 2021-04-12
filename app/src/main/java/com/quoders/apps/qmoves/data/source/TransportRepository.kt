@@ -42,4 +42,9 @@ interface TransportRepository {
      */
     suspend fun getAllFavorites(): Result<List<Favorite>>
 
+    /**
+     * Returns a list of lines based on the connections list of the stop.
+     */
+    suspend fun getStopConnectionsLines(stop: Stop): Result<List<Line>>
+
 }
