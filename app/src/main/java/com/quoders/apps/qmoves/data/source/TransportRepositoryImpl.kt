@@ -5,15 +5,18 @@ import com.quoders.apps.qmoves.data.Result.Success
 import com.quoders.apps.qmoves.data.mapper.*
 import com.quoders.apps.qmoves.data.source.local.DBStop
 import com.quoders.apps.qmoves.data.source.local.TransportDatabaseDao
+import com.quoders.apps.qmoves.data.source.local.TransportDatabaseFactory
 import com.quoders.apps.qmoves.data.source.remote.RemoteLine
 import com.quoders.apps.qmoves.data.source.remote.RemoteTransport
 import com.quoders.apps.qmoves.data.source.remote.RemoteTransportService
 import timber.log.Timber
+import javax.inject.Inject
 
-class TransportRepositoryImpl (
-    private val dbSource: TransportDatabaseDao,
+class TransportRepositoryImpl @Inject constructor(
+    private val databaseFactory: TransportDatabaseFactory,
     private val remoteSource: RemoteTransportService): TransportRepository {
 
+    private val dbSource: TransportDatabaseDao = databaseFactory.getInstance(context)
     private var checkRemoteTransportsDone: Boolean = false
     private val transportControlUpdatesSet = mutableSetOf<String> ()
 

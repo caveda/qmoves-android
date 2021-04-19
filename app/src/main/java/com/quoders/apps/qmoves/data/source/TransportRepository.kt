@@ -1,6 +1,8 @@
 package com.quoders.apps.qmoves.data.source
 
 import com.quoders.apps.qmoves.data.*
+import dagger.Component
+import javax.inject.Singleton
 
 /**
  Interface to query transport information

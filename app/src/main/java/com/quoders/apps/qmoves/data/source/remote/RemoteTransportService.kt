@@ -2,6 +2,8 @@ package com.quoders.apps.qmoves.data.source.remote
 
 import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.data.Transport
+import dagger.Component
+import javax.inject.Singleton
 
 /***
  * Interface of the remote service that provides transport information.

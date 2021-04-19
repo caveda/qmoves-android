@@ -3,6 +3,7 @@ package com.quoders.apps.qmoves.data.source.local
 import androidx.room.*
 import com.quoders.apps.qmoves.data.Line
 import timber.log.Timber
+import javax.inject.Inject
 
 @Dao
 interface TransportDatabaseDao {
