@@ -61,8 +61,7 @@ class StopNextFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val realtimeService = BusRealTimeService()
-        val viewModelFactory = StopNextViewModelFactory(
-            stop, line, realtimeService, TransportRepositoryFactory.getInstance(application))
+        val viewModelFactory = StopNextViewModelFactory(stop, line)
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(
             StopNextViewModel::class.java)
