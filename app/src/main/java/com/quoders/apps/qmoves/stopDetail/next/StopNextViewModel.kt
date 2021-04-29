@@ -5,18 +5,23 @@ import com.quoders.apps.qmoves.Event
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.*
 import com.quoders.apps.qmoves.data.source.TransportRepository
+import com.quoders.apps.qmoves.realTime.BusRealTimeService
 import com.quoders.apps.qmoves.realTime.RealTimeService
 import com.quoders.apps.qmoves.realTime.model.TransportRealTimeArrival
 import com.quoders.apps.qmoves.tools.TimeUtils
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  *  ViewModel of StopNext details fragment
  */
 class StopNextViewModel (private val stop: Stop, private val line: Line,
-                         private val realTimeService: RealTimeService,
-                         private val repository: TransportRepository) : ViewModel() {
+                         private val repository: TransportRepository,
+                         private val realTimeService: RealTimeService) : ViewModel() {
+
+    // TODO @Inject lateinit var realTimeService: BusRealTimeService
+    // TODO @Inject lateinit var repository: TransportRepository
 
     private lateinit var connectionLines: List<Line>
 

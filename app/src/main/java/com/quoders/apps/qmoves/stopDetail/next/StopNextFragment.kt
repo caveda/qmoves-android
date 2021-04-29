@@ -20,14 +20,19 @@ import com.quoders.apps.qmoves.lines.LinesAdapter
 import com.quoders.apps.qmoves.lines.LinesViewModel
 import com.quoders.apps.qmoves.lines.LinesViewModelFactory
 import com.quoders.apps.qmoves.realTime.BusRealTimeService
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_stop_next.*
+import javax.inject.Inject
 
 /**
  *  Page that shows the list of stops of a line.
  */
+@AndroidEntryPoint
 class StopNextFragment : Fragment() {
 
     private lateinit var binding: FragmentStopNextBinding
+
+    @Inject lateinit var realTimeService: BusRealTimeService
 
     companion object{
         const val ARG_KEY_LINE = "Line"
@@ -60,9 +65,8 @@ class StopNextFragment : Fragment() {
     private fun setupViewModel(stop:Stop, line:Line) {
 
         val application = requireNotNull(this.activity).application
-        val realtimeService = BusRealTimeService()
         val viewModelFactory = StopNextViewModelFactory(
-            stop, line, realtimeService, TransportRepositoryFactory.getInstance(application))
+            stop, line, TransportRepositoryFactory.getInstance(application),realTimeService)
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(
             StopNextViewModel::class.java)

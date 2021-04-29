@@ -11,12 +11,11 @@ import com.quoders.apps.qmoves.realTime.RealTimeService
  *  Factory for creating parametrized StopNextViewModel instances
  */
 class StopNextViewModelFactory(private val stop: Stop, private val line: Line,
-                               private val realTimeService: RealTimeService,
-                               private val repository: TransportRepository
-) : ViewModelProvider.Factory {
+                               private val repository: TransportRepository,
+                               private val realTimeService: RealTimeService) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(StopNextViewModel::class.java)) {
-            return StopNextViewModel(stop,line, realTimeService, repository) as T
+            return StopNextViewModel(stop,line, repository, realTimeService) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

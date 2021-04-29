@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     dataBinding {
         enabled = true
     }
@@ -21,6 +21,12 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["room.incremental"] = "true"
+            }
+        }
     }
 
     buildTypes {
@@ -35,10 +41,10 @@ android {
     }
 
     compileOptions {
-        coreLibraryDesugaringEnabled true
+        // coreLibraryDesugaringEnabled true
         // Sets Java compatibility to Java 8
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
     }
 }
 
@@ -47,6 +53,7 @@ dependencies {
 
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     implementation "androidx.appcompat:appcompat:$androidXAppCompatVersion"
     implementation "androidx.core:core-ktx:$androidXCoreVersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidXConstraintLayoutVersion"
@@ -79,6 +86,7 @@ dependencies {
     implementation "androidx.viewpager:viewpager:$viewPagerVersion"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshiVersion"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+
     implementation "androidx.room:room-runtime:$roomVersion"
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
@@ -110,4 +118,9 @@ dependencies {
 
     // Core library desugaring
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$androidDesugarJdkVersion"
+
+    // DI
+    implementation "com.google.dagger:hilt-android:$hiltVersion"
+    kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
+
 }

@@ -13,11 +13,12 @@ import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import com.quoders.apps.qmoves.data.*
 import com.quoders.apps.qmoves.tools.TimeUtils
+import javax.inject.Inject
 
 /**
  * Real time service client for Bus
  */
-class BusRealTimeService: RealTimeService {
+class BusRealTimeService @Inject constructor(): RealTimeService {
 
     private var serviceConfig: RemoteServicesConfig? = null
     private val isServiceAvailable get() = serviceConfig!=null
