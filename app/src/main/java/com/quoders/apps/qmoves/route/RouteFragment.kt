@@ -6,12 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,16 +22,20 @@ import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.Transport
-import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
-import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
+import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.stopDetail.StopDetailFragment
-import com.quoders.apps.qmoves.stops.StopsFragment
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
 /**
  *  Page that shows the list of stops of a line.
  */
+@AndroidEntryPoint
 class RouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+
+    @Inject
+    lateinit var transportRepository: TransportRepository
 
     companion object{
         const val ARG_KEY_TRANSPORT = "Transport"
@@ -75,9 +77,7 @@ class RouteFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnMarkerClickLis
             transport = getParcelable(RouteFragment.ARG_KEY_TRANSPORT)!!
         }
 
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = RouteViewModelFactory(transport, line,
-            TransportRepositoryFactory.getInstance(application))
+        val viewModelFactory = RouteViewModelFactory(transport, line, transportRepository)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(RouteViewModel::class.java)
 

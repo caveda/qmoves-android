@@ -13,17 +13,23 @@ import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Transport
-import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
+import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.databinding.FragmentHomeBinding
 import com.quoders.apps.qmoves.tools.setupSnackbar
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * Home page of the app
  */
+@AndroidEntryPoint
 class HomeFragment : Fragment(){
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel: HomeViewModel
+
+    @Inject
+    lateinit var transportRepository: TransportRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,9 +40,7 @@ class HomeFragment : Fragment(){
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_home,container, false)
 
-        val application = requireNotNull(this.activity).application
-        val repository = TransportRepositoryFactory.getInstance(application)
-        viewModel = ViewModelProvider(this, HomeViewModelFactory(repository)).
+        viewModel = ViewModelProvider(this, HomeViewModelFactory(transportRepository)).
             get(HomeViewModel::class.java)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this.viewLifecycleOwner
