@@ -20,7 +20,7 @@ class TransportRepositoryFactory {
                 if (instance == null) {
                     val database = TransportDatabase.getInstance(context)
                     instance = TransportRepositoryImpl(
-                        database.transportDatabaseDao,
+                        database.transportDatabaseDao(),
                         RemoteTransportServiceImpl(context))
 
                     INSTANCE = instance

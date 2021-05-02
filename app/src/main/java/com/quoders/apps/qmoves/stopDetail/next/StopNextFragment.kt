@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
+import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
 import com.quoders.apps.qmoves.databinding.FragmentLinesBinding
 import com.quoders.apps.qmoves.databinding.FragmentStopNextBinding
@@ -33,6 +34,7 @@ class StopNextFragment : Fragment() {
     private lateinit var binding: FragmentStopNextBinding
 
     @Inject lateinit var realTimeService: BusRealTimeService
+    @Inject lateinit var transportRepository: TransportRepository
 
     companion object{
         const val ARG_KEY_LINE = "Line"
@@ -66,7 +68,7 @@ class StopNextFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
         val viewModelFactory = StopNextViewModelFactory(
-            stop, line, TransportRepositoryFactory.getInstance(application),realTimeService)
+            stop, line, transportRepository ,realTimeService)
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(
             StopNextViewModel::class.java)
