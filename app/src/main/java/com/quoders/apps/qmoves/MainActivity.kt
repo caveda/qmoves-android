@@ -46,5 +46,6 @@ class MainActivity : AppCompatActivity() {
                 checkLocationPermission()
             }
         }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }
