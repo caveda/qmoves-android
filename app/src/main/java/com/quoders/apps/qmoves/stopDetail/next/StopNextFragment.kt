@@ -14,7 +14,9 @@ import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.databinding.FragmentStopNextBinding
+import com.quoders.apps.qmoves.di.BusRealTime
 import com.quoders.apps.qmoves.realTime.BusRealTimeService
+import com.quoders.apps.qmoves.realTime.RealTimeService
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -26,7 +28,8 @@ class StopNextFragment : Fragment() {
 
     private lateinit var binding: FragmentStopNextBinding
 
-    @Inject lateinit var realTimeService: BusRealTimeService
+    @BusRealTime
+    @Inject lateinit var realTimeService: RealTimeService
     @Inject lateinit var transportRepository: TransportRepository
 
     companion object{
