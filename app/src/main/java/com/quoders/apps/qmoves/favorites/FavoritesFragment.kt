@@ -9,22 +9,25 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
-import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
+import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.databinding.FragmentFavoritesBinding
-import com.quoders.apps.qmoves.home.HomeFragmentDirections
 import com.quoders.apps.qmoves.stopDetail.StopDetailFragment
 import com.quoders.apps.qmoves.tools.setupSnackbar
-import com.quoders.apps.qmoves.tools.showSnackbar
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  *  Page that shows the list of favorites
  */
+@AndroidEntryPoint
 class FavoritesFragment : Fragment(){
+
+    @Inject
+    lateinit var transportRepository: TransportRepository
 
     private lateinit var binding: FragmentFavoritesBinding
     private lateinit var viewModel: FavoritesViewModel
@@ -38,8 +41,7 @@ class FavoritesFragment : Fragment(){
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_favorites,container, false)
 
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = FavoritesViewModelFactory(TransportRepositoryFactory.getInstance(application))
+        val viewModelFactory = FavoritesViewModelFactory(transportRepository)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(
             FavoritesViewModel::class.java)

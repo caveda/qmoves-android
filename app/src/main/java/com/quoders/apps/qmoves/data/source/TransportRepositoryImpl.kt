@@ -9,8 +9,9 @@ import com.quoders.apps.qmoves.data.source.remote.RemoteLine
 import com.quoders.apps.qmoves.data.source.remote.RemoteTransport
 import com.quoders.apps.qmoves.data.source.remote.RemoteTransportService
 import timber.log.Timber
+import javax.inject.Inject
 
-class TransportRepositoryImpl (
+class TransportRepositoryImpl @Inject constructor(
     private val dbSource: TransportDatabaseDao,
     private val remoteSource: RemoteTransportService): TransportRepository {
 

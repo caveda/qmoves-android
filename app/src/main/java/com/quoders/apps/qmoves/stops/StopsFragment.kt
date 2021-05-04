@@ -15,15 +15,21 @@ import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Transport
-import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
+import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.databinding.FragmentStopsBinding
 import com.quoders.apps.qmoves.stopDetail.StopDetailFragment
 import com.quoders.apps.qmoves.tools.setupSnackbar
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  *  Page that shows the list of stops of a line.
  */
+@AndroidEntryPoint
 class StopsFragment : Fragment() {
+
+    @Inject
+    lateinit var transportRepository: TransportRepository
 
     companion object{
         const val ARG_KEY_TRANSPORT = "Transport"
@@ -53,9 +59,7 @@ class StopsFragment : Fragment() {
             transport = getParcelable(ARG_KEY_TRANSPORT)!!
         }
 
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = StopsViewModelFactory(transport, line,
-            TransportRepositoryFactory.getInstance(application))
+        val viewModelFactory = StopsViewModelFactory(transport, line, transportRepository)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(
             StopsViewModel::class.java)

@@ -12,7 +12,8 @@ import androidx.room.TypeConverters
 @TypeConverters(DataConverters::class)
 abstract class TransportDatabase : RoomDatabase() {
 
-    abstract val transportDatabaseDao: TransportDatabaseDao
+    abstract fun transportDatabaseDao(): TransportDatabaseDao
+
 
     companion object {
         @Volatile

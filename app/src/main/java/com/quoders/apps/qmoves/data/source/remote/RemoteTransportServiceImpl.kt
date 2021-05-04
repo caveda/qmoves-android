@@ -4,11 +4,13 @@ import android.content.Context
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Result
 import com.quoders.apps.qmoves.data.Transport
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
 /***
  *  Implementation of the client to fetch remote transport data.
  */
-class RemoteTransportServiceImpl(context: Context): RemoteTransportService {
+class RemoteTransportServiceImpl @Inject constructor(@ApplicationContext context: Context): RemoteTransportService {
 
     private var firebaseClient: FirebaseClient? = null
 

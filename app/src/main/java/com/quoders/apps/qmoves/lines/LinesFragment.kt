@@ -13,14 +13,20 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import com.quoders.apps.qmoves.EventObserver
 import com.quoders.apps.qmoves.R
-import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
+import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.databinding.FragmentLinesBinding
 import com.quoders.apps.qmoves.tools.setupSnackbar
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  *  List of lines page
  */
+@AndroidEntryPoint
 class LinesFragment : Fragment(){
+
+    @Inject
+    lateinit var transportRepository: TransportRepository
 
     private lateinit var binding: FragmentLinesBinding
     private lateinit var viewModel: LinesViewModel
@@ -35,9 +41,7 @@ class LinesFragment : Fragment(){
         binding = DataBindingUtil.inflate(inflater,
             R.layout.fragment_lines,container, false)
 
-        val application = requireNotNull(this.activity).application
-        val viewModelFactory = LinesViewModelFactory(args.transport,
-            TransportRepositoryFactory.getInstance(application))
+        val viewModelFactory = LinesViewModelFactory(args.transport,transportRepository)
 
         viewModel = ViewModelProvider(this, viewModelFactory).get(LinesViewModel::class.java)
         binding.viewModel = viewModel

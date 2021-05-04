@@ -9,25 +9,28 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
-import com.quoders.apps.qmoves.data.source.TransportRepositoryFactory
-import com.quoders.apps.qmoves.databinding.FragmentLinesBinding
+import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.databinding.FragmentStopNextBinding
-import com.quoders.apps.qmoves.lines.LinesAdapter
-import com.quoders.apps.qmoves.lines.LinesViewModel
-import com.quoders.apps.qmoves.lines.LinesViewModelFactory
+import com.quoders.apps.qmoves.di.BusRealTime
 import com.quoders.apps.qmoves.realTime.BusRealTimeService
-import kotlinx.android.synthetic.main.fragment_stop_next.*
+import com.quoders.apps.qmoves.realTime.RealTimeService
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  *  Page that shows the list of stops of a line.
  */
+@AndroidEntryPoint
 class StopNextFragment : Fragment() {
 
     private lateinit var binding: FragmentStopNextBinding
+
+    @BusRealTime
+    @Inject lateinit var realTimeService: RealTimeService
+    @Inject lateinit var transportRepository: TransportRepository
 
     companion object{
         const val ARG_KEY_LINE = "Line"
@@ -59,10 +62,8 @@ class StopNextFragment : Fragment() {
 
     private fun setupViewModel(stop:Stop, line:Line) {
 
-        val application = requireNotNull(this.activity).application
-        val realtimeService = BusRealTimeService()
         val viewModelFactory = StopNextViewModelFactory(
-            stop, line, realtimeService, TransportRepositoryFactory.getInstance(application))
+            stop, line, transportRepository ,realTimeService)
 
         val viewModel = ViewModelProvider(this, viewModelFactory).get(
             StopNextViewModel::class.java)
