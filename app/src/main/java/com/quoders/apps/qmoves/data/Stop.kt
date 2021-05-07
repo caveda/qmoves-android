@@ -16,11 +16,3 @@ data class Stop (
     var favorite: Boolean = false
 ): Parcelable
 
-@Parcelize
-data class Schedule (
-    var workingDays: String?,
-    var monday2Tuesday: String?,
-    var friday: String?,
-    var saturday: String?,
-    var sunday: String?
-): Parcelable

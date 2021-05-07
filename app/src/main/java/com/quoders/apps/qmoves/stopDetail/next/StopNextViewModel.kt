@@ -20,9 +20,6 @@ class StopNextViewModel (private val stop: Stop, private val line: Line,
                          private val repository: TransportRepository,
                          private val realTimeService: RealTimeService) : ViewModel() {
 
-    // TODO @Inject lateinit var realTimeService: BusRealTimeService
-    // TODO @Inject lateinit var repository: TransportRepository
-
     private lateinit var connectionLines: List<Line>
 
     // State of the loading operation

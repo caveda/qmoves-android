@@ -83,12 +83,7 @@ class StopNextFragment : Fragment() {
             DividerItemDecoration.VERTICAL))
 
         val gridLayoutManager = GridLayoutManager(activity, 2)
-        /*
-        gridLayoutManager.spanSizeLookup = object: SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (position == 0) 1 else 2
-            }
-        }*/
+
         binding.stopNextListView.layoutManager = gridLayoutManager
     }
 }
