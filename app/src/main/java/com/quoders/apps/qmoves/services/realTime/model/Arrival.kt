@@ -1,4 +1,4 @@
-package com.quoders.apps.qmoves.realTime.model
+package com.quoders.apps.qmoves.services.realTime.model
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

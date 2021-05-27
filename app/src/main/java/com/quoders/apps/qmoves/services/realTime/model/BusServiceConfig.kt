@@ -1,4 +1,4 @@
-package com.quoders.apps.qmoves.realTime.model
+package com.quoders.apps.qmoves.services.realTime.model
 
 import android.net.Uri
 import com.squareup.moshi.Json

@@ -1,9 +1,9 @@
-package com.quoders.apps.qmoves.realTime
+package com.quoders.apps.qmoves.services.realTime
 
 import android.util.Base64
 import com.quoders.apps.qmoves.data.Stop
-import com.quoders.apps.qmoves.realTime.api.RealTimeServiceApi
-import com.quoders.apps.qmoves.realTime.model.*
+import com.quoders.apps.qmoves.services.realTime.api.RealTimeServiceApi
+import com.quoders.apps.qmoves.services.realTime.model.*
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import retrofit2.Retrofit

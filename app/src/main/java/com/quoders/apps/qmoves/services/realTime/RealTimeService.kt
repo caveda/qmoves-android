@@ -1,7 +1,7 @@
-package com.quoders.apps.qmoves.realTime
+package com.quoders.apps.qmoves.services.realTime
 
 import com.quoders.apps.qmoves.data.Stop
-import com.quoders.apps.qmoves.realTime.model.TransportRealTimeArrival
+import com.quoders.apps.qmoves.services.realTime.model.TransportRealTimeArrival
 import com.quoders.apps.qmoves.data.*
 
 /**

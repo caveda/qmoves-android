@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.quoders.apps.qmoves.databinding.ArrivalViewItemBinding
-import com.quoders.apps.qmoves.realTime.model.TransportRealTimeArrival
 
 
 /**
