@@ -25,7 +25,7 @@ The mobile application is architecting following the [Clean Architecture](https:
 
 **MVVM** pattern is used across all the UI to keep a loose coupling between the views and the rest of the app components. UI layouts take advantage of the **Data Binding** library to observe changes in **LiveData** properties exposed by the ViewModels.
 
-ViewModels use **Kotlin Coroutines** for asynchronous operations such as 
+ViewModels use **Kotlin Coroutines** for asynchronous operations such as fetching real-time information, querying the repository, etc.
 
 The app uses the Jetpack **Navigation** library to build the navigation graph, so transitions between different pages and arguments passing can be easily resolved by using actions. 
 
