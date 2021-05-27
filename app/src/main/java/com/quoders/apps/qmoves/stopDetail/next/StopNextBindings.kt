@@ -2,7 +2,7 @@ package com.quoders.apps.qmoves.stopDetail.next
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.quoders.apps.qmoves.realTime.model.TransportRealTimeArrival
+import com.quoders.apps.qmoves.services.realTime.model.TransportRealTimeArrival
 
 /**
  * [BindingAdapter]s for the [TransportRealTimeArrival]s list.

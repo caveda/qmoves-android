@@ -15,8 +15,7 @@ import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.source.TransportRepository
 import com.quoders.apps.qmoves.databinding.FragmentStopNextBinding
 import com.quoders.apps.qmoves.di.BusRealTime
-import com.quoders.apps.qmoves.realTime.BusRealTimeService
-import com.quoders.apps.qmoves.realTime.RealTimeService
+import com.quoders.apps.qmoves.services.realTime.RealTimeService
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

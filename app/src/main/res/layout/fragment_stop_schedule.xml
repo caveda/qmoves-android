@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="#F57F17"
     android:gravity="center">
 
     <TextView
@@ -11,8 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="start"
-        android:text="Stop Schedule"
-        android:textColor="@android:color/white"
-        android:textSize="15sp" />
+        android:textSize="19sp" />
 
 </LinearLayout>

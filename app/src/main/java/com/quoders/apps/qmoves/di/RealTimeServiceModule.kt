@@ -1,9 +1,7 @@
 package com.quoders.apps.qmoves.di
 
-import com.quoders.apps.qmoves.data.source.TransportRepository
-import com.quoders.apps.qmoves.data.source.TransportRepositoryImpl
-import com.quoders.apps.qmoves.realTime.BusRealTimeService
-import com.quoders.apps.qmoves.realTime.RealTimeService
+import com.quoders.apps.qmoves.services.realTime.BusRealTimeService
+import com.quoders.apps.qmoves.services.realTime.RealTimeService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

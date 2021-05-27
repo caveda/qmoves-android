@@ -5,13 +5,11 @@ import com.quoders.apps.qmoves.Event
 import com.quoders.apps.qmoves.R
 import com.quoders.apps.qmoves.data.*
 import com.quoders.apps.qmoves.data.source.TransportRepository
-import com.quoders.apps.qmoves.realTime.BusRealTimeService
-import com.quoders.apps.qmoves.realTime.RealTimeService
-import com.quoders.apps.qmoves.realTime.model.TransportRealTimeArrival
+import com.quoders.apps.qmoves.services.realTime.RealTimeService
+import com.quoders.apps.qmoves.services.realTime.model.TransportRealTimeArrival
 import com.quoders.apps.qmoves.tools.TimeUtils
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  *  ViewModel of StopNext details fragment

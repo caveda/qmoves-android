@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.quoders.apps.qmoves.data.Line
 import com.quoders.apps.qmoves.data.Stop
 import com.quoders.apps.qmoves.data.source.TransportRepository
-import com.quoders.apps.qmoves.realTime.RealTimeService
+import com.quoders.apps.qmoves.services.realTime.RealTimeService
 
 /**
  *  Factory for creating parametrized StopNextViewModel instances
