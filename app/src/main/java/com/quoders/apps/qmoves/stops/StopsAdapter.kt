@@ -35,11 +35,11 @@ class StopsAdapter (private val viewModel: StopsViewModel): ListAdapter<Stop, St
      */
     companion object DiffCallback : DiffUtil.ItemCallback<Stop>() {
         override fun areItemsTheSame(oldItem: Stop, newItem: Stop): Boolean {
-            return oldItem.code === newItem.code
+            return oldItem.code == newItem.code
         }
 
         override fun areContentsTheSame(oldItem: Stop, newItem: Stop): Boolean {
-            return oldItem == newItem && oldItem.favorite == newItem.favorite
+            return oldItem.code == newItem.code && oldItem.favorite == newItem.favorite
         }
     }
 

@@ -3,4 +3,11 @@
     <color name="colorPrimary">#00509d</color>
     <color name="colorPrimaryDark">#00296b</color>
     <color name="colorAccent">#ffd500</color>
+
+    <!-- Home -->
+    <color name="homeTransportBgBus">#ffd500</color>
+    <color name="homeTransportBgSubway">#ffd500</color>
+    <color name="homeTransportBgTram">#ffd500</color>
+
+
 </resources>

@@ -68,7 +68,7 @@ class TransportRepositoryImpl @Inject constructor(
         val retList = queryResult.map {
             val transport = DBTransportMapper().map(dbSource.getTransport(it.transportName))
             val lineWithStops = dbSource.getLineOfAgency(it.transportName, it.lineCode)
-            val line = DBLineMapper().map(lineWithStops.line)
+             val line = DBLineMapper().map(lineWithStops.line)
             val stop = lineWithStops.stops.first { s: DBStop -> it.stopCode == s.code}
             Favorite(transport, line, DBStopMapper().map(stop))
         }

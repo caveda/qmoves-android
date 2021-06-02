@@ -78,7 +78,7 @@ class StopsViewModel (private val transport: Transport, private val line: Line,
                 _stops.value = result.data
             }
 
-            showSnackbarMessage(if (stop.favorite) R.string.favorite_added else R.string.favorite_removed)
+            showSnackbarMessage(if (stop.favorite) R.string.favorite_removed else R.string.favorite_added)
         }
     }
 }
