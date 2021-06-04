@@ -9,5 +9,7 @@
     <color name="homeTransportBgSubway">#ffd500</color>
     <color name="homeTransportBgTram">#ffd500</color>
 
+    <!-- Next -->
+    <color name="nextCardBackground">#e1e5ea</color>
 
 </resources>

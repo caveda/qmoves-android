@@ -3,7 +3,7 @@
     <dimen name="empty_placeholder_image_size">50dp</dimen>
     <dimen name="list_row_vertical_padding">16dp</dimen>
     <dimen name="grid_cell_vertical_padding">24dp</dimen>
-    <dimen name="realtime_progress_size">30dp</dimen>
+    <dimen name="realtime_progress_size">40dp</dimen>
     <dimen name="stop_name_list_size">16sp</dimen>
     <dimen name="stop_connections_list_size">12sp</dimen>
 </resources>
